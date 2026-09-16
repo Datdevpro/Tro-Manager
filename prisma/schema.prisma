@@ -1,0 +1,263 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+enum RoomStatus {
+  AVAILABLE
+  OCCUPIED
+  MAINTENANCE
+}
+
+enum ContractStatus {
+  ACTIVE
+  EXPIRED
+  TERMINATED
+  PENDING
+}
+
+enum ServiceCalculationType {
+  PER_ROOM
+  PER_PERSON
+  FIXED
+  QUANTITY
+}
+
+enum InvoiceStatus {
+  UNPAID
+  PAID
+  OVERDUE
+}
+
+enum PaymentMethod {
+  CASH
+  BANK_TRANSFER
+  OTHER
+}
+
+enum NotificationTargetType {
+  ALL
+  PROPERTY
+  ROOM
+  USER
+}
+
+model User {
+  id           String    @id @default(cuid())
+  fullName     String
+  email        String    @unique
+  phone        String?
+  passwordHash String
+  role         Role      @default(USER)
+  avatarUrl    String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  tenant       Tenant?
+  reads        NotificationRead[]
+
+  @@index([email])
+}
+
+model Property {
+  id          String   @id @default(cuid())
+  name        String
+  address     String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  rooms       Room[]
+}
+
+model Room {
+  id            String     @id @default(cuid())
+  propertyId    String
+  roomNumber    String
+  floor         Int        @default(1)
+  area          Float      @default(20)
+  rentPrice     Float
+  electricPrice Float      @default(3500)
+  waterPrice    Float      @default(25000)
+  deposit       Float      @default(0)
+  maxOccupants  Int        @default(2)
+  status        RoomStatus @default(AVAILABLE)
+  note          String?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  property        Property         @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  tenants         Tenant[]
+  contracts       Contract[]
+  utilityReadings UtilityReading[]
+  roomServices    RoomService[]
+  invoices        Invoice[]
+
+  @@index([propertyId])
+  @@index([status])
+}
+
+model Tenant {
+  id               String    @id @default(cuid())
+  userId           String    @unique
+  roomId           String?
+  idNumber         String    @default("")
+  birthday         DateTime?
+  gender           String?   @default("Khác")
+  permanentAddress String?
+  startDate        DateTime  @default(now())
+  status           String    @default("ACTIVE")
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  room      Room?      @relation(fields: [roomId], references: [id], onDelete: SetNull)
+  contracts Contract[]
+  invoices  Invoice[]
+
+  @@index([userId])
+  @@index([roomId])
+}
+
+model Contract {
+  id           String         @id @default(cuid())
+  tenantId     String
+  roomId       String
+  startDate    DateTime
+  endDate      DateTime
+  rentPrice    Float
+  deposit      Float          @default(0)
+  paymentCycle Int            @default(1)
+  terms        String?
+  status       ContractStatus @default(ACTIVE)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  room   Room   @relation(fields: [roomId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@index([roomId])
+  @@index([status])
+}
+
+model UtilityReading {
+  id          String   @id @default(cuid())
+  roomId      String
+  month       String
+  electricOld Float    @default(0)
+  electricNew Float    @default(0)
+  waterOld    Float    @default(0)
+  waterNew    Float    @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  room Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
+
+  @@unique([roomId, month])
+  @@index([roomId])
+  @@index([month])
+}
+
+model Service {
+  id              String                 @id @default(cuid())
+  name            String
+  price           Float
+  calculationType ServiceCalculationType @default(FIXED)
+  description     String?
+  createdAt       DateTime               @default(now())
+  updatedAt       DateTime               @updatedAt
+
+  roomServices RoomService[]
+}
+
+model RoomService {
+  id        String @id @default(cuid())
+  roomId    String
+  serviceId String
+  quantity  Int    @default(1)
+
+  room    Room    @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  service Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@unique([roomId, serviceId])
+  @@index([roomId])
+  @@index([serviceId])
+}
+
+model Invoice {
+  id           String        @id @default(cuid())
+  tenantId     String
+  roomId       String
+  month        String
+  roomFee      Float         @default(0)
+  electricFee  Float         @default(0)
+  waterFee     Float         @default(0)
+  serviceFee   Float         @default(0)
+  otherFee     Float         @default(0)
+  previousDebt Float         @default(0)
+  discount     Float         @default(0)
+  total        Float         @default(0)
+  dueDate      DateTime
+  status       InvoiceStatus @default(UNPAID)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  tenant   Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  room     Room      @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  payments Payment[]
+
+  @@index([tenantId])
+  @@index([roomId])
+  @@index([month])
+  @@index([status])
+}
+
+model Payment {
+  id            String        @id @default(cuid())
+  invoiceId     String
+  amount        Float
+  paymentMethod PaymentMethod @default(BANK_TRANSFER)
+  paymentDate   DateTime      @default(now())
+  note          String?
+  createdAt     DateTime      @default(now())
+
+  invoice Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+
+  @@index([invoiceId])
+}
+
+model Notification {
+  id         String                 @id @default(cuid())
+  title      String
+  content    String
+  targetType NotificationTargetType @default(ALL)
+  targetId   String?
+  createdAt  DateTime               @default(now())
+
+  reads NotificationRead[]
+
+  @@index([targetType])
+}
+
+model NotificationRead {
+  id             String   @id @default(cuid())
+  notificationId String
+  userId         String
+  readAt         DateTime @default(now())
+
+  notification Notification @relation(fields: [notificationId], references: [id], onDelete: Cascade)
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([notificationId, userId])
+  @@index([userId])
+}
