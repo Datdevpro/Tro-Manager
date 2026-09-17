@@ -88,6 +88,8 @@ async function main() {
       name: "Khu Trọ An Cư - Bình Thạnh",
       address: "123 Đường Bạch Đằng, Phường 15, Quận Bình Thạnh, TP.HCM",
       description: "Nhà trọ cao cấp, giờ giấc tự do, bảo vệ 24/7, có thang máy và hầm xe.",
+      electricPrice: 3500,
+      waterPrice: 25000,
     },
   });
 
@@ -96,23 +98,37 @@ async function main() {
       name: "Khu Trọ Hưng Thịnh - Cầu Giấy",
       address: "45 Ngõ 165 Cầu Giấy, Quận Cầu Giấy, Hà Nội",
       description: "Khu trọ yên tĩnh, gần trường đại học, đầy đủ tiện nghi máy lạnh, nóng lạnh.",
+      electricPrice: 3800,
+      waterPrice: 28000,
     },
   });
 
   console.log("Properties created.");
 
-  // 3. Services
-  const serviceWifi = await prisma.service.create({
+  // 3. Services (some property-specific, some global)
+  const serviceWifiP1 = await prisma.service.create({
     data: {
-      name: "Internet Cáp Quang Siêu Tốc",
+      propertyId: prop1.id,
+      name: "Internet Cáp Quang Bình Thạnh",
       price: 100000,
       calculationType: ServiceCalculationType.PER_ROOM,
       description: "Đường truyền cáp quang riêng tốc độ cao 150Mbps mỗi phòng",
     },
   });
 
+  const serviceWifiP2 = await prisma.service.create({
+    data: {
+      propertyId: prop2.id,
+      name: "Internet Cáp Quang Cầu Giấy",
+      price: 80000,
+      calculationType: ServiceCalculationType.PER_ROOM,
+      description: "Đường truyền cáp quang tốc độ cao 100Mbps",
+    },
+  });
+
   const serviceTrash = await prisma.service.create({
     data: {
+      propertyId: null, // Dịch vụ dùng chung
       name: "Rác & Vệ sinh hành lang",
       price: 50000,
       calculationType: ServiceCalculationType.PER_ROOM,
@@ -120,17 +136,29 @@ async function main() {
     },
   });
 
-  const serviceBike = await prisma.service.create({
+  const serviceBikeP1 = await prisma.service.create({
     data: {
-      name: "Gửi xe máy ban đêm",
+      propertyId: prop1.id,
+      name: "Gửi xe máy ban đêm (Bình Thạnh)",
       price: 120000,
       calculationType: ServiceCalculationType.QUANTITY,
       description: "Chỗ giữ xe trong hầm có camera giám sát và quẹt thẻ từ",
     },
   });
 
+  const serviceBikeP2 = await prisma.service.create({
+    data: {
+      propertyId: prop2.id,
+      name: "Gửi xe máy ban đêm (Cầu Giấy)",
+      price: 100000,
+      calculationType: ServiceCalculationType.QUANTITY,
+      description: "Chỗ giữ xe trong sân có mái che và camera giám sát",
+    },
+  });
+
   const serviceMgmt = await prisma.service.create({
     data: {
+      propertyId: prop1.id,
       name: "Phí quản lý & Thang máy",
       price: 80000,
       calculationType: ServiceCalculationType.PER_PERSON,
@@ -158,8 +186,8 @@ async function main() {
           floor: floor,
           area: 25 + (i - 1) * 3,
           rentPrice: 3500000 + (floor - 1) * 200000 + (i - 1) * 100000,
-          electricPrice: 3500,
-          waterPrice: 25000,
+          electricPrice: prop1.electricPrice,
+          waterPrice: prop1.waterPrice,
           deposit: 3500000,
           maxOccupants: 3,
           status: status,
@@ -185,8 +213,8 @@ async function main() {
           floor: floor,
           area: 22 + (i - 1) * 4,
           rentPrice: 3200000 + (floor - 1) * 150000 + (i - 1) * 100000,
-          electricPrice: 3800,
-          waterPrice: 28000,
+          electricPrice: prop2.electricPrice,
+          waterPrice: prop2.waterPrice,
           deposit: 3200000,
           maxOccupants: 2,
           status: status,
@@ -205,11 +233,11 @@ async function main() {
   const roomOccupied3 = p2Rooms[0]; // P.101 Prop 2
 
   // Assign Services to Rooms
-  for (const r of [...p1Rooms, ...p2Rooms]) {
+  for (const r of p1Rooms) {
     await prisma.roomService.create({
       data: {
         roomId: r.id,
-        serviceId: serviceWifi.id,
+        serviceId: serviceWifiP1.id,
         quantity: 1,
       },
     });
@@ -224,7 +252,40 @@ async function main() {
       await prisma.roomService.create({
         data: {
           roomId: r.id,
-          serviceId: serviceBike.id,
+          serviceId: serviceBikeP1.id,
+          quantity: 2,
+        },
+      });
+      await prisma.roomService.create({
+        data: {
+          roomId: r.id,
+          serviceId: serviceMgmt.id,
+          quantity: 2,
+        },
+      });
+    }
+  }
+
+  for (const r of p2Rooms) {
+    await prisma.roomService.create({
+      data: {
+        roomId: r.id,
+        serviceId: serviceWifiP2.id,
+        quantity: 1,
+      },
+    });
+    await prisma.roomService.create({
+      data: {
+        roomId: r.id,
+        serviceId: serviceTrash.id,
+        quantity: 1,
+      },
+    });
+    if (r.status === RoomStatus.OCCUPIED) {
+      await prisma.roomService.create({
+        data: {
+          roomId: r.id,
+          serviceId: serviceBikeP2.id,
           quantity: 2,
         },
       });

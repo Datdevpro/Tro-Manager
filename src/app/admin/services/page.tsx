@@ -1,16 +1,15 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import {
   Layers,
   Plus,
   Edit,
   Trash2,
-  Wifi,
-  Car,
-  Trash,
-  Sparkles,
-  ShieldCheck,
+  Building,
+  Globe,
+  Filter,
   CheckCircle2,
 } from "lucide-react";
 import { PageHeader } from "@/components/ui/PageHeader";
@@ -28,18 +27,40 @@ const calculationTypeLabels: Record<string, string> = {
   QUANTITY: "Theo số lượng thực tế (chiếc/vé)",
 };
 
-export default function ServicesPage() {
-  const [services, setServices] = useState<any[]>([]);
+interface PropertyOption {
+  id: string;
+  name: string;
+}
+
+interface ServiceItem {
+  id: string;
+  propertyId: string | null;
+  name: string;
+  price: number;
+  calculationType: string;
+  description: string | null;
+  property?: { id: string; name: string } | null;
+  _count?: { roomServices: number };
+}
+
+function ServicesContent() {
+  const searchParams = useSearchParams();
+  const initialPropId = searchParams.get("propertyId") || "all";
+
+  const [services, setServices] = useState<ServiceItem[]>([]);
+  const [properties, setProperties] = useState<PropertyOption[]>([]);
+  const [selectedPropertyFilter, setSelectedPropertyFilter] = useState<string>(initialPropId);
   const [loading, setLoading] = useState(true);
 
   // Modal create/edit
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingService, setEditingService] = useState<any>(null);
+  const [editingService, setEditingService] = useState<ServiceItem | null>(null);
 
   // Form states
   const [name, setName] = useState("");
   const [price, setPrice] = useState(100000);
   const [calculationType, setCalculationType] = useState("PER_ROOM");
+  const [propertyId, setPropertyId] = useState<string>("");
   const [description, setDescription] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
@@ -47,10 +68,24 @@ export default function ServicesPage() {
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [deleting, setDeleting] = useState(false);
 
-  const fetchServices = async () => {
+  // Fetch properties for selector and filter
+  const fetchProperties = async () => {
+    try {
+      const res = await fetch("/api/properties");
+      const json = await res.json();
+      if (json.success) {
+        setProperties(json.data);
+      }
+    } catch {
+      // silently ignore or notify
+    }
+  };
+
+  const fetchServices = async (filterPropId = selectedPropertyFilter) => {
     try {
       setLoading(true);
-      const res = await fetch("/api/services");
+      const query = filterPropId && filterPropId !== "all" ? `?propertyId=${filterPropId}` : "";
+      const res = await fetch(`/api/services${query}`);
       const json = await res.json();
       if (json.success) {
         setServices(json.data);
@@ -63,23 +98,34 @@ export default function ServicesPage() {
   };
 
   useEffect(() => {
-    fetchServices();
+    fetchProperties();
   }, []);
+
+  useEffect(() => {
+    fetchServices(selectedPropertyFilter);
+  }, [selectedPropertyFilter]);
 
   const openCreateModal = () => {
     setEditingService(null);
     setName("");
     setPrice(50000);
     setCalculationType("PER_ROOM");
+    // Pre-select current property filter if a specific property is filtered
+    setPropertyId(
+      selectedPropertyFilter !== "all" && selectedPropertyFilter !== "global"
+        ? selectedPropertyFilter
+        : ""
+    );
     setDescription("");
     setIsModalOpen(true);
   };
 
-  const openEditModal = (s: any) => {
+  const openEditModal = (s: ServiceItem) => {
     setEditingService(s);
     setName(s.name);
     setPrice(s.price);
     setCalculationType(s.calculationType);
+    setPropertyId(s.propertyId || "");
     setDescription(s.description || "");
     setIsModalOpen(true);
   };
@@ -103,6 +149,7 @@ export default function ServicesPage() {
           name,
           price,
           calculationType,
+          propertyId: propertyId || null,
           description,
         }),
       });
@@ -111,7 +158,7 @@ export default function ServicesPage() {
       if (res.ok && json.success) {
         toast.success(json.message);
         setIsModalOpen(false);
-        fetchServices();
+        fetchServices(selectedPropertyFilter);
       } else {
         toast.error(json.message || "Lỗi lưu dịch vụ");
       }
@@ -133,7 +180,7 @@ export default function ServicesPage() {
       if (res.ok && json.success) {
         toast.success(json.message);
         setDeleteId(null);
-        fetchServices();
+        fetchServices(selectedPropertyFilter);
       } else {
         toast.error(json.message || "Không thể xóa dịch vụ");
       }
@@ -148,7 +195,7 @@ export default function ServicesPage() {
     <div className="space-y-6">
       <PageHeader
         title="Quản lý Dịch vụ & Tiện ích"
-        description="Định cấu hình các dịch vụ gia tăng như Wifi, Gửi xe, Rác, Thang máy, Dọn dẹp vệ sinh."
+        description="Định cấu hình các dịch vụ gia tăng như Wifi, Gửi xe, Rác, Thang máy, Dọn dẹp riêng cho từng khu trọ hoặc dùng chung toàn hệ thống."
         icon={Layers}
         actions={
           <button
@@ -161,6 +208,59 @@ export default function ServicesPage() {
         }
       />
 
+      {/* Filter by Property */}
+      <div className="flex flex-wrap items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs">
+        <div className="flex items-center gap-2">
+          <Filter className="w-4 h-4 text-indigo-600 shrink-0" />
+          <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+            Lọc theo khu trọ:
+          </span>
+        </div>
+
+        <div className="flex items-center gap-2 flex-wrap">
+          <button
+            type="button"
+            onClick={() => setSelectedPropertyFilter("all")}
+            className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition ${
+              selectedPropertyFilter === "all"
+                ? "bg-indigo-600 text-white shadow-xs"
+                : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+            }`}
+          >
+            Tất cả dịch vụ
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setSelectedPropertyFilter("global")}
+            className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1 ${
+              selectedPropertyFilter === "global"
+                ? "bg-indigo-600 text-white shadow-xs"
+                : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+            }`}
+          >
+            <Globe className="w-3.5 h-3.5" />
+            Dùng chung toàn bộ
+          </button>
+
+          {properties.map((p) => (
+            <button
+              key={p.id}
+              type="button"
+              onClick={() => setSelectedPropertyFilter(p.id)}
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1 ${
+                selectedPropertyFilter === p.id
+                  ? "bg-indigo-600 text-white shadow-xs"
+                  : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+              }`}
+            >
+              <Building className="w-3.5 h-3.5" />
+              {p.name}
+            </button>
+          ))}
+        </div>
+      </div>
+
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <LoadingSkeleton className="h-48 rounded-2xl" count={3} />
@@ -168,7 +268,7 @@ export default function ServicesPage() {
       ) : services.length === 0 ? (
         <EmptyState
           title="Chưa có dịch vụ nào"
-          description="Tạo các dịch vụ tính phí như Wifi, Gửi xe, Thu gom rác."
+          description="Tạo các dịch vụ tính phí như Wifi, Gửi xe, Thu gom rác cho khu trọ này."
           icon={Layers}
           action={
             <button
@@ -193,10 +293,12 @@ export default function ServicesPage() {
                       <Layers className="w-5 h-5" />
                     </div>
                     <div>
-                      <h3 className="font-bold text-slate-900 text-sm">{s.name}</h3>
-                      <span className="text-[11px] text-indigo-600 font-semibold bg-indigo-50 px-2 py-0.5 rounded-md">
-                        {calculationTypeLabels[s.calculationType] || s.calculationType}
-                      </span>
+                      <h3 className="font-bold text-slate-900 text-sm leading-tight">{s.name}</h3>
+                      <div className="flex flex-wrap items-center gap-1.5 mt-1">
+                        <span className="text-[11px] text-indigo-600 font-semibold bg-indigo-50 px-2 py-0.5 rounded-md">
+                          {calculationTypeLabels[s.calculationType] || s.calculationType}
+                        </span>
+                      </div>
                     </div>
                   </div>
 
@@ -218,7 +320,22 @@ export default function ServicesPage() {
                   </div>
                 </div>
 
-                <div className="mt-4 mb-2">
+                {/* Property Association Badge */}
+                <div className="mb-3">
+                  {s.property ? (
+                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold text-blue-700 bg-blue-50 border border-blue-100">
+                      <Building className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                      <span className="truncate">{s.property.name}</span>
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-600 bg-slate-100 border border-slate-200">
+                      <Globe className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+                      <span>Áp dụng chung toàn hệ thống</span>
+                    </span>
+                  )}
+                </div>
+
+                <div className="mt-2 mb-2">
                   <span className="text-xl font-extrabold text-slate-900">
                     {formatCurrency(s.price)}
                   </span>
@@ -247,7 +364,7 @@ export default function ServicesPage() {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         title={editingService ? "Chỉnh sửa dịch vụ" : "Tạo dịch vụ mới"}
-        description="Đơn giá và phương thức tính phí dịch vụ cho các phòng trọ"
+        description="Đơn giá và phạm vi áp dụng dịch vụ cho từng khu trọ"
       >
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -262,6 +379,30 @@ export default function ServicesPage() {
               placeholder="VD: Internet Cáp Quang, Gửi xe máy, Rác..."
               className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
             />
+          </div>
+
+          {/* Property Selector */}
+          <div>
+            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+              Áp dụng cho khu trọ
+            </label>
+            <select
+              value={propertyId}
+              onChange={(e) => setPropertyId(e.target.value)}
+              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 bg-white"
+            >
+              <option value="">🌐 Dùng chung (Tất cả khu trọ đều dùng được)</option>
+              {properties.map((p) => (
+                <option key={p.id} value={p.id}>
+                  🏢 {p.name}
+                </option>
+              ))}
+            </select>
+            <p className="text-[11px] text-slate-500 mt-1">
+              {propertyId
+                ? "Dịch vụ này chỉ hiển thị và áp dụng cho các phòng thuộc khu trọ đã chọn."
+                : "Dịch vụ dùng chung có thể được gán cho bất kỳ phòng nào trong hệ thống."}
+            </p>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
@@ -339,5 +480,13 @@ export default function ServicesPage() {
         isLoading={deleting}
       />
     </div>
+  );
+}
+
+export default function ServicesPage() {
+  return (
+    <Suspense fallback={<div className="p-6">Đang tải danh sách dịch vụ...</div>}>
+      <ServicesContent />
+    </Suspense>
   );
 }

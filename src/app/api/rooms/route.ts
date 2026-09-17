@@ -84,8 +84,8 @@ export async function POST(req: NextRequest) {
       floor = 1,
       area = 20,
       rentPrice,
-      electricPrice = 3500,
-      waterPrice = 25000,
+      electricPrice,
+      waterPrice,
       deposit = 0,
       maxOccupants = 2,
       status = "AVAILABLE",
@@ -97,7 +97,20 @@ export async function POST(req: NextRequest) {
       return errorResponse("Vui lòng cung cấp khu trọ, số phòng và giá thuê", 400);
     }
 
-    if (rentPrice < 0 || electricPrice < 0 || waterPrice < 0 || deposit < 0) {
+    // Lookup property to inherit default electric & water price if not passed
+    const property = await prisma.property.findUnique({
+      where: { id: propertyId },
+      select: { id: true, electricPrice: true, waterPrice: true },
+    });
+
+    if (!property) {
+      return errorResponse("Không tìm thấy khu trọ được chọn", 404);
+    }
+
+    const finalElectricPrice = electricPrice !== undefined ? Number(electricPrice) : property.electricPrice;
+    const finalWaterPrice = waterPrice !== undefined ? Number(waterPrice) : property.waterPrice;
+
+    if (rentPrice < 0 || finalElectricPrice < 0 || finalWaterPrice < 0 || deposit < 0) {
       return errorResponse("Đơn giá không được âm", 400);
     }
 
@@ -120,8 +133,8 @@ export async function POST(req: NextRequest) {
         floor: Number(floor),
         area: Number(area),
         rentPrice: Number(rentPrice),
-        electricPrice: Number(electricPrice),
-        waterPrice: Number(waterPrice),
+        electricPrice: finalElectricPrice,
+        waterPrice: finalWaterPrice,
         deposit: Number(deposit),
         maxOccupants: Number(maxOccupants),
         status,

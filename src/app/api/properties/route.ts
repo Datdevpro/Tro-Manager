@@ -20,6 +20,11 @@ export async function GET() {
             },
           },
         },
+        _count: {
+          select: {
+            services: true,
+          },
+        },
       },
     });
 
@@ -38,6 +43,9 @@ export async function GET() {
         name: prop.name,
         address: prop.address,
         description: prop.description,
+        electricPrice: prop.electricPrice,
+        waterPrice: prop.waterPrice,
+        servicesCount: prop._count?.services || 0,
         createdAt: prop.createdAt,
         totalRooms,
         occupiedRooms,
@@ -60,10 +68,17 @@ export async function POST(req: NextRequest) {
   try {
     await requireAdmin();
     const body = await req.json();
-    const { name, address, description } = body;
+    const { name, address, description, electricPrice = 3500, waterPrice = 25000 } = body;
 
     if (!name || !address) {
       return errorResponse("Vui lòng nhập tên khu trọ và địa chỉ", 400);
+    }
+
+    const numElectricPrice = Number(electricPrice);
+    const numWaterPrice = Number(waterPrice);
+
+    if (numElectricPrice < 0 || numWaterPrice < 0) {
+      return errorResponse("Đơn giá điện và nước không được âm", 400);
     }
 
     const property = await prisma.property.create({
@@ -71,6 +86,8 @@ export async function POST(req: NextRequest) {
         name: name.trim(),
         address: address.trim(),
         description: description?.trim() || null,
+        electricPrice: numElectricPrice,
+        waterPrice: numWaterPrice,
       },
     });
 

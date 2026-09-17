@@ -103,21 +103,41 @@ export default function RoomsPage() {
         setProperties(json.data);
         if (json.data.length > 0 && !propertyId) {
           setPropertyId(json.data[0].id);
+          setElectricPrice(json.data[0].electricPrice ?? 3500);
+          setWaterPrice(json.data[0].waterPrice ?? 25000);
         }
       }
     }
     loadProps();
   }, []);
 
+  const handlePropertyChange = (newPropId: string) => {
+    setPropertyId(newPropId);
+    // When creating a new room, auto-fill electric and water prices from the selected property
+    if (!editingRoom) {
+      const selectedProp = properties.find((p) => p.id === newPropId);
+      if (selectedProp) {
+        setElectricPrice(selectedProp.electricPrice ?? 3500);
+        setWaterPrice(selectedProp.waterPrice ?? 25000);
+      }
+    }
+  };
+
   const openCreateModal = () => {
     setEditingRoom(null);
-    if (properties.length > 0) setPropertyId(properties[0].id);
+    const defaultProp = properties.length > 0 ? properties[0] : null;
+    if (defaultProp) {
+      setPropertyId(defaultProp.id);
+      setElectricPrice(defaultProp.electricPrice ?? 3500);
+      setWaterPrice(defaultProp.waterPrice ?? 25000);
+    } else {
+      setElectricPrice(3500);
+      setWaterPrice(25000);
+    }
     setRoomNumber("");
     setFloor(1);
     setArea(20);
     setRentPrice(3000000);
-    setElectricPrice(3500);
-    setWaterPrice(25000);
     setDeposit(3000000);
     setMaxOccupants(2);
     setStatus("AVAILABLE");
@@ -445,7 +465,7 @@ export default function RoomsPage() {
               <select
                 required
                 value={propertyId}
-                onChange={(e) => setPropertyId(e.target.value)}
+                onChange={(e) => handlePropertyChange(e.target.value)}
                 className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
               >
                 {properties.map((p) => (
@@ -540,6 +560,32 @@ export default function RoomsPage() {
               />
             </div>
           </div>
+
+          {/* Property rate hint banner */}
+          {(() => {
+            const currentProp = properties.find((p) => p.id === propertyId);
+            return currentProp ? (
+              <div className="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 border border-slate-200/80 text-xs">
+                <span className="text-slate-600">
+                  Biểu giá chuẩn của <strong className="text-slate-900">{currentProp.name}</strong>: Điện{" "}
+                  <strong className="text-amber-700">{formatCurrency(currentProp.electricPrice)}/kWh</strong>, Nước{" "}
+                  <strong className="text-cyan-700">{formatCurrency(currentProp.waterPrice)}/m³</strong>
+                </span>
+                {(electricPrice !== currentProp.electricPrice || waterPrice !== currentProp.waterPrice) && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setElectricPrice(currentProp.electricPrice ?? 3500);
+                      setWaterPrice(currentProp.waterPrice ?? 25000);
+                    }}
+                    className="text-indigo-600 hover:text-indigo-700 font-semibold underline text-[11px] shrink-0 ml-2"
+                  >
+                    Dùng giá chuẩn khu trọ
+                  </button>
+                )}
+              </div>
+            ) : null;
+          })()}
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>

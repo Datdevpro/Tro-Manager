@@ -69,14 +69,17 @@ model User {
 }
 
 model Property {
-  id          String   @id @default(cuid())
-  name        String
-  address     String
-  description String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id            String   @id @default(cuid())
+  name          String
+  address       String
+  description   String?
+  electricPrice Float    @default(3500)
+  waterPrice    Float    @default(25000)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
-  rooms       Room[]
+  rooms    Room[]
+  services Service[]
 }
 
 model Room {
@@ -170,6 +173,7 @@ model UtilityReading {
 
 model Service {
   id              String                 @id @default(cuid())
+  propertyId      String?
   name            String
   price           Float
   calculationType ServiceCalculationType @default(FIXED)
@@ -177,7 +181,10 @@ model Service {
   createdAt       DateTime               @default(now())
   updatedAt       DateTime               @updatedAt
 
+  property     Property?     @relation(fields: [propertyId], references: [id], onDelete: Cascade)
   roomServices RoomService[]
+
+  @@index([propertyId])
 }
 
 model RoomService {

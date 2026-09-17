@@ -1,12 +1,29 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Building, Plus, Edit, Trash2, MapPin, DoorOpen, Users, CheckCircle2, AlertCircle } from "lucide-react";
+import Link from "next/link";
+import {
+  Building,
+  Plus,
+  Edit,
+  Trash2,
+  MapPin,
+  DoorOpen,
+  Users,
+  CheckCircle2,
+  AlertCircle,
+  Zap,
+  Droplets,
+  Sparkles,
+  RefreshCw,
+  SlidersHorizontal,
+} from "lucide-react";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { FormModal } from "@/components/ui/FormModal";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { LoadingSkeleton } from "@/components/ui/LoadingSkeleton";
+import { formatCurrency } from "@/lib/utils";
 import { toast } from "sonner";
 
 interface PropertyItem {
@@ -14,6 +31,9 @@ interface PropertyItem {
   name: string;
   address: string;
   description: string | null;
+  electricPrice: number;
+  waterPrice: number;
+  servicesCount: number;
   totalRooms: number;
   occupiedRooms: number;
   availableRooms: number;
@@ -32,6 +52,9 @@ export default function PropertiesPage() {
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [description, setDescription] = useState("");
+  const [electricPrice, setElectricPrice] = useState("3500");
+  const [waterPrice, setWaterPrice] = useState("25000");
+  const [syncRooms, setSyncRooms] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   // Delete dialog
@@ -64,6 +87,9 @@ export default function PropertiesPage() {
     setName("");
     setAddress("");
     setDescription("");
+    setElectricPrice("3500");
+    setWaterPrice("25000");
+    setSyncRooms(false);
     setIsModalOpen(true);
   };
 
@@ -72,6 +98,9 @@ export default function PropertiesPage() {
     setName(prop.name);
     setAddress(prop.address);
     setDescription(prop.description || "");
+    setElectricPrice(String(prop.electricPrice ?? 3500));
+    setWaterPrice(String(prop.waterPrice ?? 25000));
+    setSyncRooms(false);
     setIsModalOpen(true);
   };
 
@@ -79,6 +108,13 @@ export default function PropertiesPage() {
     e.preventDefault();
     if (!name.trim() || !address.trim()) {
       toast.error("Vui lòng nhập tên khu trọ và địa chỉ");
+      return;
+    }
+
+    const numElec = parseFloat(electricPrice);
+    const numWater = parseFloat(waterPrice);
+    if (isNaN(numElec) || numElec < 0 || isNaN(numWater) || numWater < 0) {
+      toast.error("Đơn giá điện và nước phải là số hợp lệ và không âm");
       return;
     }
 
@@ -92,7 +128,14 @@ export default function PropertiesPage() {
       const res = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, address, description }),
+        body: JSON.stringify({
+          name,
+          address,
+          description,
+          electricPrice: numElec,
+          waterPrice: numWater,
+          syncRooms,
+        }),
       });
 
       const json = await res.json();
@@ -136,7 +179,7 @@ export default function PropertiesPage() {
     <div className="space-y-6">
       <PageHeader
         title="Quản lý Khu trọ & Tòa nhà"
-        description="Quản lý thông tin các tòa nhà, chung cư mini, dãy trọ cho thuê."
+        description="Quản lý thông tin các tòa nhà, cài đặt đơn giá điện, nước và dịch vụ riêng cho từng khu trọ."
         icon={Building}
         actions={
           <button
@@ -195,7 +238,7 @@ export default function PropertiesPage() {
                     <button
                       onClick={() => openEditModal(prop)}
                       className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-slate-100 rounded-lg transition"
-                      title="Sửa thông tin"
+                      title="Sửa thông tin & đơn giá"
                     >
                       <Edit className="w-4 h-4" />
                     </button>
@@ -214,10 +257,53 @@ export default function PropertiesPage() {
                     {prop.description}
                   </p>
                 )}
+
+                {/* Utility Pricing Badges for Property */}
+                <div className="mt-4 pt-3 border-t border-slate-100 grid grid-cols-3 gap-2">
+                  <div className="flex items-center gap-2 p-2 rounded-xl bg-amber-50/70 border border-amber-100/80">
+                    <Zap className="w-4 h-4 text-amber-600 shrink-0" />
+                    <div className="min-w-0">
+                      <span className="text-[10px] uppercase font-bold text-amber-700 tracking-wider block">
+                        Giá điện
+                      </span>
+                      <span className="text-xs font-bold text-amber-900 truncate block">
+                        {formatCurrency(prop.electricPrice)}/kWh
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 p-2 rounded-xl bg-cyan-50/70 border border-cyan-100/80">
+                    <Droplets className="w-4 h-4 text-cyan-600 shrink-0" />
+                    <div className="min-w-0">
+                      <span className="text-[10px] uppercase font-bold text-cyan-700 tracking-wider block">
+                        Giá nước
+                      </span>
+                      <span className="text-xs font-bold text-cyan-900 truncate block">
+                        {formatCurrency(prop.waterPrice)}/m³
+                      </span>
+                    </div>
+                  </div>
+
+                  <Link
+                    href={`/admin/services?propertyId=${prop.id}`}
+                    className="flex items-center gap-2 p-2 rounded-xl bg-purple-50/70 border border-purple-100/80 hover:bg-purple-100/70 transition group"
+                    title="Xem các dịch vụ của khu trọ này"
+                  >
+                    <Sparkles className="w-4 h-4 text-purple-600 shrink-0" />
+                    <div className="min-w-0">
+                      <span className="text-[10px] uppercase font-bold text-purple-700 tracking-wider block">
+                        Dịch vụ
+                      </span>
+                      <span className="text-xs font-bold text-purple-900 truncate block group-hover:underline">
+                        {prop.servicesCount || 0} dịch vụ
+                      </span>
+                    </div>
+                  </Link>
+                </div>
               </div>
 
               {/* Stats Grid */}
-              <div className="grid grid-cols-4 gap-2 pt-5 mt-5 border-t border-slate-100 text-center">
+              <div className="grid grid-cols-4 gap-2 pt-4 mt-4 border-t border-slate-100 text-center">
                 <div className="bg-slate-50 rounded-xl p-2">
                   <span className="text-[11px] text-slate-500 block">Tổng phòng</span>
                   <span className="text-base font-bold text-slate-900">{prop.totalRooms}</span>
@@ -244,8 +330,8 @@ export default function PropertiesPage() {
       <FormModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title={editingProperty ? "Chỉnh sửa khu trọ" : "Thêm khu trọ mới"}
-        description="Điền thông tin chi tiết về khu nhà trọ hoặc căn hộ cho thuê"
+        title={editingProperty ? "Chỉnh sửa khu trọ & Biểu giá" : "Thêm khu trọ mới"}
+        description="Thiết lập thông tin khu trọ và biểu giá điện, nước áp dụng cho khu trọ này."
       >
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -274,6 +360,72 @@ export default function PropertiesPage() {
               placeholder="Số nhà, tên đường, phường/xã, quận/huyện, tỉnh/thành"
               className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 transition"
             />
+          </div>
+
+          {/* Electric & Water Prices */}
+          <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-3">
+            <div className="flex items-center gap-2">
+              <SlidersHorizontal className="w-4 h-4 text-indigo-600" />
+              <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider">
+                Biểu giá điện & nước riêng của khu trọ
+              </h4>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="flex items-center gap-1.5 text-xs font-semibold text-slate-700 mb-1">
+                  <Zap className="w-3.5 h-3.5 text-amber-500" />
+                  Đơn giá điện (đ/kWh) *
+                </label>
+                <input
+                  type="number"
+                  required
+                  min="0"
+                  step="100"
+                  value={electricPrice}
+                  onChange={(e) => setElectricPrice(e.target.value)}
+                  placeholder="VD: 3500"
+                  className="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 transition bg-white"
+                />
+              </div>
+
+              <div>
+                <label className="flex items-center gap-1.5 text-xs font-semibold text-slate-700 mb-1">
+                  <Droplets className="w-3.5 h-3.5 text-cyan-500" />
+                  Đơn giá nước (đ/m³) *
+                </label>
+                <input
+                  type="number"
+                  required
+                  min="0"
+                  step="500"
+                  value={waterPrice}
+                  onChange={(e) => setWaterPrice(e.target.value)}
+                  placeholder="VD: 25000"
+                  className="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 transition bg-white"
+                />
+              </div>
+            </div>
+
+            {editingProperty && (
+              <label className="flex items-start gap-2 pt-2 border-t border-slate-200/60 cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={syncRooms}
+                  onChange={(e) => setSyncRooms(e.target.checked)}
+                  className="mt-0.5 w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500"
+                />
+                <div className="text-xs">
+                  <span className="font-semibold text-slate-800 flex items-center gap-1">
+                    <RefreshCw className="w-3 h-3 text-indigo-600" />
+                    Đồng bộ giá điện & nước này cho toàn bộ phòng hiện có
+                  </span>
+                  <p className="text-slate-500 mt-0.5 text-[11px]">
+                    Cập nhật đồng loạt đơn giá mới cho {editingProperty.totalRooms} phòng thuộc khu trọ này.
+                  </p>
+                </div>
+              </label>
+            )}
           </div>
 
           <div>

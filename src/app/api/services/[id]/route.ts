@@ -13,7 +13,7 @@ export async function PUT(req: NextRequest, { params }: Params) {
     await requireAdmin();
     const { id } = params;
     const body = await req.json();
-    const { name, price, calculationType, description } = body;
+    const { name, price, calculationType, description, propertyId } = body;
 
     const existing = await prisma.service.findUnique({ where: { id } });
     if (!existing) return errorResponse("Không tìm thấy dịch vụ", 404);
@@ -25,6 +25,13 @@ export async function PUT(req: NextRequest, { params }: Params) {
         ...(price !== undefined && { price: Number(price) }),
         ...(calculationType && { calculationType }),
         ...(description !== undefined && { description: description?.trim() || null }),
+        ...(propertyId !== undefined && { propertyId: propertyId ? String(propertyId) : null }),
+      },
+      include: {
+        property: {
+          select: { id: true, name: true },
+        },
+        _count: { select: { roomServices: true } },
       },
     });
 
