@@ -107,3 +107,30 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--muted-foreground) / 0.4);
 }
+
+/* Global Form Controls Styling for Light & Dark Mode */
+input:not([type="checkbox"]):not([type="radio"]),
+select,
+textarea {
+  color: #0f172a;
+  background-color: #ffffff;
+}
+
+.dark input:not([type="checkbox"]):not([type="radio"]),
+.dark select,
+.dark textarea {
+  color: #f8fafc !important;
+  background-color: #020617 !important;
+  border-color: #334155 !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #64748b !important;
+}
+
+.dark select option {
+  background-color: #0f172a !important;
+  color: #f8fafc !important;
+}
+

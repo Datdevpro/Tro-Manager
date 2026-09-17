@@ -144,7 +144,33 @@ Truy cập cổng ứng dụng production tại `http://localhost:3000`.
 
 ---
 
-## 5. Cấu trúc thư mục dự án
+## 5. Hướng dẫn tạo thêm tài khoản đăng nhập (User / Admin)
+
+### Cách 1: Thêm khách thuê mới trực tiếp trên Giao diện Web (Khuyên dùng)
+1. Đăng nhập bằng tài khoản Quản trị: `admin@nhatro.local` / `Admin123!`
+2. Vào mục **Người thuê** (`/admin/tenants`) ➔ Nhấn nút **"+ Thêm người thuê"**.
+3. Nhập Họ tên, Email (ví dụ: `hoang.nam@gmail.com`), Số điện thoại, CCCD và chọn phòng thuê.
+4. Nhấn **"Tạo khách thuê"**.
+5. 👉 **Hệ thống tự động cấp tài khoản đăng nhập**:
+   - **Tài khoản**: `hoang.nam@gmail.com`
+   - **Mật khẩu mặc định**: `User123!`
+   - Khách thuê đăng nhập tại `http://localhost:3000/login` và có thể tự đổi mật khẩu trong mục **Hồ sơ cá nhân** (`/profile`).
+
+### Cách 2: Tạo nhanh tài khoản qua Dòng lệnh (CLI Script)
+Hệ thống có sẵn script tiện ích để bạn tạo bất kỳ tài khoản nào chỉ với 1 dòng lệnh:
+
+- **Tạo thêm khách thuê (USER)**:
+  ```bash
+  npx tsx scripts/create-user.ts tenant2@gmail.com User123! "Nguyễn Thị Mai" USER 0912345678
+  ```
+- **Tạo thêm quản trị viên (ADMIN)**:
+  ```bash
+  npx tsx scripts/create-user.ts admin2@nhatro.local Admin123! "Quản Lý Phụ" ADMIN 0909999999
+  ```
+
+---
+
+## 6. Cấu trúc thư mục dự án
 
 ```text
 src/
