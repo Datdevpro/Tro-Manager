@@ -2,7 +2,7 @@
 
 import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Building2, Lock, Mail, ArrowRight, ShieldCheck, UserCheck } from "lucide-react";
+import { Building2, Lock, Mail, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 import Link from "next/link";
 
@@ -48,16 +48,6 @@ function LoginForm() {
     }
   };
 
-  const fillCredentials = (type: "admin" | "user") => {
-    if (type === "admin") {
-      setEmail("admin@nhatro.local");
-      setPassword("Admin123!");
-    } else {
-      setEmail("user@nhatro.local");
-      setPassword("User123!");
-    }
-  };
-
   return (
     <div className="min-h-screen w-full flex flex-col justify-center items-center bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950 p-4">
       {/* Glow background effect */}
@@ -78,34 +68,12 @@ function LoginForm() {
           </p>
         </div>
 
-        {/* Quick Demo Fill Buttons */}
-        <div className="bg-slate-800/80 backdrop-blur-md border border-slate-700/60 rounded-xl p-3 mb-5 shadow-lg">
-          <p className="text-xs font-medium text-slate-300 mb-2 text-center uppercase tracking-wider">
-            Tài khoản mẫu thử nghiệm nhanh:
-          </p>
-          <div className="grid grid-cols-2 gap-2">
-            <button
-              type="button"
-              onClick={() => fillCredentials("admin")}
-              className="flex items-center justify-center gap-1.5 py-2 px-3 text-xs font-semibold rounded-lg bg-indigo-500/20 border border-indigo-400/30 text-indigo-300 hover:bg-indigo-500/30 transition"
-            >
-              <ShieldCheck className="w-4 h-4 text-indigo-400" />
-              Điền Quản Trị (ADMIN)
-            </button>
-            <button
-              type="button"
-              onClick={() => fillCredentials("user")}
-              className="flex items-center justify-center gap-1.5 py-2 px-3 text-xs font-semibold rounded-lg bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 hover:bg-emerald-500/30 transition"
-            >
-              <UserCheck className="w-4 h-4 text-emerald-400" />
-              Điền Khách Thuê (USER)
-            </button>
-          </div>
-        </div>
-
         {/* Login Form Card */}
         <div className="bg-white/95 backdrop-blur-xl border border-white/20 rounded-2xl p-7 shadow-2xl">
-          <h2 className="text-xl font-bold text-slate-900 mb-6">Đăng nhập tài khoản</h2>
+          <h2 className="text-xl font-bold text-slate-900 mb-2">Đăng nhập tài khoản</h2>
+          <p className="text-xs text-slate-500 mb-6">
+            Nhập email và mật khẩu của bạn. Hệ thống sẽ tự động nhận diện tài khoản Quản trị viên hay Cư dân.
+          </p>
 
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
@@ -119,7 +87,7 @@ function LoginForm() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@nhatro.local hoặc user@nhatro.local"
+                  placeholder="nhap-email@domain.com"
                   className="w-full pl-11 pr-4 py-2.5 rounded-xl border border-slate-200 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
                 />
               </div>
