@@ -145,7 +145,18 @@ export async function POST(req: NextRequest) {
         status: isOverdue ? "OVERDUE" : "UNPAID",
       },
       include: {
-        tenant: { include: { user: true } },
+        tenant: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                fullName: true,
+                email: true,
+                phone: true,
+              },
+            },
+          },
+        },
         room: true,
       },
     });

@@ -164,6 +164,30 @@ async function runTests() {
     assert(getNextRoomStatus(0, true) === "MAINTENANCE", "Room under repair is MAINTENANCE");
   }
 
+  // 9. Test Rate Limiting for Brute Force Protection
+  console.log("\n--- 9. SECURITY & BRUTE FORCE PROTECTION ---");
+  {
+    const { checkRateLimit, resetRateLimit } = await import("../src/lib/auth/rate-limit");
+    const testKey = "test-user-ip-attempt";
+
+    resetRateLimit(testKey);
+    // Attempts 1 to 5 should be allowed
+    for (let i = 1; i <= 5; i++) {
+      const res = checkRateLimit(testKey, 5, 60000);
+      assert(res.allowed, `Attempt ${i}/5 is allowed`);
+    }
+
+    // 6th attempt must be blocked
+    const blocked = checkRateLimit(testKey, 5, 60000);
+    assert(!blocked.allowed, "6th attempt is blocked (429 Rate Limit Exceeded)");
+    assert(blocked.retryAfterSeconds > 0, "Provides positive retryAfterSeconds window");
+
+    // Resetting unblocks
+    resetRateLimit(testKey);
+    const unblocked = checkRateLimit(testKey, 5, 60000);
+    assert(unblocked.allowed, "Successful reset clears rate limit record");
+  }
+
   console.log("\n========================================================");
   console.log(`TEST RESULTS: ${passedCount} PASSED | ${failedCount} FAILED`);
   console.log("========================================================\n");

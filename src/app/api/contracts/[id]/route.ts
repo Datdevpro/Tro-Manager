@@ -18,7 +18,14 @@ export async function GET(req: NextRequest, { params }: Params) {
       include: {
         tenant: {
           include: {
-            user: true,
+            user: {
+              select: {
+                id: true,
+                fullName: true,
+                email: true,
+                phone: true,
+              },
+            },
           },
         },
         room: {
@@ -81,7 +88,18 @@ export async function PUT(req: NextRequest, { params }: Params) {
           ...(status && { status }),
         },
         include: {
-          tenant: { include: { user: true } },
+          tenant: {
+            include: {
+              user: {
+                select: {
+                  id: true,
+                  fullName: true,
+                  email: true,
+                  phone: true,
+                },
+              },
+            },
+          },
           room: true,
         },
       });

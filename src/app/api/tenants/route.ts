@@ -124,7 +124,17 @@ export async function POST(req: NextRequest) {
           status: "ACTIVE",
         },
         include: {
-          user: true,
+          user: {
+            select: {
+              id: true,
+              fullName: true,
+              email: true,
+              phone: true,
+              role: true,
+              avatarUrl: true,
+              createdAt: true,
+            },
+          },
           room: true,
         },
       });

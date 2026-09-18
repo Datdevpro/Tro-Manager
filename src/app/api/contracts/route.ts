@@ -123,7 +123,18 @@ export async function POST(req: NextRequest) {
           status,
         },
         include: {
-          tenant: { include: { user: true } },
+          tenant: {
+            include: {
+              user: {
+                select: {
+                  id: true,
+                  fullName: true,
+                  email: true,
+                  phone: true,
+                },
+              },
+            },
+          },
           room: true,
         },
       });

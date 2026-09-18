@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/db/prisma";
 import { signToken, SESSION_COOKIE_NAME } from "@/lib/auth/jwt";
+import { checkRateLimit, resetRateLimit } from "@/lib/auth/rate-limit";
 import { successResponse, errorResponse } from "@/lib/api-response";
 
 export async function POST(req: NextRequest) {
@@ -13,8 +14,21 @@ export async function POST(req: NextRequest) {
       return errorResponse("Vui lòng cung cấp email và mật khẩu", 400);
     }
 
+    const normalizedEmail = email.toLowerCase().trim();
+    const clientIp = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "local";
+    const rateLimitKey = `login:${clientIp}:${normalizedEmail}`;
+
+    // Protect against brute force: max 5 attempts per 15 minutes
+    const rateCheck = checkRateLimit(rateLimitKey, 5, 15 * 60 * 1000);
+    if (!rateCheck.allowed) {
+      return errorResponse(
+        `Bạn đã thử đăng nhập sai quá nhiều lần. Vui lòng thử lại sau ${rateCheck.retryAfterSeconds} giây.`,
+        429
+      );
+    }
+
     const user = await prisma.user.findUnique({
-      where: { email: email.toLowerCase().trim() },
+      where: { email: normalizedEmail },
     });
 
     if (!user) {
@@ -25,6 +39,9 @@ export async function POST(req: NextRequest) {
     if (!isMatch) {
       return errorResponse("Email hoặc mật khẩu không chính xác", 401);
     }
+
+    // Reset rate limit on successful authentication
+    resetRateLimit(rateLimitKey);
 
     const payload = {
       userId: user.id,

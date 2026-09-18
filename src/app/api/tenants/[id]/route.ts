@@ -16,7 +16,17 @@ export async function GET(req: NextRequest, { params }: Params) {
     const tenant = await prisma.tenant.findUnique({
       where: { id },
       include: {
-        user: true,
+        user: {
+          select: {
+            id: true,
+            fullName: true,
+            email: true,
+            phone: true,
+            role: true,
+            avatarUrl: true,
+            createdAt: true,
+          },
+        },
         room: {
           include: {
             property: true,
@@ -99,7 +109,16 @@ export async function PUT(req: NextRequest, { params }: Params) {
           ...(status && { status }),
         },
         include: {
-          user: true,
+          user: {
+            select: {
+              id: true,
+              fullName: true,
+              email: true,
+              phone: true,
+              role: true,
+              avatarUrl: true,
+            },
+          },
           room: true,
         },
       });

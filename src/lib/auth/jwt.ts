@@ -1,7 +1,14 @@
 import { SignJWT, jwtVerify } from "jose";
 
+const rawSecret = process.env.JWT_SECRET;
+if (process.env.NODE_ENV === "production" && (!rawSecret || rawSecret.length < 32)) {
+  console.warn(
+    "⚠️ [SECURITY WARNING] Biến môi trường JWT_SECRET chưa được thiết lập hoặc quá ngắn trong môi trường production! Vui lòng cấu hình JWT_SECRET mạnh mẽ trên Vercel/Hosting."
+  );
+}
+
 const SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET || "tromanage_super_secret_jwt_key_2026_production_safe_string_12345"
+  rawSecret || "tromanage_super_secret_jwt_key_2026_production_safe_string_12345"
 );
 
 export const SESSION_COOKIE_NAME = "tro_session";
