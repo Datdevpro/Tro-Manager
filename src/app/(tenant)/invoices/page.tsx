@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Receipt, Eye, Printer, Calendar, Clock, DollarSign } from "lucide-react";
+import { Receipt, Eye, Printer, Calendar, Clock, DollarSign, CreditCard } from "lucide-react";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { FormModal } from "@/components/ui/FormModal";
+import { PaymentModal } from "@/components/tenant/PaymentModal";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { LoadingSkeleton } from "@/components/ui/LoadingSkeleton";
 import { formatDate, formatCurrency, formatMonthYear } from "@/lib/utils";
@@ -14,6 +15,7 @@ export default function TenantInvoicesPage() {
   const [invoices, setInvoices] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [viewingInvoice, setViewingInvoice] = useState<any>(null);
+  const [paymentInvoice, setPaymentInvoice] = useState<any>(null);
 
   const fetchInvoices = async () => {
     try {
@@ -79,7 +81,7 @@ export default function TenantInvoicesPage() {
                   <th className="px-5 py-3.5">Còn nợ</th>
                   <th className="px-5 py-3.5">Hạn thanh toán</th>
                   <th className="px-5 py-3.5">Trạng thái</th>
-                  <th className="px-5 py-3.5 text-right">Chi tiết</th>
+                  <th className="px-5 py-3.5 text-right">Thao tác</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
@@ -107,13 +109,26 @@ export default function TenantInvoicesPage() {
                       <StatusBadge status={inv.status} />
                     </td>
                     <td className="px-5 py-4 text-right">
-                      <button
-                        onClick={() => openInvoiceDetail(inv.id)}
-                        className="px-3 py-1.5 text-xs font-semibold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 rounded-xl transition inline-flex items-center gap-1"
-                      >
-                        <Eye className="w-3.5 h-3.5" />
-                        Xem
-                      </button>
+                      <div className="flex items-center justify-end gap-2">
+                        {inv.remainingAmount > 0 && (
+                          <button
+                            type="button"
+                            onClick={() => setPaymentInvoice(inv)}
+                            className="px-3 py-1.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition inline-flex items-center gap-1 shadow-xs"
+                          >
+                            <CreditCard className="w-3.5 h-3.5" />
+                            Thanh toán
+                          </button>
+                        )}
+                        <button
+                          type="button"
+                          onClick={() => openInvoiceDetail(inv.id)}
+                          className="px-3 py-1.5 text-xs font-semibold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 rounded-xl transition inline-flex items-center gap-1"
+                        >
+                          <Eye className="w-3.5 h-3.5" />
+                          Xem
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -232,11 +247,26 @@ export default function TenantInvoicesPage() {
               </table>
             </div>
 
-            <div className="flex justify-end pt-2">
+            <div className="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-800">
+              {viewingInvoice.remainingAmount > 0 ? (
+                <button
+                  type="button"
+                  onClick={() => setPaymentInvoice(viewingInvoice)}
+                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-xs shadow-md shadow-emerald-600/30 transition flex items-center gap-1.5"
+                >
+                  <CreditCard className="w-3.5 h-3.5" />
+                  Thanh toán hóa đơn này
+                </button>
+              ) : (
+                <span className="text-xs text-emerald-600 dark:text-emerald-400 font-bold">
+                  ✓ Hóa đơn đã được thanh toán đầy đủ
+                </span>
+              )}
+
               <button
                 type="button"
                 onClick={() => setViewingInvoice(null)}
-                className="px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-xl font-semibold text-slate-700 transition"
+                className="px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-xl font-semibold text-slate-700 dark:text-slate-200 transition text-xs"
               >
                 Đóng
               </button>
@@ -244,6 +274,21 @@ export default function TenantInvoicesPage() {
           </div>
         )}
       </FormModal>
+
+      {/* Payment Modal */}
+      {paymentInvoice && (
+        <PaymentModal
+          isOpen={!!paymentInvoice}
+          onClose={() => setPaymentInvoice(null)}
+          invoice={paymentInvoice}
+          onPaymentSuccess={() => {
+            fetchInvoices();
+            if (viewingInvoice && viewingInvoice.id === paymentInvoice.id) {
+              openInvoiceDetail(paymentInvoice.id);
+            }
+          }}
+        />
+      )}
     </div>
   );
 }

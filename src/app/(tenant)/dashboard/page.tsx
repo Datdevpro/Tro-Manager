@@ -14,10 +14,13 @@ import {
   CreditCard,
   MapPin,
   Calendar,
+  Sparkles,
+  Layers,
 } from "lucide-react";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { LoadingSkeleton } from "@/components/ui/LoadingSkeleton";
+import { PaymentModal } from "@/components/tenant/PaymentModal";
 import { formatCurrency, formatDate, formatMonthYear } from "@/lib/utils";
 import Link from "next/link";
 import { toast } from "sonner";
@@ -25,6 +28,7 @@ import { toast } from "sonner";
 export default function TenantDashboardPage() {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [paymentInvoice, setPaymentInvoice] = useState<any>(null);
 
   const fetchDashboard = async () => {
     try {
@@ -284,76 +288,73 @@ export default function TenantDashboardPage() {
             )}
           </div>
 
-          <div className="pt-4 mt-4 border-t border-slate-100 text-right">
+          <div className="pt-4 mt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-3">
+            {currentInvoice && currentInvoice.remainingAmount > 0 ? (
+              <button
+                type="button"
+                onClick={() => setPaymentInvoice(currentInvoice)}
+                className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md shadow-emerald-600/30 transition flex items-center gap-2"
+              >
+                <CreditCard className="w-3.5 h-3.5" />
+                Thanh toán ngay
+              </button>
+            ) : currentInvoice ? (
+              <span className="text-xs text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4" /> Đã thanh toán đầy đủ
+              </span>
+            ) : (
+              <div />
+            )}
+
             <Link
               href="/invoices"
-              className="text-xs font-bold text-indigo-600 hover:text-indigo-700 inline-flex items-center gap-1"
+              className="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 inline-flex items-center gap-1 ml-auto"
             >
               Xem tất cả hóa đơn <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
         </div>
 
-        {/* Notifications */}
-        <div className="bg-white rounded-3xl border border-slate-200/80 p-6 shadow-xs flex flex-col justify-between">
+        {/* Section thay thế: Tính năng mới sẽ được cập nhật */}
+        <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 p-6 shadow-xs flex flex-col justify-between transition-colors">
           <div>
-            <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-4">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800 mb-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 border border-purple-100 flex items-center justify-center">
-                  <Bell className="w-5 h-5" />
+                <div className="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-900/50 flex items-center justify-center">
+                  <Sparkles className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-slate-900">Thông báo cư dân</h3>
-                  <p className="text-xs text-slate-500">Thông tin từ Ban Quản Lý tòa nhà</p>
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white">Tiện ích cư dân</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">Dịch vụ & Tiện ích mở rộng</p>
                 </div>
               </div>
             </div>
 
-            <div className="space-y-3">
-              {recentNotifications.length === 0 ? (
-                <p className="text-slate-400 italic text-xs py-4 text-center">
-                  Không có thông báo mới nào.
-                </p>
-              ) : (
-                recentNotifications.map((n: any) => (
-                  <div
-                    key={n.id}
-                    className={`p-3 rounded-2xl border transition text-xs flex items-start justify-between gap-3 ${
-                      n.isRead
-                        ? "bg-slate-50/70 border-slate-100 text-slate-600"
-                        : "bg-purple-50/50 border-purple-200 text-slate-900 font-medium"
-                    }`}
-                  >
-                    <div>
-                      <h4 className="font-bold mb-1 flex items-center gap-1.5">
-                        {!n.isRead && (
-                          <span className="w-2 h-2 rounded-full bg-purple-600 inline-block" />
-                        )}
-                        {n.title}
-                      </h4>
-                      <p className="text-slate-600 text-[11px] leading-relaxed line-clamp-2">
-                        {n.content}
-                      </p>
-                      <span className="text-[10px] text-slate-400 mt-1.5 block">
-                        {formatDate(n.createdAt)}
-                      </span>
-                    </div>
-
-                    {!n.isRead && (
-                      <button
-                        onClick={() => markNotificationRead(n.id)}
-                        className="px-2 py-1 text-[10px] font-bold text-purple-700 bg-purple-100 hover:bg-purple-200 rounded-lg shrink-0 transition"
-                      >
-                        Đã đọc
-                      </button>
-                    )}
-                  </div>
-                ))
-              )}
+            {/* Nội dung để trống theo yêu cầu và hiển thị thông báo tính năng mới */}
+            <div className="py-14 flex flex-col items-center justify-center text-center space-y-3">
+              <div className="w-14 h-14 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 dark:text-slate-500 shadow-inner">
+                <Layers className="w-7 h-7" />
+              </div>
+              <p className="text-sm font-bold text-slate-700 dark:text-slate-200">
+                Tính năng mới sẽ được cập nhật
+              </p>
+              <p className="text-xs text-slate-400 dark:text-slate-500 max-w-xs leading-relaxed">
+                Ban Quản Lý đang phát triển thêm các tiện ích cư dân (yêu cầu sửa chữa, gửi xe, tiện ích...). Vui lòng đón chờ!
+              </p>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Modal thanh toán dành cho cư dân */}
+      {paymentInvoice && (
+        <PaymentModal
+          isOpen={!!paymentInvoice}
+          onClose={() => setPaymentInvoice(null)}
+          invoice={paymentInvoice}
+          onPaymentSuccess={() => fetchDashboard()}
+        />
+      )}
     </div>
   );
 }

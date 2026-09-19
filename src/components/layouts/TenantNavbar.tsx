@@ -16,6 +16,7 @@ import {
   X,
 } from "lucide-react";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
+import { TenantNotificationBell } from "@/components/tenant/TenantNotificationBell";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
@@ -90,8 +91,9 @@ export function TenantNavbar() {
             </nav>
           </div>
 
-          {/* Right Action: Theme toggle & Logout button */}
+          {/* Right Action: Notification Bell, Theme toggle & Logout button */}
           <div className="hidden md:flex items-center gap-3">
+            <TenantNotificationBell />
             <ThemeToggle />
 
             <div className="flex items-center gap-2.5 pl-3 border-l border-slate-200 dark:border-slate-800">
@@ -113,8 +115,9 @@ export function TenantNavbar() {
             </button>
           </div>
 
-          {/* Mobile hamburger & theme toggle button */}
+          {/* Mobile hamburger, notification bell & theme toggle button */}
           <div className="md:hidden flex items-center gap-2">
+            <TenantNotificationBell />
             <ThemeToggle />
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
