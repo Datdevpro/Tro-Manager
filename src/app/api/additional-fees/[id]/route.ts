@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { prisma } from "@/lib/db/prisma";
 import { requireAdmin } from "@/lib/auth/session";
 import { successResponse, errorResponse } from "@/lib/api-response";
+import { ensureAdditionalFeeTable } from "@/lib/db/ensure-additional-fee";
 
 interface Params {
   params: { id: string };
@@ -11,6 +12,7 @@ interface Params {
 export async function PUT(req: NextRequest, { params }: Params) {
   try {
     await requireAdmin();
+    await ensureAdditionalFeeTable();
     const { id } = params;
     const body = await req.json();
     const { roomId, month, title, amount, description, date } = body;
@@ -42,9 +44,10 @@ export async function PUT(req: NextRequest, { params }: Params) {
 
     return successResponse(updated, "Cập nhật chi phí phát sinh thành công");
   } catch (error: any) {
+    console.error("Lỗi PUT /api/additional-fees/[id]:", error);
     if (error.message === "UNAUTHORIZED") return errorResponse("Chưa đăng nhập", 401);
     if (error.message === "FORBIDDEN") return errorResponse("Không có quyền quản trị", 403);
-    return errorResponse("Lỗi khi cập nhật khoản phát sinh", 500);
+    return errorResponse(`Lỗi khi cập nhật khoản phát sinh: ${error.message || ""}`, 500);
   }
 }
 
@@ -52,6 +55,7 @@ export async function PUT(req: NextRequest, { params }: Params) {
 export async function DELETE(req: NextRequest, { params }: Params) {
   try {
     await requireAdmin();
+    await ensureAdditionalFeeTable();
     const { id } = params;
 
     const existing = await (prisma as any).additionalFee.findUnique({
@@ -68,8 +72,10 @@ export async function DELETE(req: NextRequest, { params }: Params) {
 
     return successResponse(null, "Đã xóa khoản phát sinh");
   } catch (error: any) {
+    console.error("Lỗi DELETE /api/additional-fees/[id]:", error);
     if (error.message === "UNAUTHORIZED") return errorResponse("Chưa đăng nhập", 401);
     if (error.message === "FORBIDDEN") return errorResponse("Không có quyền quản trị", 403);
-    return errorResponse("Lỗi khi xóa khoản phát sinh", 500);
+    return errorResponse(`Lỗi khi xóa khoản phát sinh: ${error.message || ""}`, 500);
   }
 }
+

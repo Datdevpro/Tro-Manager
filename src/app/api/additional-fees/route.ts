@@ -2,11 +2,14 @@ import { NextRequest } from "next/server";
 import { prisma } from "@/lib/db/prisma";
 import { requireAdmin } from "@/lib/auth/session";
 import { successResponse, errorResponse } from "@/lib/api-response";
+import { ensureAdditionalFeeTable } from "@/lib/db/ensure-additional-fee";
 
 // GET /api/additional-fees - List incidental costs with filters
 export async function GET(req: NextRequest) {
   try {
     await requireAdmin();
+    await ensureAdditionalFeeTable();
+
     const { searchParams } = new URL(req.url);
 
     const month = searchParams.get("month") || undefined;
@@ -28,19 +31,38 @@ export async function GET(req: NextRequest) {
       ];
     }
 
-    const fees = await (prisma as any).additionalFee.findMany({
-      where,
-      orderBy: [{ date: "desc" }, { createdAt: "desc" }],
-      include: {
-        room: {
-          select: {
-            id: true,
-            roomNumber: true,
-            property: { select: { id: true, name: true } },
+    let fees = [];
+    try {
+      fees = await (prisma as any).additionalFee.findMany({
+        where,
+        orderBy: [{ date: "desc" }, { createdAt: "desc" }],
+        include: {
+          room: {
+            select: {
+              id: true,
+              roomNumber: true,
+              property: { select: { id: true, name: true } },
+            },
           },
         },
-      },
-    });
+      });
+    } catch (dbErr: any) {
+      console.warn("Retrying after ensureAdditionalFeeTable due to:", dbErr?.message);
+      await ensureAdditionalFeeTable();
+      fees = await (prisma as any).additionalFee.findMany({
+        where,
+        orderBy: [{ date: "desc" }, { createdAt: "desc" }],
+        include: {
+          room: {
+            select: {
+              id: true,
+              roomNumber: true,
+              property: { select: { id: true, name: true } },
+            },
+          },
+        },
+      }).catch(() => []);
+    }
 
     const totalAmount = fees.reduce((sum: number, f: any) => sum + f.amount, 0);
 
@@ -50,9 +72,10 @@ export async function GET(req: NextRequest) {
       count: fees.length,
     });
   } catch (error: any) {
+    console.error("Lỗi GET /api/additional-fees:", error);
     if (error.message === "UNAUTHORIZED") return errorResponse("Chưa đăng nhập", 401);
     if (error.message === "FORBIDDEN") return errorResponse("Không có quyền quản trị", 403);
-    return errorResponse("Lỗi khi tải danh sách chi phí phát sinh", 500);
+    return errorResponse(`Lỗi khi tải danh sách chi phí phát sinh: ${error.message || ""}`, 500);
   }
 }
 
@@ -60,6 +83,8 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     await requireAdmin();
+    await ensureAdditionalFeeTable();
+
     const body = await req.json();
     const { roomId, month, title, amount, description, date } = body;
 
@@ -98,8 +123,10 @@ export async function POST(req: NextRequest) {
 
     return successResponse(fee, "Ghi nhận chi phí phát sinh thành công", 201);
   } catch (error: any) {
+    console.error("Lỗi POST /api/additional-fees:", error);
     if (error.message === "UNAUTHORIZED") return errorResponse("Chưa đăng nhập", 401);
     if (error.message === "FORBIDDEN") return errorResponse("Không có quyền quản trị", 403);
-    return errorResponse("Lỗi khi ghi nhận chi phí phát sinh", 500);
+    return errorResponse(`Lỗi khi ghi nhận chi phí phát sinh: ${error.message || ""}`, 500);
   }
 }
+

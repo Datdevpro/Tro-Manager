@@ -3,11 +3,13 @@ import { prisma } from "@/lib/db/prisma";
 import { requireAdmin } from "@/lib/auth/session";
 import { successResponse, errorResponse } from "@/lib/api-response";
 import { calculateInvoiceTotal } from "@/lib/utils";
+import { ensureAdditionalFeeTable } from "@/lib/db/ensure-additional-fee";
 
 // POST /api/invoices/generate-bulk - generate monthly invoices for all occupied rooms
 export async function POST(req: NextRequest) {
   try {
     await requireAdmin();
+    await ensureAdditionalFeeTable();
     const body = await req.json();
     const { month, dueDate } = body;
 
