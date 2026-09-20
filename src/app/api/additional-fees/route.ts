@@ -101,25 +101,58 @@ export async function POST(req: NextRequest) {
       return errorResponse("Không tìm thấy phòng trọ", 404);
     }
 
-    const fee = await (prisma as any).additionalFee.create({
-      data: {
-        roomId,
-        month,
-        title: title.trim(),
-        amount: numAmount,
-        description: description?.trim() || null,
-        date: date ? new Date(date) : new Date(),
-      },
-      include: {
-        room: {
-          select: {
-            id: true,
-            roomNumber: true,
-            property: { select: { id: true, name: true } },
+    let parsedDate = new Date();
+    if (date) {
+      const d = new Date(date);
+      if (!isNaN(d.getTime())) {
+        parsedDate = d;
+      }
+    }
+
+    let fee;
+    try {
+      fee = await (prisma as any).additionalFee.create({
+        data: {
+          roomId,
+          month,
+          title: title.trim(),
+          amount: numAmount,
+          description: description?.trim() || null,
+          date: parsedDate,
+        },
+        include: {
+          room: {
+            select: {
+              id: true,
+              roomNumber: true,
+              property: { select: { id: true, name: true } },
+            },
           },
         },
-      },
-    });
+      });
+    } catch (createErr: any) {
+      console.warn("Retrying POST after ensureAdditionalFeeTable due to:", createErr?.message);
+      await ensureAdditionalFeeTable();
+      fee = await (prisma as any).additionalFee.create({
+        data: {
+          roomId,
+          month,
+          title: title.trim(),
+          amount: numAmount,
+          description: description?.trim() || null,
+          date: parsedDate,
+        },
+        include: {
+          room: {
+            select: {
+              id: true,
+              roomNumber: true,
+              property: { select: { id: true, name: true } },
+            },
+          },
+        },
+      });
+    }
 
     return successResponse(fee, "Ghi nhận chi phí phát sinh thành công", 201);
   } catch (error: any) {

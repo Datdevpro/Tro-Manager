@@ -89,15 +89,22 @@ export default function AdditionalFeesPage() {
       if (search) params.set("search", search);
 
       const res = await fetch(`/api/additional-fees?${params.toString()}`);
-      const json = await res.json();
-      if (json.success) {
-        setFees(json.data.items);
-        setTotalAmount(json.data.totalAmount);
-      } else {
-        toast.error(json.message);
+      let json: any = null;
+      try {
+        json = await res.json();
+      } catch {
+        toast.error(`Máy chủ phản hồi lỗi (${res.status}): Không thể đọc dữ liệu`);
+        return;
       }
-    } catch {
-      toast.error("Lỗi khi tải danh sách chi phí phát sinh");
+
+      if (res.ok && json?.success) {
+        setFees(json.data?.items || []);
+        setTotalAmount(json.data?.totalAmount || 0);
+      } else {
+        toast.error(json?.message || "Lỗi khi tải danh sách chi phí phát sinh");
+      }
+    } catch (err: any) {
+      toast.error(err?.message || "Lỗi khi tải danh sách chi phí phát sinh");
     } finally {
       setLoading(false);
     }
@@ -168,16 +175,23 @@ export default function AdditionalFeesPage() {
         }),
       });
 
-      const json = await res.json();
-      if (res.ok && json.success) {
-        toast.success(json.message);
+      let json: any = null;
+      try {
+        json = await res.json();
+      } catch {
+        toast.error(`Máy chủ phản hồi lỗi (${res.status})`);
+        return;
+      }
+
+      if (res.ok && json?.success) {
+        toast.success(json.message || "Lưu thành công");
         setIsModalOpen(false);
         fetchFees();
       } else {
-        toast.error(json.message || "Thao tác không thành công");
+        toast.error(json?.message || "Thao tác không thành công");
       }
-    } catch {
-      toast.error("Lỗi kết nối máy chủ");
+    } catch (err: any) {
+      toast.error(err?.message || "Lỗi kết nối máy chủ");
     } finally {
       setSubmitting(false);
     }
@@ -190,16 +204,23 @@ export default function AdditionalFeesPage() {
       const res = await fetch(`/api/additional-fees/${deleteId}`, {
         method: "DELETE",
       });
-      const json = await res.json();
-      if (res.ok && json.success) {
-        toast.success(json.message);
+      let json: any = null;
+      try {
+        json = await res.json();
+      } catch {
+        toast.error(`Máy chủ phản hồi lỗi (${res.status})`);
+        return;
+      }
+
+      if (res.ok && json?.success) {
+        toast.success(json.message || "Đã xóa khoản phát sinh");
         setDeleteId(null);
         fetchFees();
       } else {
-        toast.error(json.message || "Không thể xóa khoản phát sinh");
+        toast.error(json?.message || "Không thể xóa khoản phát sinh");
       }
-    } catch {
-      toast.error("Lỗi kết nối máy chủ");
+    } catch (err: any) {
+      toast.error(err?.message || "Lỗi kết nối máy chủ");
     } finally {
       setDeleting(false);
     }
