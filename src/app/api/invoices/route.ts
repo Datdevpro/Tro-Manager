@@ -31,8 +31,10 @@ export async function GET(req: NextRequest) {
       data: { status: "OVERDUE" },
     });
 
-    // Tự động đồng bộ các khoản chi phí phát sinh mới vào hóa đơn chưa thanh toán
-    await syncAllInvoicesForMonth(month);
+    // Tự động đồng bộ chi phí phát sinh - chạy background, không block response
+    syncAllInvoicesForMonth(month).catch((e) =>
+      console.warn("[SYNC_FEES] Non-blocking sync failed:", e?.message)
+    );
 
     const where: any = {};
     if (month) where.month = month;

@@ -19,7 +19,10 @@ export async function GET() {
 
     if (tenant.roomId) {
       const currentMonth = new Date().toISOString().slice(0, 7);
-      await syncInvoiceWithAdditionalFees(tenant.roomId, currentMonth);
+      // Chạy background, không block response cho cư dân
+      syncInvoiceWithAdditionalFees(tenant.roomId, currentMonth).catch((e) =>
+        console.warn("[SYNC_FEES] Tenant sync non-blocking failed:", e?.message)
+      );
     }
 
     const invoices = await prisma.invoice.findMany({

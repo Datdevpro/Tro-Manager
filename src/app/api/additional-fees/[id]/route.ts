@@ -43,11 +43,11 @@ export async function PUT(req: NextRequest, { params }: Params) {
       data: updateData,
     });
 
-    // Đồng bộ hóa đơn phòng & kỳ tháng hiện tại
-    await syncInvoiceWithAdditionalFees(updated.roomId, updated.month);
+    // Đồng bộ hóa đơn - background, không block response
+    syncInvoiceWithAdditionalFees(updated.roomId, updated.month).catch(() => {});
     // Nếu chuyển phòng hoặc chuyển kỳ tháng, đồng bộ cả phòng & kỳ tháng cũ
     if (existing.roomId !== updated.roomId || existing.month !== updated.month) {
-      await syncInvoiceWithAdditionalFees(existing.roomId, existing.month);
+      syncInvoiceWithAdditionalFees(existing.roomId, existing.month).catch(() => {});
     }
 
     return successResponse(updated, "Cập nhật chi phí phát sinh thành công");
@@ -78,8 +78,8 @@ export async function DELETE(req: NextRequest, { params }: Params) {
       where: { id },
     });
 
-    // Đồng bộ lại hóa đơn của phòng sau khi xóa khoản phát sinh
-    await syncInvoiceWithAdditionalFees(existing.roomId, existing.month);
+    // Đồng bộ lại hóa đơn - background, không block response
+    syncInvoiceWithAdditionalFees(existing.roomId, existing.month).catch(() => {});
 
     return successResponse(null, "Đã xóa khoản phát sinh");
   } catch (error: any) {

@@ -155,8 +155,10 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // Tự động đồng bộ ngay vào hóa đơn tháng này của phòng nếu đã có hóa đơn
-    await syncInvoiceWithAdditionalFees(roomId, month);
+    // Đồng bộ hóa đơn ngay khi ghi nhận - background, không block response
+    syncInvoiceWithAdditionalFees(roomId, month).catch((e) =>
+      console.warn("[SYNC_FEES] POST sync non-blocking failed:", e?.message)
+    );
 
     return successResponse(fee, "Ghi nhận chi phí phát sinh thành công", 201);
   } catch (error: any) {
