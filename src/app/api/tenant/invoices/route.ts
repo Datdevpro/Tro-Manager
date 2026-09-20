@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { prisma } from "@/lib/db/prisma";
 import { requireAuth } from "@/lib/auth/session";
 import { successResponse, errorResponse } from "@/lib/api-response";
+import { syncInvoiceWithAdditionalFees } from "@/lib/services/additional-fee-sync";
 
 // GET /api/tenant/invoices - list only the current tenant's invoices
 export async function GET() {
@@ -14,6 +15,11 @@ export async function GET() {
 
     if (!tenant) {
       return errorResponse("Không tìm thấy thông tin cư dân", 404);
+    }
+
+    if (tenant.roomId) {
+      const currentMonth = new Date().toISOString().slice(0, 7);
+      await syncInvoiceWithAdditionalFees(tenant.roomId, currentMonth);
     }
 
     const invoices = await prisma.invoice.findMany({
@@ -31,12 +37,26 @@ export async function GET() {
       },
     });
 
+    let allFees: any[] = [];
+    if (tenant.roomId) {
+      try {
+        allFees = await (prisma as any).additionalFee.findMany({
+          where: { roomId: tenant.roomId },
+          orderBy: { date: "desc" },
+        });
+      } catch {
+        allFees = [];
+      }
+    }
+
     const enriched = invoices.map((inv) => {
       const paid = inv.payments.reduce((sum, p) => sum + p.amount, 0);
+      const itemFees = allFees.filter((f) => f.month === inv.month);
       return {
         ...inv,
         paidAmount: paid,
         remainingAmount: Math.max(0, inv.total - paid),
+        additionalFees: itemFees,
       };
     });
 

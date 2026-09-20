@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db/prisma";
 import { requireAdmin } from "@/lib/auth/session";
 import { successResponse, errorResponse } from "@/lib/api-response";
 import { ensureAdditionalFeeTable } from "@/lib/db/ensure-additional-fee";
+import { syncInvoiceWithAdditionalFees } from "@/lib/services/additional-fee-sync";
 
 interface Params {
   params: { id: string };
@@ -42,6 +43,13 @@ export async function PUT(req: NextRequest, { params }: Params) {
       data: updateData,
     });
 
+    // Đồng bộ hóa đơn phòng & kỳ tháng hiện tại
+    await syncInvoiceWithAdditionalFees(updated.roomId, updated.month);
+    // Nếu chuyển phòng hoặc chuyển kỳ tháng, đồng bộ cả phòng & kỳ tháng cũ
+    if (existing.roomId !== updated.roomId || existing.month !== updated.month) {
+      await syncInvoiceWithAdditionalFees(existing.roomId, existing.month);
+    }
+
     return successResponse(updated, "Cập nhật chi phí phát sinh thành công");
   } catch (error: any) {
     console.error("Lỗi PUT /api/additional-fees/[id]:", error);
@@ -69,6 +77,9 @@ export async function DELETE(req: NextRequest, { params }: Params) {
     await (prisma as any).additionalFee.delete({
       where: { id },
     });
+
+    // Đồng bộ lại hóa đơn của phòng sau khi xóa khoản phát sinh
+    await syncInvoiceWithAdditionalFees(existing.roomId, existing.month);
 
     return successResponse(null, "Đã xóa khoản phát sinh");
   } catch (error: any) {

@@ -53,6 +53,35 @@ export async function POST(req: NextRequest) {
       });
 
       if (existing) {
+        // Nếu hóa đơn đã tồn tại nhưng chưa thanh toán, tự động cập nhật chi phí phát sinh nếu có thay đổi
+        if (existing.status === "UNPAID" || existing.status === "OVERDUE") {
+          let latestOtherFee = 0;
+          try {
+            const fees = await (prisma as any).additionalFee.findMany({
+              where: { roomId: room.id, month },
+            });
+            latestOtherFee = fees.reduce((sum: number, f: any) => sum + f.amount, 0);
+          } catch {
+            latestOtherFee = 0;
+          }
+
+          if (existing.otherFee !== latestOtherFee) {
+            const total = calculateInvoiceTotal({
+              roomFee: existing.roomFee,
+              electricFee: existing.electricFee,
+              waterFee: existing.waterFee,
+              serviceFee: existing.serviceFee,
+              otherFee: latestOtherFee,
+              previousDebt: existing.previousDebt,
+              discount: existing.discount,
+            });
+
+            await prisma.invoice.update({
+              where: { id: existing.id },
+              data: { otherFee: latestOtherFee, total },
+            });
+          }
+        }
         skippedCount++;
         continue;
       }

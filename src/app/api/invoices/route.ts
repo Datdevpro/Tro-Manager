@@ -4,6 +4,7 @@ import { requireAdmin } from "@/lib/auth/session";
 import { successResponse, errorResponse } from "@/lib/api-response";
 import { calculateInvoiceTotal } from "@/lib/utils";
 import { InvoiceStatus } from "@prisma/client";
+import { syncAllInvoicesForMonth } from "@/lib/services/additional-fee-sync";
 
 // GET /api/invoices - list invoices with filters, auto-checks OVERDUE
 export async function GET(req: NextRequest) {
@@ -29,6 +30,9 @@ export async function GET(req: NextRequest) {
       },
       data: { status: "OVERDUE" },
     });
+
+    // Tự động đồng bộ các khoản chi phí phát sinh mới vào hóa đơn chưa thanh toán
+    await syncAllInvoicesForMonth(month);
 
     const where: any = {};
     if (month) where.month = month;
@@ -67,13 +71,31 @@ export async function GET(req: NextRequest) {
       }),
     ]);
 
+    // Lấy chi tiết các khoản chi phí phát sinh đi kèm cho từng hóa đơn
+    const roomIds = invoices.map((i) => i.roomId);
+    const months = Array.from(new Set(invoices.map((i) => i.month)));
+    let allFees: any[] = [];
+    try {
+      allFees = await (prisma as any).additionalFee.findMany({
+        where: {
+          roomId: { in: roomIds },
+          month: { in: months },
+        },
+        orderBy: { date: "desc" },
+      });
+    } catch {
+      allFees = [];
+    }
+
     const enriched = invoices.map((inv) => {
       const paidAmount = inv.payments.reduce((sum, p) => sum + p.amount, 0);
       const remainingAmount = Math.max(0, inv.total - paidAmount);
+      const itemFees = allFees.filter((f) => f.roomId === inv.roomId && f.month === inv.month);
       return {
         ...inv,
         paidAmount,
         remainingAmount,
+        additionalFees: itemFees,
       };
     });
 
@@ -115,12 +137,25 @@ export async function POST(req: NextRequest) {
       return errorResponse("Vui lòng nhập đầy đủ thông tin hóa đơn", 400);
     }
 
+    // Nếu không nhập otherFee hoặc bằng 0, tự động gom từ chi phí phát sinh phòng tháng này
+    let finalOtherFee = Number(otherFee);
+    if (!finalOtherFee || finalOtherFee === 0) {
+      try {
+        const fees = await (prisma as any).additionalFee.findMany({
+          where: { roomId, month },
+        });
+        finalOtherFee = fees.reduce((sum: number, f: any) => sum + f.amount, 0);
+      } catch {
+        finalOtherFee = 0;
+      }
+    }
+
     const total = calculateInvoiceTotal({
       roomFee: Number(roomFee),
       electricFee: Number(electricFee),
       waterFee: Number(waterFee),
       serviceFee: Number(serviceFee),
-      otherFee: Number(otherFee),
+      otherFee: finalOtherFee,
       previousDebt: Number(previousDebt),
       discount: Number(discount),
     });
@@ -137,7 +172,7 @@ export async function POST(req: NextRequest) {
         electricFee: Number(electricFee),
         waterFee: Number(waterFee),
         serviceFee: Number(serviceFee),
-        otherFee: Number(otherFee),
+        otherFee: finalOtherFee,
         previousDebt: Number(previousDebt),
         discount: Number(discount),
         total,

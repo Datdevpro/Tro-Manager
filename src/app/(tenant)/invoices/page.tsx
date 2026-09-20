@@ -201,8 +201,21 @@ export default function TenantInvoicesPage() {
                   </tr>
                   {viewingInvoice.otherFee > 0 && (
                     <tr>
-                      <td className="p-3 font-medium text-slate-800">5. Phí khác phát sinh</td>
-                      <td className="p-3 text-right font-bold text-slate-900">
+                      <td className="p-3 font-medium text-slate-800">
+                        <div className="font-semibold text-slate-900">5. Phí khác phát sinh</div>
+                        {viewingInvoice.additionalFees && viewingInvoice.additionalFees.length > 0 && (
+                          <div className="mt-1.5 space-y-1 bg-amber-50/70 dark:bg-amber-950/30 p-2 rounded-lg border border-amber-100 dark:border-amber-900/50 text-[11px] text-amber-900 dark:text-amber-300 font-normal">
+                            <span className="font-semibold text-[10px] text-amber-700 dark:text-amber-400 uppercase tracking-wider block">Các khoản chi phí phát sinh:</span>
+                            {viewingInvoice.additionalFees.map((af: any) => (
+                              <div key={af.id} className="flex justify-between items-center text-slate-700 dark:text-slate-300">
+                                <span>• {af.title}{af.description ? ` (${af.description})` : ""}</span>
+                                <span className="font-semibold text-slate-900 dark:text-white">{formatCurrency(af.amount)}</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </td>
+                      <td className="p-3 text-right font-bold text-slate-900 align-top">
                         {formatCurrency(viewingInvoice.otherFee)}
                       </td>
                     </tr>

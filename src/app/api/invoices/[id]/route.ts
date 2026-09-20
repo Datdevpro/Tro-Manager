@@ -41,10 +41,21 @@ export async function GET(req: NextRequest, { params }: Params) {
     const paidAmount = invoice.payments.reduce((sum, p) => sum + p.amount, 0);
     const remainingAmount = Math.max(0, invoice.total - paidAmount);
 
+    let additionalFees: any[] = [];
+    try {
+      additionalFees = await (prisma as any).additionalFee.findMany({
+        where: { roomId: invoice.roomId, month: invoice.month },
+        orderBy: { date: "desc" },
+      });
+    } catch {
+      additionalFees = [];
+    }
+
     return successResponse({
       ...invoice,
       paidAmount,
       remainingAmount,
+      additionalFees,
     });
   } catch (error: any) {
     if (error.message === "UNAUTHORIZED") return errorResponse("Chưa đăng nhập", 401);

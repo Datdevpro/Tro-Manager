@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db/prisma";
 import { requireAdmin } from "@/lib/auth/session";
 import { successResponse, errorResponse } from "@/lib/api-response";
 import { ensureAdditionalFeeTable } from "@/lib/db/ensure-additional-fee";
+import { syncInvoiceWithAdditionalFees } from "@/lib/services/additional-fee-sync";
 
 // GET /api/additional-fees - List incidental costs with filters
 export async function GET(req: NextRequest) {
@@ -153,6 +154,9 @@ export async function POST(req: NextRequest) {
         },
       });
     }
+
+    // Tự động đồng bộ ngay vào hóa đơn tháng này của phòng nếu đã có hóa đơn
+    await syncInvoiceWithAdditionalFees(roomId, month);
 
     return successResponse(fee, "Ghi nhận chi phí phát sinh thành công", 201);
   } catch (error: any) {
