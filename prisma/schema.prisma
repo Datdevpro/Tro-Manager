@@ -104,10 +104,29 @@ model Room {
   utilityReadings UtilityReading[]
   roomServices    RoomService[]
   invoices        Invoice[]
+  additionalFees  AdditionalFee[]
 
   @@index([propertyId])
   @@index([status])
 }
+
+model AdditionalFee {
+  id          String   @id @default(cuid())
+  roomId      String
+  month       String
+  title       String
+  amount      Float
+  description String?
+  date        DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  room Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
+
+  @@index([roomId])
+  @@index([month])
+}
+
 
 model Tenant {
   id               String    @id @default(cuid())

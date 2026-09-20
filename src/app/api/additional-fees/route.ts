@@ -1,0 +1,105 @@
+import { NextRequest } from "next/server";
+import { prisma } from "@/lib/db/prisma";
+import { requireAdmin } from "@/lib/auth/session";
+import { successResponse, errorResponse } from "@/lib/api-response";
+
+// GET /api/additional-fees - List incidental costs with filters
+export async function GET(req: NextRequest) {
+  try {
+    await requireAdmin();
+    const { searchParams } = new URL(req.url);
+
+    const month = searchParams.get("month") || undefined;
+    const roomId = searchParams.get("roomId") || undefined;
+    const propertyId = searchParams.get("propertyId") || undefined;
+    const search = searchParams.get("search")?.trim();
+
+    const where: any = {};
+    if (month) where.month = month;
+    if (roomId) where.roomId = roomId;
+    if (propertyId) {
+      where.room = { propertyId };
+    }
+    if (search) {
+      where.OR = [
+        { title: { contains: search, mode: "insensitive" } },
+        { description: { contains: search, mode: "insensitive" } },
+        { room: { roomNumber: { contains: search, mode: "insensitive" } } },
+      ];
+    }
+
+    const fees = await (prisma as any).additionalFee.findMany({
+      where,
+      orderBy: [{ date: "desc" }, { createdAt: "desc" }],
+      include: {
+        room: {
+          select: {
+            id: true,
+            roomNumber: true,
+            property: { select: { id: true, name: true } },
+          },
+        },
+      },
+    });
+
+    const totalAmount = fees.reduce((sum: number, f: any) => sum + f.amount, 0);
+
+    return successResponse({
+      items: fees,
+      totalAmount,
+      count: fees.length,
+    });
+  } catch (error: any) {
+    if (error.message === "UNAUTHORIZED") return errorResponse("Chưa đăng nhập", 401);
+    if (error.message === "FORBIDDEN") return errorResponse("Không có quyền quản trị", 403);
+    return errorResponse("Lỗi khi tải danh sách chi phí phát sinh", 500);
+  }
+}
+
+// POST /api/additional-fees - Record a new incidental fee
+export async function POST(req: NextRequest) {
+  try {
+    await requireAdmin();
+    const body = await req.json();
+    const { roomId, month, title, amount, description, date } = body;
+
+    const numAmount = Number(amount);
+    if (!roomId || !month || !title?.trim() || isNaN(numAmount) || numAmount <= 0) {
+      return errorResponse("Vui lòng chọn phòng, kỳ tháng, tên khoản phát sinh và số tiền hợp lệ", 400);
+    }
+
+    const room = await prisma.room.findUnique({
+      where: { id: roomId },
+    });
+
+    if (!room) {
+      return errorResponse("Không tìm thấy phòng trọ", 404);
+    }
+
+    const fee = await (prisma as any).additionalFee.create({
+      data: {
+        roomId,
+        month,
+        title: title.trim(),
+        amount: numAmount,
+        description: description?.trim() || null,
+        date: date ? new Date(date) : new Date(),
+      },
+      include: {
+        room: {
+          select: {
+            id: true,
+            roomNumber: true,
+            property: { select: { id: true, name: true } },
+          },
+        },
+      },
+    });
+
+    return successResponse(fee, "Ghi nhận chi phí phát sinh thành công", 201);
+  } catch (error: any) {
+    if (error.message === "UNAUTHORIZED") return errorResponse("Chưa đăng nhập", 401);
+    if (error.message === "FORBIDDEN") return errorResponse("Không có quyền quản trị", 403);
+    return errorResponse("Lỗi khi ghi nhận chi phí phát sinh", 500);
+  }
+}

@@ -84,13 +84,24 @@ export async function POST(req: NextRequest) {
         }
       }
 
-      // 5. Total
+      // 5. Additional / Incidental Fees (Chi phí phát sinh của phòng trong tháng)
+      let otherFee = 0;
+      try {
+        const fees = await (prisma as any).additionalFee.findMany({
+          where: { roomId: room.id, month },
+        });
+        otherFee = fees.reduce((sum: number, f: any) => sum + f.amount, 0);
+      } catch {
+        otherFee = 0;
+      }
+
+      // 6. Total
       const total = calculateInvoiceTotal({
         roomFee,
         electricFee,
         waterFee,
         serviceFee,
-        otherFee: 0,
+        otherFee,
         previousDebt: 0,
         discount: 0,
       });
@@ -104,7 +115,7 @@ export async function POST(req: NextRequest) {
           electricFee,
           waterFee,
           serviceFee,
-          otherFee: 0,
+          otherFee,
           previousDebt: 0,
           discount: 0,
           total,

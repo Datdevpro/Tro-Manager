@@ -50,6 +50,8 @@ export default function TenantsPage() {
   const [birthday, setBirthday] = useState("");
   const [gender, setGender] = useState("Nam");
   const [permanentAddress, setPermanentAddress] = useState("");
+  const [properties, setProperties] = useState<any[]>([]);
+  const [selectedPropertyId, setSelectedPropertyId] = useState("");
   const [roomId, setRoomId] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
@@ -86,16 +88,23 @@ export default function TenantsPage() {
     fetchTenants();
   }, [fetchTenants]);
 
-  // Load available rooms for assignment
+  // Load available rooms and properties for assignment
   useEffect(() => {
-    async function loadRooms() {
-      const res = await fetch("/api/rooms?pageSize=100");
-      const json = await res.json();
-      if (json.success) {
-        setRooms(json.data.items);
+    async function loadData() {
+      try {
+        const [roomsRes, propsRes] = await Promise.all([
+          fetch("/api/rooms?pageSize=200"),
+          fetch("/api/properties"),
+        ]);
+        const roomsJson = await roomsRes.json();
+        const propsJson = await propsRes.json();
+        if (roomsJson.success) setRooms(roomsJson.data.items);
+        if (propsJson.success) setProperties(propsJson.data);
+      } catch {
+        // Quiet fail
       }
     }
-    loadRooms();
+    loadData();
   }, []);
 
   const openCreateModal = () => {
@@ -107,6 +116,7 @@ export default function TenantsPage() {
     setBirthday("");
     setGender("Nam");
     setPermanentAddress("");
+    setSelectedPropertyId("");
     setRoomId("");
     setIsModalOpen(true);
   };
@@ -120,6 +130,10 @@ export default function TenantsPage() {
     setBirthday(t.birthday ? t.birthday.split("T")[0] : "");
     setGender(t.gender || "Nam");
     setPermanentAddress(t.permanentAddress || "");
+
+    const currentRoom = rooms.find((r) => r.id === t.roomId) || t.room;
+    const propId = currentRoom?.propertyId || currentRoom?.property?.id || "";
+    setSelectedPropertyId(propId);
     setRoomId(t.roomId || "");
     setIsModalOpen(true);
   };
@@ -450,7 +464,7 @@ export default function TenantsPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
               <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
                 Ngày sinh
@@ -465,19 +479,49 @@ export default function TenantsPage() {
 
             <div>
               <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
-                Gán phòng / Chuyển phòng
+                Thuộc khu trọ
+              </label>
+              <select
+                value={selectedPropertyId}
+                onChange={(e) => {
+                  setSelectedPropertyId(e.target.value);
+                  setRoomId("");
+                }}
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-sm bg-white dark:bg-slate-950 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/30 transition"
+              >
+                <option value="">-- Chọn khu trọ --</option>
+                {properties.map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
+                Gán phòng
               </label>
               <select
                 value={roomId}
                 onChange={(e) => setRoomId(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-sm bg-white dark:bg-slate-950 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/30 transition"
+                disabled={!selectedPropertyId}
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-sm bg-white dark:bg-slate-950 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/30 transition disabled:opacity-50 disabled:bg-slate-100 dark:disabled:bg-slate-900"
               >
-                <option value="">-- Chưa gán phòng --</option>
-                {rooms.map((r) => (
-                  <option key={r.id} value={r.id}>
-                    {r.roomNumber} ({r.property?.name}) - {formatCurrency(r.rentPrice)}
-                  </option>
-                ))}
+                <option value="">
+                  {selectedPropertyId ? "-- Chọn phòng --" : "-- Chọn khu trọ trước --"}
+                </option>
+                {rooms
+                  .filter(
+                    (r) =>
+                      r.propertyId === selectedPropertyId ||
+                      r.property?.id === selectedPropertyId
+                  )
+                  .map((r) => (
+                    <option key={r.id} value={r.id}>
+                      Phòng {r.roomNumber} - {formatCurrency(r.rentPrice)}
+                    </option>
+                  ))}
               </select>
             </div>
           </div>
