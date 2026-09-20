@@ -216,8 +216,15 @@ export default function AdditionalFeesPage() {
         title="Quản Lý Chi Phí Phát Sinh"
         description="Ghi nhận các khoản chi phí phát sinh đột xuất theo phòng (sửa chữa, đền bù, phụ thu...). Các khoản này sẽ tự động được gộp vào hóa đơn tổng cuối tháng."
         icon={Coins}
-        actionLabel="Ghi nhận phát sinh"
-        onAction={openCreateModal}
+        actions={
+          <button
+            onClick={openCreateModal}
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold shadow-md shadow-indigo-600/30 transition"
+          >
+            <Plus className="w-4 h-4" />
+            Ghi nhận phát sinh
+          </button>
+        }
       />
 
       {/* Thông tin giải thích */}
@@ -316,8 +323,15 @@ export default function AdditionalFeesPage() {
           title="Chưa có chi phí phát sinh nào"
           description="Bấm 'Ghi nhận phát sinh' để thêm các khoản phụ thu, sửa chữa hoặc đền bù cho phòng trọ."
           icon={Coins}
-          actionLabel="Ghi nhận ngay"
-          onAction={openCreateModal}
+          action={
+            <button
+              onClick={openCreateModal}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition"
+            >
+              <Plus className="w-4 h-4" />
+              Ghi nhận ngay
+            </button>
+          }
         />
       ) : (
         <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs overflow-hidden">
@@ -542,9 +556,10 @@ export default function AdditionalFeesPage() {
         onClose={() => setDeleteId(null)}
         onConfirm={handleDelete}
         title="Xóa khoản phát sinh?"
-        description="Khoản phí phát sinh này sẽ bị xóa và không còn được gộp vào hóa đơn của phòng."
-        confirmLabel="Xóa khoản này"
-        loading={deleting}
+        message="Khoản phí phát sinh này sẽ bị xóa và không còn được gộp vào hóa đơn của phòng."
+        confirmText="Xóa khoản này"
+        isDestructive
+        isLoading={deleting}
       />
     </div>
   );
