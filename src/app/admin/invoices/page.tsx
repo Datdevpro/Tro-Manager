@@ -93,9 +93,12 @@ export default function InvoicesPage() {
       const res = await fetch(`/api/invoices?${params.toString()}`);
       const json = await res.json();
       if (json.success) {
-        setInvoices(json.data.items);
-        setTotalPages(json.data.totalPages);
-        setTotalItems(json.data.total);
+        setInvoices(json.data.items ?? []);
+        setTotalPages(json.data.totalPages ?? 1);
+        setTotalItems(json.data.total ?? 0);
+      } else {
+        toast.error(json.message || "Lỗi khi tải danh sách hóa đơn");
+        setInvoices([]);
       }
     } catch {
       toast.error("Lỗi khi tải danh sách hóa đơn");

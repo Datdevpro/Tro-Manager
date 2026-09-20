@@ -77,16 +77,19 @@ export async function GET(req: NextRequest) {
     const roomIds = invoices.map((i) => i.roomId);
     const months = Array.from(new Set(invoices.map((i) => i.month)));
     let allFees: any[] = [];
-    try {
-      allFees = await (prisma as any).additionalFee.findMany({
-        where: {
-          roomId: { in: roomIds },
-          month: { in: months },
-        },
-        orderBy: { date: "desc" },
-      });
-    } catch {
-      allFees = [];
+    // Chỉ query khi có dữ liệu - tránh Prisma throw lỗi với `in: []` (mảng rỗng)
+    if (roomIds.length > 0 && months.length > 0) {
+      try {
+        allFees = await (prisma as any).additionalFee.findMany({
+          where: {
+            roomId: { in: roomIds },
+            month: { in: months },
+          },
+          orderBy: { date: "desc" },
+        });
+      } catch {
+        allFees = [];
+      }
     }
 
     const enriched = invoices.map((inv) => {
