@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useEffect, useState, useCallback } from "react";
 import {
@@ -250,7 +250,7 @@ export default function ContractsPage() {
       />
 
       {/* Filter and Search Bar */}
-      <div className="bg-white rounded-2xl border border-slate-200/80 p-4 shadow-xs flex flex-col md:flex-row items-center justify-between gap-3">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-4 shadow-xs flex flex-col md:flex-row items-center justify-between gap-3">
         <SearchInput
           value={search}
           onChange={(val) => {
@@ -280,10 +280,10 @@ export default function ContractsPage() {
       </div>
 
       {/* Contracts Table */}
-      <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase tracking-wider font-semibold">
+            <thead className="bg-slate-50 dark:bg-slate-800/60 border-b border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 uppercase tracking-wider font-semibold">
               <tr>
                 <th className="px-5 py-3.5">Khách thuê</th>
                 <th className="px-5 py-3.5">Phòng / Khu trọ</th>
@@ -294,7 +294,7 @@ export default function ContractsPage() {
                 <th className="px-5 py-3.5 text-right">Thao tác</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
               {loading ? (
                 <tr>
                   <td colSpan={7} className="px-5 py-8 text-center text-slate-400">
@@ -313,7 +313,7 @@ export default function ContractsPage() {
                 </tr>
               ) : (
                 contracts.map((c) => (
-                  <tr key={c.id} className="hover:bg-slate-50/80 transition">
+                  <tr key={c.id} className="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition">
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-2.5">
                         <div className="w-8 h-8 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 flex items-center justify-center font-bold text-xs">
@@ -368,14 +368,14 @@ export default function ContractsPage() {
                       <div className="flex items-center justify-end gap-1">
                         <button
                           onClick={() => setViewingContract(c)}
-                          className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-slate-100 rounded-lg transition"
+                          className="p-1.5 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition"
                           title="Xem điều khoản"
                         >
                           <Eye className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => openEditModal(c)}
-                          className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-slate-100 rounded-lg transition"
+                          className="p-1.5 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition"
                           title="Chỉnh sửa"
                         >
                           <Edit className="w-4 h-4" />
@@ -391,7 +391,7 @@ export default function ContractsPage() {
                         )}
                         <button
                           onClick={() => setDeleteId(c.id)}
-                          className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition"
+                          className="p-1.5 text-slate-400 dark:text-slate-500 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 rounded-lg transition"
                           title="Xóa hợp đồng"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -405,7 +405,7 @@ export default function ContractsPage() {
           </table>
         </div>
 
-        <div className="p-4 border-t border-slate-100">
+        <div className="p-4 border-t border-slate-100 dark:border-slate-800">
           <Pagination
             currentPage={page}
             totalPages={totalPages}
@@ -427,7 +427,7 @@ export default function ContractsPage() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
                 Khách thuê *
               </label>
               <select
@@ -446,7 +446,7 @@ export default function ContractsPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
                 Phòng trọ *
               </label>
               <select
@@ -473,7 +473,7 @@ export default function ContractsPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
                 Ngày bắt đầu hiệu lực *
               </label>
               <input
@@ -486,7 +486,7 @@ export default function ContractsPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
                 Ngày kết thúc hợp đồng *
               </label>
               <input
@@ -501,7 +501,7 @@ export default function ContractsPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
                 Giá thuê (VNĐ/tháng) *
               </label>
               <input
@@ -515,7 +515,7 @@ export default function ContractsPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
                 Tiền đặt cọc (VNĐ)
               </label>
               <input
@@ -528,7 +528,7 @@ export default function ContractsPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
                 Kỳ thanh toán (tháng)
               </label>
               <input
@@ -542,7 +542,7 @@ export default function ContractsPage() {
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
               Trạng thái hợp đồng
             </label>
             <select
@@ -558,7 +558,7 @@ export default function ContractsPage() {
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
               Điều khoản & Quy định hợp đồng
             </label>
             <textarea
@@ -574,7 +574,7 @@ export default function ContractsPage() {
             <button
               type="button"
               onClick={() => setIsModalOpen(false)}
-              className="px-4 py-2 text-sm font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition"
+              className="px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-xl transition"
             >
               Hủy
             </button>
@@ -601,19 +601,19 @@ export default function ContractsPage() {
           <div className="space-y-4 text-xs">
             <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200/80 space-y-2">
               <div className="flex justify-between items-center">
-                <span className="text-slate-500">Phòng thuê:</span>
+                <span className="text-slate-500 dark:text-slate-400">Phòng thuê:</span>
                 <span className="text-base font-bold text-indigo-600">
                   {viewingContract.room.roomNumber} ({viewingContract.room.property?.name})
                 </span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-slate-500">Người thuê:</span>
+                <span className="text-slate-500 dark:text-slate-400">Người thuê:</span>
                 <span className="font-bold text-slate-900">
                   {viewingContract.tenant.user.fullName}
                 </span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-slate-500">Thời hạn:</span>
+                <span className="text-slate-500 dark:text-slate-400">Thời hạn:</span>
                 <span className="font-semibold text-slate-800">
                   {formatDate(viewingContract.startDate)} đến {formatDate(viewingContract.endDate)}
                 </span>

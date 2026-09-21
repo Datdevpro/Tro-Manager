@@ -153,11 +153,11 @@ export default function AdminDashboardPage() {
       {/* Row 3: Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Revenue 6 months */}
-        <div className="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-xs lg:col-span-2">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-5 shadow-xs lg:col-span-2">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="font-bold text-base text-slate-900">Biểu đồ Doanh thu (6 tháng)</h3>
-              <p className="text-xs text-slate-500">So sánh thực thu và dự kiến hóa đơn</p>
+              <h3 className="font-bold text-base text-slate-900 dark:text-white">Biểu đồ Doanh thu (6 tháng)</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400">So sánh thực thu và dự kiến hóa đơn</p>
             </div>
             <div className="flex items-center gap-2 text-xs">
               <span className="flex items-center gap-1 font-medium text-slate-600">
@@ -190,10 +190,10 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Room Occupancy Donut */}
-        <div className="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-xs flex flex-col">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-5 shadow-xs flex flex-col">
           <div className="mb-2">
-            <h3 className="font-bold text-base text-slate-900">Tỷ lệ Lấp đầy Phòng</h3>
-            <p className="text-xs text-slate-500">Phân bố trạng thái phòng hiện tại</p>
+            <h3 className="font-bold text-base text-slate-900 dark:text-white">Tỷ lệ Lấp đầy Phòng</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400">Phân bố trạng thái phòng hiện tại</p>
           </div>
 
           <div className="flex-1 min-h-[220px] flex items-center justify-center">
@@ -232,7 +232,7 @@ export default function AdminDashboardPage() {
       {/* Row 4: Recent Invoices & Recent Payments */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Recent Invoices */}
-        <div className="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-xs">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-5 shadow-xs">
           <div className="flex items-center justify-between mb-4">
             <div>
               <h3 className="font-bold text-base text-slate-900">Hóa đơn gần đây</h3>
@@ -256,9 +256,9 @@ export default function AdminDashboardPage() {
                   <th className="pb-2.5 text-right">Trạng thái</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                 {recentInvoices.map((inv: any) => (
-                  <tr key={inv.id} className="hover:bg-slate-50/80 transition">
+                  <tr key={inv.id} className="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition">
                     <td className="py-3">
                       <p className="font-bold text-slate-800">{inv.room.roomNumber}</p>
                       <p className="text-slate-500 text-[11px] truncate max-w-[120px]">
@@ -280,7 +280,7 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Recent Payments */}
-        <div className="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-xs">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-5 shadow-xs">
           <div className="flex items-center justify-between mb-4">
             <div>
               <h3 className="font-bold text-base text-slate-900">Giao dịch thanh toán gần đây</h3>
@@ -303,9 +303,9 @@ export default function AdminDashboardPage() {
                   <th className="pb-2.5 text-right">Số tiền thu</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                 {recentPayments.map((p: any) => (
-                  <tr key={p.id} className="hover:bg-slate-50/80 transition">
+                  <tr key={p.id} className="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition">
                     <td className="py-3">
                       <p className="font-bold text-slate-800">
                         {p.invoice?.room?.roomNumber || "Hóa đơn"}

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useEffect, useState, useCallback } from "react";
 import {
@@ -264,7 +264,7 @@ export default function InvoicesPage() {
           <>
             <button
               onClick={openBulkModal}
-              className="px-3.5 py-2 text-xs font-semibold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 rounded-xl shadow-xs transition flex items-center gap-1.5"
+              className="px-3.5 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 rounded-xl shadow-xs transition flex items-center gap-1.5"
             >
               <Zap className="w-4 h-4 text-amber-500" />
               Tự động tính hóa đơn hàng loạt
@@ -281,7 +281,7 @@ export default function InvoicesPage() {
       />
 
       {/* Filter and Search Bar */}
-      <div className="bg-white rounded-2xl border border-slate-200/80 p-4 shadow-xs flex flex-col md:flex-row items-center justify-between gap-3">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-4 shadow-xs flex flex-col md:flex-row items-center justify-between gap-3">
         <SearchInput
           value={search}
           onChange={(val) => {
@@ -300,7 +300,7 @@ export default function InvoicesPage() {
               setMonthFilter(e.target.value);
               setPage(1);
             }}
-            className="px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-semibold text-slate-800"
+            className="px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-800 dark:text-slate-200 bg-white dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
           />
 
           <select
@@ -309,7 +309,7 @@ export default function InvoicesPage() {
               setStatusFilter(e.target.value);
               setPage(1);
             }}
-            className="px-3.5 py-2 text-xs rounded-xl border border-slate-200 bg-white font-medium text-slate-700"
+            className="px-3.5 py-2 text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 font-medium text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
           >
             <option value="">Tất cả trạng thái</option>
             <option value="UNPAID">Chưa thanh toán</option>
@@ -320,10 +320,10 @@ export default function InvoicesPage() {
       </div>
 
       {/* Invoices Table */}
-      <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase tracking-wider font-semibold">
+            <thead className="bg-slate-50 dark:bg-slate-800/60 border-b border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 uppercase tracking-wider font-semibold">
               <tr>
                 <th className="px-5 py-3.5">Kỳ / Hóa đơn</th>
                 <th className="px-5 py-3.5">Phòng / Khách thuê</th>
@@ -335,7 +335,7 @@ export default function InvoicesPage() {
                 <th className="px-5 py-3.5 text-right">Thao tác</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
               {loading ? (
                 <tr>
                   <td colSpan={8} className="px-5 py-8 text-center text-slate-400">
@@ -354,33 +354,33 @@ export default function InvoicesPage() {
                 </tr>
               ) : (
                 invoices.map((inv) => (
-                  <tr key={inv.id} className="hover:bg-slate-50/80 transition">
+                  <tr key={inv.id} className="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition">
                     <td className="px-5 py-4">
-                      <span className="font-bold text-slate-900 block text-sm">
+                      <span className="font-bold text-slate-900 dark:text-slate-100 block text-sm">
                         {formatMonthYear(inv.month)}
                       </span>
-                      <span className="text-[11px] text-slate-500 font-mono">
+                      <span className="text-[11px] text-slate-500 dark:text-slate-400 font-mono">
                         #{inv.id.slice(-6).toUpperCase()}
                       </span>
                     </td>
 
                     <td className="px-5 py-4">
-                      <span className="font-bold text-indigo-600 block text-sm">
+                      <span className="font-bold text-indigo-600 dark:text-indigo-400 block text-sm">
                         {inv.room?.roomNumber}
                       </span>
-                      <span className="text-[11px] text-slate-700 font-medium">
+                      <span className="text-[11px] text-slate-700 dark:text-slate-300 font-medium">
                         {inv.tenant?.user?.fullName}
                       </span>
                     </td>
 
-                    <td className="px-5 py-4 text-slate-600 text-[11px] space-y-0.5">
+                    <td className="px-5 py-4 text-slate-600 dark:text-slate-400 text-[11px] space-y-0.5">
                       <div>Phòng: {formatCurrency(inv.roomFee)}</div>
                       <div>Điện + Nước: {formatCurrency(inv.electricFee + inv.waterFee)}</div>
                       <div>Dịch vụ: {formatCurrency(inv.serviceFee)}</div>
                     </td>
 
                     <td className="px-5 py-4">
-                      <span className="font-extrabold text-slate-900 text-sm block">
+                      <span className="font-extrabold text-slate-900 dark:text-white text-sm block">
                         {formatCurrency(inv.total)}
                       </span>
                     </td>
@@ -394,7 +394,7 @@ export default function InvoicesPage() {
                       </span>
                     </td>
 
-                    <td className="px-5 py-4 text-slate-600 font-medium">
+                    <td className="px-5 py-4 text-slate-600 dark:text-slate-400 font-medium">
                       {formatDate(inv.dueDate)}
                     </td>
 
@@ -406,7 +406,7 @@ export default function InvoicesPage() {
                       <div className="flex items-center justify-end gap-1">
                         <button
                           onClick={() => setViewingInvoice(inv)}
-                          className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-slate-100 rounded-lg transition"
+                          className="p-1.5 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition"
                           title="Xem chi tiết & In phiếu"
                         >
                           <Eye className="w-4 h-4" />
@@ -414,7 +414,7 @@ export default function InvoicesPage() {
                         {inv.status !== "PAID" && (
                           <button
                             onClick={() => openPaymentModal(inv)}
-                            className="p-1.5 text-emerald-600 hover:bg-emerald-50 rounded-lg transition font-semibold flex items-center gap-1"
+                            className="p-1.5 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 rounded-lg transition font-semibold flex items-center gap-1"
                             title="Ghi nhận đóng tiền"
                           >
                             <DollarSign className="w-4 h-4" />
@@ -422,7 +422,7 @@ export default function InvoicesPage() {
                         )}
                         <button
                           onClick={() => setDeleteId(inv.id)}
-                          className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition"
+                          className="p-1.5 text-slate-400 dark:text-slate-500 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 rounded-lg transition"
                           title="Xóa hóa đơn"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -436,7 +436,7 @@ export default function InvoicesPage() {
           </table>
         </div>
 
-        <div className="p-4 border-t border-slate-100">
+        <div className="p-4 border-t border-slate-100 dark:border-slate-800">
           <Pagination
             currentPage={page}
             totalPages={totalPages}
@@ -457,7 +457,7 @@ export default function InvoicesPage() {
       >
         <form onSubmit={handleBulkGenerate} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
               Chọn kỳ tháng phát hành *
             </label>
             <input
@@ -465,12 +465,12 @@ export default function InvoicesPage() {
               required
               value={bulkMonth}
               onChange={(e) => setBulkMonth(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 font-semibold text-slate-800"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 font-semibold text-slate-800 dark:text-slate-100 bg-white dark:bg-slate-800"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
               Hạn chót thanh toán (Due Date) *
             </label>
             <input
@@ -478,19 +478,19 @@ export default function InvoicesPage() {
               required
               value={bulkDueDate}
               onChange={(e) => setBulkDueDate(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 text-slate-800 dark:text-slate-100 bg-white dark:bg-slate-800"
             />
           </div>
 
-          <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-800 leading-relaxed">
+          <div className="p-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/50 rounded-xl text-xs text-amber-800 dark:text-amber-300 leading-relaxed">
             Hệ thống sẽ tự động bỏ qua những phòng đã có hóa đơn trong tháng này để tránh phát hành trùng lặp.
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
+          <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100 dark:border-slate-800">
             <button
               type="button"
               onClick={() => setIsBulkModalOpen(false)}
-              className="px-4 py-2 text-sm font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition"
+              className="px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-xl transition"
             >
               Hủy
             </button>
@@ -514,15 +514,15 @@ export default function InvoicesPage() {
         maxWidth="md"
       >
         <form onSubmit={handleRecordPayment} className="space-y-4">
-          <div className="p-3 bg-slate-50 rounded-xl flex items-center justify-between text-xs">
-            <span className="text-slate-500">Số tiền còn thiếu:</span>
+          <div className="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl flex items-center justify-between text-xs">
+            <span className="text-slate-500 dark:text-slate-400">Số tiền còn thiếu:</span>
             <span className="text-base font-extrabold text-rose-600">
               {paymentInvoice ? formatCurrency(paymentInvoice.remainingAmount) : "0 ₫"}
             </span>
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
               Số tiền thu đợt này (VNĐ) *
             </label>
             <input
@@ -531,18 +531,18 @@ export default function InvoicesPage() {
               required
               value={payAmount}
               onChange={(e) => setPayAmount(Number(e.target.value))}
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-base font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-base font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/30 bg-white dark:bg-slate-800"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
               Phương thức thanh toán *
             </label>
             <select
               value={payMethod}
               onChange={(e) => setPayMethod(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
             >
               <option value="BANK_TRANSFER">Chuyển khoản Ngân Hàng (BANK_TRANSFER)</option>
               <option value="CASH">Tiền mặt trực tiếp (CASH)</option>
@@ -551,7 +551,7 @@ export default function InvoicesPage() {
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
               Ghi chú giao dịch
             </label>
             <input
@@ -559,15 +559,15 @@ export default function InvoicesPage() {
               value={payNote}
               onChange={(e) => setPayNote(e.target.value)}
               placeholder="VD: Chuyển khoản qua Vietcombank ngày..."
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
             />
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
+          <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100 dark:border-slate-800">
             <button
               type="button"
               onClick={() => setPaymentInvoice(null)}
-              className="px-4 py-2 text-sm font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition"
+              className="px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-xl transition"
             >
               Hủy
             </button>
@@ -593,94 +593,94 @@ export default function InvoicesPage() {
         {viewingInvoice && (
           <div className="space-y-4 text-xs print:p-0">
             {/* Header info */}
-            <div className="flex items-start justify-between p-4 bg-slate-50 rounded-2xl border border-slate-200/80">
+            <div className="flex items-start justify-between p-4 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-200/80 dark:border-slate-700">
               <div>
-                <span className="text-[11px] text-slate-500 uppercase font-semibold">Hóa đơn số</span>
-                <h3 className="text-lg font-extrabold text-slate-900">
+                <span className="text-[11px] text-slate-500 dark:text-slate-400 uppercase font-semibold">Hóa đơn số</span>
+                <h3 className="text-lg font-extrabold text-slate-900 dark:text-white">
                   #{viewingInvoice.id.slice(-8).toUpperCase()}
                 </h3>
-                <p className="text-indigo-600 font-bold mt-0.5">
+                <p className="text-indigo-600 dark:text-indigo-400 font-bold mt-0.5">
                   Kỳ {formatMonthYear(viewingInvoice.month)}
                 </p>
               </div>
               <div className="text-right">
                 <StatusBadge status={viewingInvoice.status} />
-                <p className="text-slate-500 text-[11px] mt-1.5">
+                <p className="text-slate-500 dark:text-slate-400 text-[11px] mt-1.5">
                   Hạn đóng: {formatDate(viewingInvoice.dueDate)}
                 </p>
               </div>
             </div>
 
             {/* Tenant & Room details */}
-            <div className="grid grid-cols-2 gap-3 p-3.5 bg-white border border-slate-200 rounded-xl">
+            <div className="grid grid-cols-2 gap-3 p-3.5 bg-white dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded-xl">
               <div>
-                <span className="text-slate-400 block mb-0.5">Phòng:</span>
-                <span className="text-sm font-bold text-slate-900">
+                <span className="text-slate-400 dark:text-slate-500 block mb-0.5">Phòng:</span>
+                <span className="text-sm font-bold text-slate-900 dark:text-white">
                   {viewingInvoice.room?.roomNumber} ({viewingInvoice.room?.property?.name})
                 </span>
               </div>
               <div>
-                <span className="text-slate-400 block mb-0.5">Người thuê:</span>
-                <span className="text-sm font-bold text-slate-900">
+                <span className="text-slate-400 dark:text-slate-500 block mb-0.5">Người thuê:</span>
+                <span className="text-sm font-bold text-slate-900 dark:text-white">
                   {viewingInvoice.tenant?.user?.fullName}
                 </span>
-                <span className="text-slate-500 block text-[11px]">
+                <span className="text-slate-500 dark:text-slate-400 block text-[11px]">
                   SĐT: {viewingInvoice.tenant?.user?.phone || "--"}
                 </span>
               </div>
             </div>
 
             {/* Itemized breakdown table */}
-            <div className="border border-slate-200 rounded-xl overflow-hidden">
+            <div className="border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden">
               <table className="w-full text-left">
-                <thead className="bg-slate-50 border-b border-slate-200 text-slate-600 uppercase font-bold text-[10px]">
+                <thead className="bg-slate-50 dark:bg-slate-800/60 border-b border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 uppercase font-bold text-[10px]">
                   <tr>
                     <th className="p-3">Khoản mục</th>
                     <th className="p-3 text-right">Số tiền</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                   <tr>
-                    <td className="p-3 font-medium text-slate-800">1. Tiền thuê phòng</td>
-                    <td className="p-3 text-right font-bold text-slate-900">
+                    <td className="p-3 font-medium text-slate-800 dark:text-slate-200">1. Tiền thuê phòng</td>
+                    <td className="p-3 text-right font-bold text-slate-900 dark:text-white">
                       {formatCurrency(viewingInvoice.roomFee)}
                     </td>
                   </tr>
                   <tr>
-                    <td className="p-3 font-medium text-slate-800">2. Tiền điện tiêu thụ</td>
-                    <td className="p-3 text-right font-bold text-slate-900">
+                    <td className="p-3 font-medium text-slate-800 dark:text-slate-200">2. Tiền điện tiêu thụ</td>
+                    <td className="p-3 text-right font-bold text-slate-900 dark:text-white">
                       {formatCurrency(viewingInvoice.electricFee)}
                     </td>
                   </tr>
                   <tr>
-                    <td className="p-3 font-medium text-slate-800">3. Tiền nước sinh hoạt</td>
-                    <td className="p-3 text-right font-bold text-slate-900">
+                    <td className="p-3 font-medium text-slate-800 dark:text-slate-200">3. Tiền nước sinh hoạt</td>
+                    <td className="p-3 text-right font-bold text-slate-900 dark:text-white">
                       {formatCurrency(viewingInvoice.waterFee)}
                     </td>
                   </tr>
                   <tr>
-                    <td className="p-3 font-medium text-slate-800">4. Phí dịch vụ (Wifi, Rác, Xe, Thang máy...)</td>
-                    <td className="p-3 text-right font-bold text-slate-900">
+                    <td className="p-3 font-medium text-slate-800 dark:text-slate-200">4. Phí dịch vụ (Wifi, Rác, Xe, Thang máy...)</td>
+                    <td className="p-3 text-right font-bold text-slate-900 dark:text-white">
                       {formatCurrency(viewingInvoice.serviceFee)}
                     </td>
                   </tr>
                   {viewingInvoice.otherFee > 0 && (
                     <tr>
-                      <td className="p-3 font-medium text-slate-800">
-                        <div className="font-semibold text-slate-900">5. Phí khác phát sinh</div>
+                      <td className="p-3 font-medium text-slate-800 dark:text-slate-200">
+                        <div className="font-semibold text-slate-900 dark:text-white">5. Phí khác phát sinh</div>
                         {viewingInvoice.additionalFees && viewingInvoice.additionalFees.length > 0 && (
-                          <div className="mt-1.5 space-y-1 bg-amber-50/70 p-2 rounded-lg border border-amber-100 text-[11px] text-amber-900 font-normal">
-                            <span className="font-semibold text-[10px] text-amber-700 uppercase tracking-wider block">Các khoản phát sinh:</span>
+                          <div className="mt-1.5 space-y-1 bg-amber-50/70 dark:bg-amber-950/30 p-2 rounded-lg border border-amber-100 dark:border-amber-800/50 text-[11px] text-amber-900 dark:text-amber-300 font-normal">
+                            <span className="font-semibold text-[10px] text-amber-700 dark:text-amber-400 uppercase tracking-wider block">Các khoản phát sinh:</span>
                             {viewingInvoice.additionalFees.map((af: any) => (
-                              <div key={af.id} className="flex justify-between items-center text-slate-700">
+                              <div key={af.id} className="flex justify-between items-center text-slate-700 dark:text-slate-300">
                                 <span>• {af.title}{af.description ? ` (${af.description})` : ""}</span>
-                                <span className="font-semibold text-slate-900">{formatCurrency(af.amount)}</span>
+                                <span className="font-semibold text-slate-900 dark:text-white">{formatCurrency(af.amount)}</span>
                               </div>
                             ))}
                           </div>
                         )}
                       </td>
-                      <td className="p-3 text-right font-bold text-slate-900 align-top">
+                      <td className="p-3 text-right font-bold text-slate-900 dark:text-white align-top">
                         {formatCurrency(viewingInvoice.otherFee)}
                       </td>
                     </tr>
@@ -702,10 +702,10 @@ export default function InvoicesPage() {
                     </tr>
                   )}
                 </tbody>
-                <tfoot className="bg-indigo-50/50 border-t-2 border-indigo-100 font-bold">
+                <tfoot className="bg-indigo-50/50 dark:bg-indigo-950/30 border-t-2 border-indigo-100 dark:border-indigo-900/50 font-bold">
                   <tr>
-                    <td className="p-3.5 text-sm text-slate-900 uppercase">Tổng cộng thanh toán:</td>
-                    <td className="p-3.5 text-right text-base text-indigo-700">
+                    <td className="p-3.5 text-sm text-slate-900 dark:text-slate-100 uppercase">Tổng cộng thanh toán:</td>
+                    <td className="p-3.5 text-right text-base text-indigo-700 dark:text-indigo-400">
                       {formatCurrency(viewingInvoice.total)}
                     </td>
                   </tr>
@@ -715,12 +715,12 @@ export default function InvoicesPage() {
 
             {/* Payment history on this invoice */}
             {viewingInvoice.payments && viewingInvoice.payments.length > 0 && (
-              <div className="p-3.5 bg-emerald-50/60 border border-emerald-200 rounded-xl space-y-1.5">
-                <span className="font-bold text-emerald-900 block text-xs uppercase">
+              <div className="p-3.5 bg-emerald-50/60 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/50 rounded-xl space-y-1.5">
+                <span className="font-bold text-emerald-900 dark:text-emerald-400 block text-xs uppercase">
                   Lịch sử thanh toán đã ghi nhận:
                 </span>
                 {viewingInvoice.payments.map((p: any) => (
-                  <div key={p.id} className="flex justify-between text-[11px] text-emerald-800">
+                  <div key={p.id} className="flex justify-between text-[11px] text-emerald-800 dark:text-emerald-300">
                     <span>
                       {formatDate(p.paymentDate)} ({p.paymentMethod}): {p.note || "Đã thu"}
                     </span>
@@ -730,11 +730,11 @@ export default function InvoicesPage() {
               </div>
             )}
 
-            <div className="flex items-center justify-between pt-3 border-t border-slate-100">
+            <div className="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-800">
               <button
                 type="button"
                 onClick={handlePrint}
-                className="px-4 py-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition flex items-center gap-1.5"
+                className="px-4 py-2 text-xs font-semibold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-xl transition flex items-center gap-1.5"
               >
                 <Printer className="w-4 h-4" />
                 In phiếu hóa đơn
@@ -742,7 +742,7 @@ export default function InvoicesPage() {
               <button
                 type="button"
                 onClick={() => setViewingInvoice(null)}
-                className="px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-xl font-semibold text-slate-700 transition"
+                className="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-xl font-semibold text-slate-700 dark:text-slate-300 transition"
               >
                 Đóng
               </button>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useEffect, useState } from "react";
 import {
@@ -80,7 +80,7 @@ export default function ReportsPage() {
 
       {/* Financial Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-xs">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-5 shadow-xs">
           <span className="text-xs text-slate-500 font-semibold uppercase tracking-wider block">
             Doanh thu thực thu tháng này
           </span>
@@ -90,7 +90,7 @@ export default function ReportsPage() {
           <p className="text-xs text-slate-400 mt-1">Đã đối soát từ phiếu thu tiền</p>
         </div>
 
-        <div className="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-xs">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-5 shadow-xs">
           <span className="text-xs text-slate-500 font-semibold uppercase tracking-wider block">
             Tổng công nợ chưa thu
           </span>
@@ -102,7 +102,7 @@ export default function ReportsPage() {
           </p>
         </div>
 
-        <div className="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-xs">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-5 shadow-xs">
           <span className="text-xs text-slate-500 font-semibold uppercase tracking-wider block">
             Tỷ lệ lấp đầy toàn hệ thống
           </span>
@@ -174,19 +174,19 @@ export default function ReportsPage() {
             <h3 className="font-bold text-base text-slate-900 mb-4">Chỉ số Hiệu quả Vận hành</h3>
             <div className="space-y-3.5 text-xs">
               <div className="flex justify-between py-2 border-b border-slate-100">
-                <span className="text-slate-500">Tổng số phòng quản lý:</span>
+                <span className="text-slate-500 dark:text-slate-400">Tổng số phòng quản lý:</span>
                 <span className="font-bold text-slate-900">{kpi.totalRooms} phòng</span>
               </div>
               <div className="flex justify-between py-2 border-b border-slate-100">
-                <span className="text-slate-500">Phòng sẵn sàng cho thuê ngay:</span>
+                <span className="text-slate-500 dark:text-slate-400">Phòng sẵn sàng cho thuê ngay:</span>
                 <span className="font-bold text-emerald-600">{kpi.availableRooms} phòng</span>
               </div>
               <div className="flex justify-between py-2 border-b border-slate-100">
-                <span className="text-slate-500">Phòng cần bảo trì, sửa chữa:</span>
+                <span className="text-slate-500 dark:text-slate-400">Phòng cần bảo trì, sửa chữa:</span>
                 <span className="font-bold text-amber-600">{kpi.maintenanceRooms} phòng</span>
               </div>
               <div className="flex justify-between py-2 border-b border-slate-100">
-                <span className="text-slate-500">Tổng số khách thuê thường trú:</span>
+                <span className="text-slate-500 dark:text-slate-400">Tổng số khách thuê thường trú:</span>
                 <span className="font-bold text-slate-900">{kpi.totalTenants} người</span>
               </div>
             </div>

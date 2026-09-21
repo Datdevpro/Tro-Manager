@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useEffect, useState, useCallback } from "react";
 import {
@@ -246,7 +246,7 @@ export default function RoomsPage() {
       />
 
       {/* Filter and Search Bar */}
-      <div className="bg-white rounded-2xl border border-slate-200/80 p-4 shadow-xs flex flex-col md:flex-row items-center justify-between gap-3">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-4 shadow-xs flex flex-col md:flex-row items-center justify-between gap-3">
         <SearchInput
           value={search}
           onChange={(val) => {
@@ -308,10 +308,10 @@ export default function RoomsPage() {
       </div>
 
       {/* Rooms Table */}
-      <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase tracking-wider font-semibold">
+            <thead className="bg-slate-50 dark:bg-slate-800/60 border-b border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 uppercase tracking-wider font-semibold">
               <tr>
                 <th className="px-5 py-3.5">Số phòng / Tầng</th>
                 <th className="px-5 py-3.5">Khu trọ</th>
@@ -322,7 +322,7 @@ export default function RoomsPage() {
                 <th className="px-5 py-3.5 text-right">Thao tác</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
               {loading ? (
                 <tr>
                   <td colSpan={7} className="px-5 py-8 text-center text-slate-400">
@@ -343,7 +343,7 @@ export default function RoomsPage() {
                 rooms.map((r) => {
                   const activeTenant = r.tenants && r.tenants[0]?.user;
                   return (
-                    <tr key={r.id} className="hover:bg-slate-50/80 transition">
+                    <tr key={r.id} className="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition">
                       <td className="px-5 py-4">
                         <div className="flex items-center gap-2.5">
                           <div className="w-9 h-9 rounded-xl bg-slate-100 flex items-center justify-center font-bold text-slate-800 text-xs">
@@ -407,21 +407,21 @@ export default function RoomsPage() {
                         <div className="flex items-center justify-end gap-1">
                           <button
                             onClick={() => setViewingRoom(r)}
-                            className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-slate-100 rounded-lg transition"
+                            className="p-1.5 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition"
                             title="Xem chi tiết"
                           >
                             <Eye className="w-4 h-4" />
                           </button>
                           <button
                             onClick={() => openEditModal(r)}
-                            className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-slate-100 rounded-lg transition"
+                            className="p-1.5 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition"
                             title="Sửa phòng"
                           >
                             <Edit className="w-4 h-4" />
                           </button>
                           <button
                             onClick={() => setDeleteId(r.id)}
-                            className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition"
+                            className="p-1.5 text-slate-400 dark:text-slate-500 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 rounded-lg transition"
                             title="Xóa phòng"
                           >
                             <Trash2 className="w-4 h-4" />
@@ -437,7 +437,7 @@ export default function RoomsPage() {
         </div>
 
         {/* Pagination */}
-        <div className="p-4 border-t border-slate-100">
+        <div className="p-4 border-t border-slate-100 dark:border-slate-800">
           <Pagination
             currentPage={page}
             totalPages={totalPages}
@@ -459,7 +459,7 @@ export default function RoomsPage() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
                 Khu trọ *
               </label>
               <select
@@ -477,7 +477,7 @@ export default function RoomsPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
                 Số phòng (VD: P.101, P.202) *
               </label>
               <input
@@ -493,7 +493,7 @@ export default function RoomsPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
                 Tầng
               </label>
               <input
@@ -506,7 +506,7 @@ export default function RoomsPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
                 Diện tích (m²)
               </label>
               <input
@@ -519,7 +519,7 @@ export default function RoomsPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
                 Số người tối đa
               </label>
               <input
@@ -534,7 +534,7 @@ export default function RoomsPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
                 Giá thuê phòng (VNĐ/tháng) *
               </label>
               <input
@@ -548,7 +548,7 @@ export default function RoomsPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
                 Tiền đặt cọc (VNĐ)
               </label>
               <input
@@ -589,7 +589,7 @@ export default function RoomsPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
                 Đơn giá Điện (VNĐ/kWh)
               </label>
               <input
@@ -602,7 +602,7 @@ export default function RoomsPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
                 Đơn giá Nước (VNĐ/m³)
               </label>
               <input
@@ -617,7 +617,7 @@ export default function RoomsPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
                 Trạng thái phòng
               </label>
               <select
@@ -632,7 +632,7 @@ export default function RoomsPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
                 Ghi chú thêm
               </label>
               <input
@@ -649,7 +649,7 @@ export default function RoomsPage() {
             <button
               type="button"
               onClick={() => setIsModalOpen(false)}
-              className="px-4 py-2 text-sm font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition"
+              className="px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-xl transition"
             >
               Hủy
             </button>
@@ -701,19 +701,19 @@ export default function RoomsPage() {
 
             <div className="p-4 bg-slate-50/70 border border-slate-200/60 rounded-xl space-y-2">
               <div className="flex justify-between">
-                <span className="text-slate-500">Tầng & Diện tích:</span>
+                <span className="text-slate-500 dark:text-slate-400">Tầng & Diện tích:</span>
                 <span className="font-semibold text-slate-800">
                   Tầng {viewingRoom.floor} • {viewingRoom.area} m² (Tối đa {viewingRoom.maxOccupants} người)
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-500">Đơn giá Điện:</span>
+                <span className="text-slate-500 dark:text-slate-400">Đơn giá Điện:</span>
                 <span className="font-semibold text-slate-800">
                   {formatCurrency(viewingRoom.electricPrice)} / kWh
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-500">Đơn giá Nước:</span>
+                <span className="text-slate-500 dark:text-slate-400">Đơn giá Nước:</span>
                 <span className="font-semibold text-slate-800">
                   {formatCurrency(viewingRoom.waterPrice)} / m³
                 </span>

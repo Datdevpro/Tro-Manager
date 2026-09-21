@@ -112,25 +112,26 @@ body {
 input:not([type="checkbox"]):not([type="radio"]),
 select,
 textarea {
-  color: #0f172a;
-  background-color: #ffffff;
+  color: hsl(var(--foreground));
+  background-color: hsl(var(--background));
+  transition: color 0.2s, background-color 0.2s, border-color 0.2s;
 }
 
 .dark input:not([type="checkbox"]):not([type="radio"]),
 .dark select,
 .dark textarea {
-  color: #f8fafc !important;
-  background-color: #020617 !important;
-  border-color: #334155 !important;
+  color: hsl(var(--foreground));
+  background-color: hsl(var(--card));
+  border-color: hsl(var(--border));
 }
 
 .dark input::placeholder,
 .dark textarea::placeholder {
-  color: #64748b !important;
+  color: hsl(var(--muted-foreground));
 }
 
 .dark select option {
-  background-color: #0f172a !important;
-  color: #f8fafc !important;
+  background-color: hsl(var(--card));
+  color: hsl(var(--foreground));
 }
 
