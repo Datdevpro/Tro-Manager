@@ -66,9 +66,10 @@ export async function GET(req: NextRequest) {
       totalPages: Math.ceil(total / pageSize),
     });
   } catch (error: any) {
+    console.error("[GET /api/rooms error]:", error);
     if (error.message === "UNAUTHORIZED") return errorResponse("Chưa đăng nhập", 401);
     if (error.message === "FORBIDDEN") return errorResponse("Không có quyền quản trị", 403);
-    return errorResponse("Lỗi khi tải danh sách phòng", 500);
+    return errorResponse(error?.message || "Lỗi khi tải danh sách phòng", 500);
   }
 }
 

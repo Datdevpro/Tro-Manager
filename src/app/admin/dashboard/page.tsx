@@ -153,11 +153,11 @@ export default function AdminDashboardPage() {
       {/* Row 3: Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Revenue 6 months */}
-        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-5 shadow-xs lg:col-span-2">
+        <div className="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-xs lg:col-span-2">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="font-bold text-base text-slate-900 dark:text-white">Biểu đồ Doanh thu (6 tháng)</h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400">So sánh thực thu và dự kiến hóa đơn</p>
+              <h3 className="font-bold text-base text-slate-900">Biểu đồ Doanh thu (6 tháng)</h3>
+              <p className="text-xs text-slate-500">So sánh thực thu và dự kiến hóa đơn</p>
             </div>
             <div className="flex items-center gap-2 text-xs">
               <span className="flex items-center gap-1 font-medium text-slate-600">
@@ -190,10 +190,10 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Room Occupancy Donut */}
-        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-5 shadow-xs flex flex-col">
+        <div className="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-xs flex flex-col">
           <div className="mb-2">
-            <h3 className="font-bold text-base text-slate-900 dark:text-white">Tỷ lệ Lấp đầy Phòng</h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400">Phân bố trạng thái phòng hiện tại</p>
+            <h3 className="font-bold text-base text-slate-900">Tỷ lệ Lấp đầy Phòng</h3>
+            <p className="text-xs text-slate-500">Phân bố trạng thái phòng hiện tại</p>
           </div>
 
           <div className="flex-1 min-h-[220px] flex items-center justify-center">

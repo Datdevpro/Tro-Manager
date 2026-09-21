@@ -57,9 +57,10 @@ export async function GET() {
 
     return successResponse(summary);
   } catch (error: any) {
+    console.error("[GET /api/properties error]:", error);
     if (error.message === "UNAUTHORIZED") return errorResponse("Chưa đăng nhập", 401);
     if (error.message === "FORBIDDEN") return errorResponse("Không có quyền quản trị", 403);
-    return errorResponse("Lỗi khi tải danh sách khu trọ", 500);
+    return errorResponse(error?.message || "Lỗi khi tải danh sách khu trọ", 500);
   }
 }
 

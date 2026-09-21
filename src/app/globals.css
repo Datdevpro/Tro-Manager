@@ -97,13 +97,16 @@ body {
   width: 6px;
   height: 6px;
 }
+
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
   background: hsl(var(--muted-foreground) / 0.25);
   border-radius: 9999px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--muted-foreground) / 0.4);
 }
@@ -112,26 +115,24 @@ body {
 input:not([type="checkbox"]):not([type="radio"]),
 select,
 textarea {
-  color: hsl(var(--foreground));
-  background-color: hsl(var(--background));
-  transition: color 0.2s, background-color 0.2s, border-color 0.2s;
+  color: #0f172a;
+  background-color: #ffffff;
 }
 
 .dark input:not([type="checkbox"]):not([type="radio"]),
 .dark select,
 .dark textarea {
-  color: hsl(var(--foreground));
-  background-color: hsl(var(--card));
-  border-color: hsl(var(--border));
+  color: #f8fafc !important;
+  background-color: #020617 !important;
+  border-color: #334155 !important;
 }
 
 .dark input::placeholder,
 .dark textarea::placeholder {
-  color: hsl(var(--muted-foreground));
+  color: #64748b !important;
 }
 
 .dark select option {
-  background-color: hsl(var(--card));
-  color: hsl(var(--foreground));
+  background-color: #0f172a !important;
+  color: #f8fafc !important;
 }
-
