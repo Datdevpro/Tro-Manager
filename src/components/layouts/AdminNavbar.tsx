@@ -64,7 +64,7 @@ export function AdminNavbar({ onToggleSidebar }: AdminNavbarProps) {
               <p className="text-xs font-bold text-slate-800 dark:text-slate-200 leading-tight">Admin Manager</p>
               <p className="text-[10px] text-indigo-600 dark:text-indigo-400 font-semibold">Quyền Quản Trị</p>
             </div>
-            <ChevronDown className="w-4 h-4 text-slate-400" />
+            <ChevronDown className="w-4 h-4 text-slate-500 dark:text-slate-400" />
           </button>
 
           {dropdownOpen && (
@@ -76,7 +76,7 @@ export function AdminNavbar({ onToggleSidebar }: AdminNavbarProps) {
               <div className="absolute right-0 mt-2 w-52 bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-800 py-1.5 z-40 text-sm animate-in fade-in zoom-in-95 duration-150">
                 <div className="px-4 py-2.5 border-b border-slate-100 dark:border-slate-800">
                   <p className="font-semibold text-slate-900 dark:text-slate-100">Quản trị viên</p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 truncate">admin@nhatro.local</p>
+                  <p className="text-xs text-slate-600 dark:text-slate-400 truncate">admin@nhatro.local</p>
                 </div>
 
                 <Link
@@ -84,7 +84,7 @@ export function AdminNavbar({ onToggleSidebar }: AdminNavbarProps) {
                   onClick={() => setDropdownOpen(false)}
                   className="flex items-center gap-2.5 px-4 py-2 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition text-xs font-medium"
                 >
-                  <ShieldCheck className="w-4 h-4 text-slate-500" />
+                  <ShieldCheck className="w-4 h-4 text-slate-500 dark:text-slate-400" />
                   Cài đặt tài khoản
                 </Link>
 

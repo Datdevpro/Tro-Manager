@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useEffect, useState } from "react";
 import {
@@ -152,17 +152,17 @@ export default function NotificationsPage() {
         <div className="space-y-4">
           {notifications.map((n) => {
             let targetLabel = "Tất cả cư dân (Toàn hệ thống)";
-            let badgeClass = "bg-indigo-50 text-indigo-700 border-indigo-200";
+            let badgeClass = "bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800";
 
             if (n.targetType === "PROPERTY") {
               targetLabel = "Theo khu trọ";
-              badgeClass = "bg-blue-50 text-blue-700 border-blue-200";
+              badgeClass = "bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800";
             } else if (n.targetType === "ROOM") {
               targetLabel = "Theo phòng cụ thể";
-              badgeClass = "bg-amber-50 text-amber-700 border-amber-200";
+              badgeClass = "bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border-amber-200 dark:border-amber-800";
             } else if (n.targetType === "USER") {
               targetLabel = "Đích danh người thuê";
-              badgeClass = "bg-purple-50 text-purple-700 border-purple-200";
+              badgeClass = "bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800";
             }
 
             return (
@@ -170,28 +170,28 @@ export default function NotificationsPage() {
                 key={n.id}
                 className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-5 shadow-xs hover:shadow-md transition"
               >
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100 dark:border-slate-800">
                   <div className="flex items-center gap-2">
                     <span
                       className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold border ${badgeClass}`}
                     >
                       {targetLabel}
                     </span>
-                    <span className="text-xs text-slate-400 flex items-center gap-1">
+                    <span className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1">
                       <Clock className="w-3.5 h-3.5" />
                       {formatDateTime(n.createdAt)}
                     </span>
                   </div>
 
-                  <div className="text-xs text-slate-500 flex items-center gap-1 font-medium">
-                    <CheckCheck className="w-4 h-4 text-emerald-600" />
+                  <div className="text-xs text-slate-600 dark:text-slate-400 flex items-center gap-1 font-medium">
+                    <CheckCheck className="w-4 h-4 text-emerald-700 dark:text-emerald-400" />
                     <span>Đã đọc: {n.reads?.length || 0} người</span>
                   </div>
                 </div>
 
                 <div className="pt-3">
-                  <h3 className="font-bold text-slate-900 text-base mb-1">{n.title}</h3>
-                  <p className="text-xs text-slate-600 leading-relaxed whitespace-pre-wrap">
+                  <h3 className="font-bold text-slate-900 dark:text-white text-base mb-1">{n.title}</h3>
+                  <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed whitespace-pre-wrap">
                     {n.content}
                   </p>
                 </div>
@@ -220,7 +220,7 @@ export default function NotificationsPage() {
                 setTargetType(e.target.value);
                 setTargetId("");
               }}
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 font-medium"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 font-medium"
             >
               <option value="ALL">Tất cả cư dân (Toàn hệ thống)</option>
               <option value="PROPERTY">Chỉ gửi cho một Khu trọ</option>
@@ -239,7 +239,7 @@ export default function NotificationsPage() {
                 required
                 value={targetId}
                 onChange={(e) => setTargetId(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
               >
                 <option value="">-- Chọn khu trọ --</option>
                 {properties.map((p) => (
@@ -260,7 +260,7 @@ export default function NotificationsPage() {
                 required
                 value={targetId}
                 onChange={(e) => setTargetId(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
               >
                 <option value="">-- Chọn phòng --</option>
                 {rooms.map((r) => (
@@ -281,7 +281,7 @@ export default function NotificationsPage() {
                 required
                 value={targetId}
                 onChange={(e) => setTargetId(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
               >
                 <option value="">-- Chọn khách thuê --</option>
                 {users.map((t) => (
@@ -303,7 +303,7 @@ export default function NotificationsPage() {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="VD: Nhắc hạn đóng tiền phòng tháng 09/2026..."
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 font-semibold"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 font-semibold"
             />
           </div>
 
@@ -317,11 +317,11 @@ export default function NotificationsPage() {
               value={content}
               onChange={(e) => setContent(e.target.value)}
               placeholder="Nội dung thông tin chi tiết..."
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 resize-none"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 resize-none"
             />
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
+          <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100 dark:border-slate-800">
             <button
               type="button"
               onClick={() => setIsModalOpen(false)}

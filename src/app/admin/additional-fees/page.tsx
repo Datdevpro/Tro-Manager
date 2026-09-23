@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useEffect, useState, useCallback } from "react";
 import {
@@ -259,35 +259,35 @@ export default function AdditionalFeesPage() {
       {/* Stat Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-xs">
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
+          <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
             Tổng tiền phát sinh kỳ này
           </span>
           <p className="text-2xl font-extrabold text-indigo-600 dark:text-indigo-400 mt-1">
             {formatCurrency(totalAmount)}
           </p>
-          <span className="text-[11px] text-slate-500 mt-1 block">
+          <span className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 block">
             {monthFilter ? `Kỳ ${formatMonthYear(monthFilter)}` : "Tất cả các kỳ"}
           </span>
         </div>
 
         <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-xs">
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
+          <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
             Số khoản phát sinh
           </span>
           <p className="text-2xl font-extrabold text-slate-900 dark:text-white mt-1">
             {fees.length}
           </p>
-          <span className="text-[11px] text-slate-500 mt-1 block">Giao dịch ghi nhận</span>
+          <span className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 block">Giao dịch ghi nhận</span>
         </div>
 
         <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-xs">
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
+          <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
             Số phòng có phát sinh
           </span>
           <p className="text-2xl font-extrabold text-emerald-600 dark:text-emerald-400 mt-1">
             {new Set(fees.map((f) => f.roomId)).size}
           </p>
-          <span className="text-[11px] text-slate-500 mt-1 block">Phòng trọ liên quan</span>
+          <span className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 block">Phòng trọ liên quan</span>
         </div>
       </div>
 
@@ -296,7 +296,7 @@ export default function AdditionalFeesPage() {
         <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
           {/* Lọc theo tháng */}
           <div className="flex items-center gap-2">
-            <span className="text-xs font-semibold text-slate-500">Kỳ tháng:</span>
+            <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">Kỳ tháng:</span>
             <input
               type="month"
               value={monthFilter}
@@ -307,7 +307,7 @@ export default function AdditionalFeesPage() {
 
           {/* Lọc theo khu trọ */}
           <div className="flex items-center gap-2">
-            <span className="text-xs font-semibold text-slate-500">Khu trọ:</span>
+            <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">Khu trọ:</span>
             <select
               value={propertyFilter}
               onChange={(e) => setPropertyFilter(e.target.value)}
@@ -325,7 +325,7 @@ export default function AdditionalFeesPage() {
 
         {/* Tìm kiếm */}
         <div className="relative w-full md:w-72">
-          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400" />
           <input
             type="text"
             placeholder="Tìm theo phòng, tên phát sinh..."
@@ -380,7 +380,7 @@ export default function AdditionalFeesPage() {
                       <div className="font-bold text-slate-900 dark:text-white text-sm">
                         Phòng {item.room?.roomNumber}
                       </div>
-                      <div className="text-[11px] text-slate-400 font-medium">
+                      <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
                         {item.room?.property?.name}
                       </div>
                     </td>
@@ -399,22 +399,22 @@ export default function AdditionalFeesPage() {
                       </span>
                     </td>
 
-                    <td className="px-5 py-4 text-slate-500 max-w-xs truncate">
-                      {item.description || <span className="italic text-slate-400">--</span>}
+                    <td className="px-5 py-4 text-slate-600 dark:text-slate-300 max-w-xs truncate">
+                      {item.description || <span className="italic text-slate-500 dark:text-slate-400">--</span>}
                     </td>
 
                     <td className="px-5 py-4 text-right">
                       <div className="flex items-center justify-end gap-1.5">
                         <button
                           onClick={() => openEditModal(item)}
-                          className="p-1.5 rounded-lg text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 transition"
+                          className="p-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 transition"
                           title="Chỉnh sửa"
                         >
                           <Edit className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => setDeleteId(item.id)}
-                          className="p-1.5 rounded-lg text-slate-500 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition"
+                          className="p-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition"
                           title="Xóa"
                         >
                           <Trash2 className="w-4 h-4" />

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useEffect, useState, useCallback } from "react";
 import {
@@ -265,7 +265,7 @@ export default function RoomsPage() {
               setSelectedProperty(e.target.value);
               setPage(1);
             }}
-            className="px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+            className="px-3 py-2 text-xs rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 font-medium text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
           >
             <option value="">Tất cả khu trọ</option>
             {properties.map((p) => (
@@ -282,7 +282,7 @@ export default function RoomsPage() {
               setSelectedStatus(e.target.value);
               setPage(1);
             }}
-            className="px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+            className="px-3 py-2 text-xs rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 font-medium text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
           >
             <option value="">Tất cả trạng thái</option>
             <option value="AVAILABLE">Phòng trống</option>
@@ -297,7 +297,7 @@ export default function RoomsPage() {
               setSelectedFloor(e.target.value);
               setPage(1);
             }}
-            className="px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+            className="px-3 py-2 text-xs rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 font-medium text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
           >
             <option value="">Tất cả tầng</option>
             <option value="1">Tầng 1</option>
@@ -325,7 +325,7 @@ export default function RoomsPage() {
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
               {loading ? (
                 <tr>
-                  <td colSpan={7} className="px-5 py-8 text-center text-slate-400">
+                  <td colSpan={7} className="px-5 py-8 text-center text-slate-500 dark:text-slate-400">
                     <LoadingSkeleton className="h-8 w-full mb-2" count={5} />
                   </td>
                 </tr>
@@ -346,12 +346,12 @@ export default function RoomsPage() {
                     <tr key={r.id} className="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition">
                       <td className="px-5 py-4">
                         <div className="flex items-center gap-2.5">
-                          <div className="w-9 h-9 rounded-xl bg-slate-100 flex items-center justify-center font-bold text-slate-800 text-xs">
+                          <div className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center font-bold text-slate-800 dark:text-slate-200 text-xs">
                             {r.roomNumber}
                           </div>
                           <div>
-                            <span className="font-bold text-slate-900 block">{r.roomNumber}</span>
-                            <span className="text-[11px] text-slate-500">
+                            <span className="font-bold text-slate-900 dark:text-white block">{r.roomNumber}</span>
+                            <span className="text-[11px] text-slate-500 dark:text-slate-400">
                               Tầng {r.floor} • {r.area} m²
                             </span>
                           </div>
@@ -359,16 +359,16 @@ export default function RoomsPage() {
                       </td>
 
                       <td className="px-5 py-4">
-                        <span className="font-medium text-slate-800 block truncate max-w-[150px]">
+                        <span className="font-medium text-slate-800 dark:text-slate-200 block truncate max-w-[150px]">
                           {r.property?.name}
                         </span>
                       </td>
 
                       <td className="px-5 py-4">
-                        <span className="font-bold text-slate-900 block">
+                        <span className="font-bold text-slate-900 dark:text-white block">
                           {formatCurrency(r.rentPrice)}
                         </span>
-                        <span className="text-[11px] text-slate-500">
+                        <span className="text-[11px] text-slate-500 dark:text-slate-400">
                           Cọc: {formatCurrency(r.deposit)}
                         </span>
                       </td>
@@ -376,25 +376,25 @@ export default function RoomsPage() {
                       <td className="px-5 py-4">
                         {activeTenant ? (
                           <div>
-                            <span className="font-semibold text-indigo-700 block">
+                            <span className="font-semibold text-indigo-700 dark:text-indigo-400 block">
                               {activeTenant.fullName}
                             </span>
-                            <span className="text-[11px] text-slate-500">
+                            <span className="text-[11px] text-slate-500 dark:text-slate-400">
                               {activeTenant.phone || activeTenant.email}
                             </span>
                           </div>
                         ) : (
-                          <span className="text-slate-400 italic text-[11px]">Chưa có khách</span>
+                          <span className="text-slate-500 dark:text-slate-400 italic text-[11px]">Chưa có khách</span>
                         )}
                       </td>
 
-                      <td className="px-5 py-4 text-slate-600">
+                      <td className="px-5 py-4 text-slate-600 dark:text-slate-300">
                         <div className="flex items-center gap-1 text-[11px]">
-                          <Zap className="w-3 h-3 text-amber-500" />
+                          <Zap className="w-3 h-3 text-amber-600 dark:text-amber-400" />
                           <span>{formatCurrency(r.electricPrice)}/kWh</span>
                         </div>
                         <div className="flex items-center gap-1 text-[11px] mt-0.5">
-                          <Droplet className="w-3 h-3 text-blue-500" />
+                          <Droplet className="w-3 h-3 text-blue-600 dark:text-blue-400" />
                           <span>{formatCurrency(r.waterPrice)}/m³</span>
                         </div>
                       </td>
@@ -407,21 +407,21 @@ export default function RoomsPage() {
                         <div className="flex items-center justify-end gap-1">
                           <button
                             onClick={() => setViewingRoom(r)}
-                            className="p-1.5 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition"
+                            className="p-1.5 text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition"
                             title="Xem chi tiết"
                           >
                             <Eye className="w-4 h-4" />
                           </button>
                           <button
                             onClick={() => openEditModal(r)}
-                            className="p-1.5 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition"
+                            className="p-1.5 text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition"
                             title="Sửa phòng"
                           >
                             <Edit className="w-4 h-4" />
                           </button>
                           <button
                             onClick={() => setDeleteId(r.id)}
-                            className="p-1.5 text-slate-400 dark:text-slate-500 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 rounded-lg transition"
+                            className="p-1.5 text-slate-500 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 rounded-lg transition"
                             title="Xóa phòng"
                           >
                             <Trash2 className="w-4 h-4" />
@@ -565,11 +565,11 @@ export default function RoomsPage() {
           {(() => {
             const currentProp = properties.find((p) => p.id === propertyId);
             return currentProp ? (
-              <div className="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 border border-slate-200/80 text-xs">
-                <span className="text-slate-600">
-                  Biểu giá chuẩn của <strong className="text-slate-900">{currentProp.name}</strong>: Điện{" "}
-                  <strong className="text-amber-700">{formatCurrency(currentProp.electricPrice)}/kWh</strong>, Nước{" "}
-                  <strong className="text-cyan-700">{formatCurrency(currentProp.waterPrice)}/m³</strong>
+              <div className="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700 text-xs">
+                <span className="text-slate-600 dark:text-slate-300">
+                  Biểu giá chuẩn của <strong className="text-slate-900 dark:text-white">{currentProp.name}</strong>: Điện{" "}
+                  <strong className="text-amber-700 dark:text-amber-400">{formatCurrency(currentProp.electricPrice)}/kWh</strong>, Nước{" "}
+                  <strong className="text-cyan-700 dark:text-cyan-400">{formatCurrency(currentProp.waterPrice)}/m³</strong>
                 </span>
                 {(electricPrice !== currentProp.electricPrice || waterPrice !== currentProp.waterPrice) && (
                   <button
@@ -578,7 +578,7 @@ export default function RoomsPage() {
                       setElectricPrice(currentProp.electricPrice ?? 3500);
                       setWaterPrice(currentProp.waterPrice ?? 25000);
                     }}
-                    className="text-indigo-600 hover:text-indigo-700 font-semibold underline text-[11px] shrink-0 ml-2"
+                    className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 font-semibold underline text-[11px] shrink-0 ml-2"
                   >
                     Dùng giá chuẩn khu trọ
                   </button>
@@ -674,10 +674,10 @@ export default function RoomsPage() {
       >
         {viewingRoom && (
           <div className="space-y-4 text-xs">
-            <div className="flex items-center justify-between p-3.5 bg-slate-50 rounded-xl border border-slate-200/80">
+            <div className="flex items-center justify-between p-3.5 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-200/80 dark:border-slate-700">
               <div>
-                <span className="text-slate-500 block">Khu trọ:</span>
-                <span className="text-sm font-bold text-slate-900">
+                <span className="text-slate-500 dark:text-slate-400 block">Khu trọ:</span>
+                <span className="text-sm font-bold text-slate-900 dark:text-white">
                   {viewingRoom.property?.name}
                 </span>
               </div>
@@ -685,59 +685,59 @@ export default function RoomsPage() {
             </div>
 
             <div className="grid grid-cols-2 gap-3">
-              <div className="p-3 bg-white border border-slate-100 rounded-xl shadow-xs">
-                <span className="text-slate-400 block mb-1">Giá thuê hàng tháng:</span>
-                <span className="text-base font-extrabold text-indigo-600">
+              <div className="p-3 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-xl shadow-xs">
+                <span className="text-slate-500 dark:text-slate-400 block mb-1">Giá thuê hàng tháng:</span>
+                <span className="text-base font-extrabold text-indigo-600 dark:text-indigo-400">
                   {formatCurrency(viewingRoom.rentPrice)}
                 </span>
               </div>
-              <div className="p-3 bg-white border border-slate-100 rounded-xl shadow-xs">
-                <span className="text-slate-400 block mb-1">Tiền cọc giữ phòng:</span>
-                <span className="text-base font-extrabold text-slate-800">
+              <div className="p-3 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-xl shadow-xs">
+                <span className="text-slate-500 dark:text-slate-400 block mb-1">Tiền cọc giữ phòng:</span>
+                <span className="text-base font-extrabold text-slate-800 dark:text-slate-200">
                   {formatCurrency(viewingRoom.deposit)}
                 </span>
               </div>
             </div>
 
-            <div className="p-4 bg-slate-50/70 border border-slate-200/60 rounded-xl space-y-2">
+            <div className="p-4 bg-slate-50/70 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700 rounded-xl space-y-2">
               <div className="flex justify-between">
                 <span className="text-slate-500 dark:text-slate-400">Tầng & Diện tích:</span>
-                <span className="font-semibold text-slate-800">
+                <span className="font-semibold text-slate-800 dark:text-slate-200">
                   Tầng {viewingRoom.floor} • {viewingRoom.area} m² (Tối đa {viewingRoom.maxOccupants} người)
                 </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-500 dark:text-slate-400">Đơn giá Điện:</span>
-                <span className="font-semibold text-slate-800">
+                <span className="font-semibold text-slate-800 dark:text-slate-200">
                   {formatCurrency(viewingRoom.electricPrice)} / kWh
                 </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-500 dark:text-slate-400">Đơn giá Nước:</span>
-                <span className="font-semibold text-slate-800">
+                <span className="font-semibold text-slate-800 dark:text-slate-200">
                   {formatCurrency(viewingRoom.waterPrice)} / m³
                 </span>
               </div>
               {viewingRoom.note && (
-                <div className="pt-2 border-t border-slate-200">
-                  <span className="text-slate-500 block mb-0.5">Ghi chú:</span>
-                  <p className="text-slate-700 italic">{viewingRoom.note}</p>
+                <div className="pt-2 border-t border-slate-200 dark:border-slate-700">
+                  <span className="text-slate-500 dark:text-slate-400 block mb-0.5">Ghi chú:</span>
+                  <p className="text-slate-700 dark:text-slate-300 italic">{viewingRoom.note}</p>
                 </div>
               )}
             </div>
 
-            <div className="p-4 bg-indigo-50/40 border border-indigo-100 rounded-xl">
-              <h4 className="font-bold text-slate-900 mb-2">Khách thuê hiện tại:</h4>
+            <div className="p-4 bg-indigo-50/40 dark:bg-indigo-950/30 border border-indigo-100 dark:border-indigo-900/50 rounded-xl">
+              <h4 className="font-bold text-slate-900 dark:text-white mb-2">Khách thuê hiện tại:</h4>
               {viewingRoom.tenants && viewingRoom.tenants.length > 0 ? (
                 <div className="space-y-1">
-                  <p className="font-semibold text-indigo-900 text-sm">
+                  <p className="font-semibold text-indigo-900 dark:text-indigo-200 text-sm">
                     {viewingRoom.tenants[0].user.fullName}
                   </p>
-                  <p className="text-slate-600">SĐT: {viewingRoom.tenants[0].user.phone || "Chưa cập nhật"}</p>
-                  <p className="text-slate-600">Email: {viewingRoom.tenants[0].user.email}</p>
+                  <p className="text-slate-600 dark:text-slate-300">SĐT: {viewingRoom.tenants[0].user.phone || "Chưa cập nhật"}</p>
+                  <p className="text-slate-600 dark:text-slate-300">Email: {viewingRoom.tenants[0].user.email}</p>
                 </div>
               ) : (
-                <p className="text-slate-500 italic">Phòng này hiện đang chưa có người thuê.</p>
+                <p className="text-slate-500 dark:text-slate-400 italic">Phòng này hiện đang chưa có người thuê.</p>
               )}
             </div>
 
@@ -745,7 +745,7 @@ export default function RoomsPage() {
               <button
                 type="button"
                 onClick={() => setViewingRoom(null)}
-                className="px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-xl font-semibold text-slate-700 transition"
+                className="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-xl font-semibold text-slate-700 dark:text-slate-300 transition"
               >
                 Đóng
               </button>

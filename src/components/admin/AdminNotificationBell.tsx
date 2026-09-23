@@ -175,13 +175,13 @@ export function AdminNotificationBell() {
           {/* List content */}
           <div className="max-h-[380px] overflow-y-auto divide-y divide-slate-100 dark:divide-slate-800">
             {loading && notifications.length === 0 ? (
-              <div className="p-8 text-center text-xs text-slate-400 flex flex-col items-center gap-2">
-                <Loader2 className="w-5 h-5 animate-spin text-slate-400" />
+              <div className="p-8 text-center text-xs text-slate-500 dark:text-slate-400 flex flex-col items-center gap-2">
+                <Loader2 className="w-5 h-5 animate-spin text-slate-500 dark:text-slate-400" />
                 <span>Đang tải thông báo...</span>
               </div>
             ) : notifications.length === 0 ? (
-              <div className="p-8 text-center text-xs text-slate-400 flex flex-col items-center gap-2">
-                <Inbox className="w-8 h-8 text-slate-300 dark:text-slate-600" />
+              <div className="p-8 text-center text-xs text-slate-500 dark:text-slate-400 flex flex-col items-center gap-2">
+                <Inbox className="w-8 h-8 text-slate-500 dark:text-slate-400" />
                 <span>Chưa có thông báo nào được gửi.</span>
               </div>
             ) : (
@@ -194,12 +194,12 @@ export function AdminNotificationBell() {
                     <span
                       className={`px-2 py-0.5 rounded-md text-[10px] font-bold uppercase ${
                         n.targetType === "ALL"
-                          ? "bg-purple-100 text-purple-700 dark:bg-purple-950 dark:text-purple-300"
+                          ? "bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300"
                           : n.targetType === "PROPERTY"
-                          ? "bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300"
+                          ? "bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300"
                           : n.targetType === "ROOM"
-                          ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300"
-                          : "bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300"
+                          ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300"
+                          : "bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300"
                       }`}
                     >
                       {n.targetType === "ALL"
@@ -211,7 +211,7 @@ export function AdminNotificationBell() {
                         : "Cá nhân"}
                     </span>
 
-                    <span className="text-[10px] text-slate-400 flex items-center gap-1">
+                    <span className="text-[10px] text-slate-500 dark:text-slate-400 flex items-center gap-1">
                       <Clock className="w-3 h-3" />
                       {formatDate(n.createdAt)}
                     </span>
@@ -221,12 +221,12 @@ export function AdminNotificationBell() {
                     {n.title}
                   </h4>
 
-                  <p className="text-slate-600 dark:text-slate-400 text-[11px] leading-relaxed line-clamp-2">
+                  <p className="text-slate-600 dark:text-slate-300 text-[11px] leading-relaxed line-clamp-2">
                     {n.content}
                   </p>
 
-                  <div className="pt-1 text-[10px] text-slate-400 flex items-center gap-1 font-medium">
-                    <CheckCheck className="w-3.5 h-3.5 text-emerald-600" />
+                  <div className="pt-1 text-[10px] text-slate-500 dark:text-slate-400 flex items-center gap-1 font-medium">
+                    <CheckCheck className="w-3.5 h-3.5 text-emerald-700 dark:text-emerald-400" />
                     <span>Đã có {n.reads?.length || 0} cư dân đọc</span>
                   </div>
                 </div>

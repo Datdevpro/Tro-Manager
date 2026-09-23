@@ -127,20 +127,20 @@ export function PaymentModal({
         {/* Tóm tắt số tiền */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-3.5 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-200/80 dark:border-slate-700/80 text-xs">
           <div>
-            <span className="text-slate-500 dark:text-slate-400 block">Tổng hóa đơn:</span>
+            <span className="text-slate-600 dark:text-slate-400 block">Tổng hóa đơn:</span>
             <span className="text-sm font-bold text-slate-900 dark:text-white">
               {formatCurrency(invoice.total)}
             </span>
           </div>
           <div>
-            <span className="text-slate-500 dark:text-slate-400 block">Đã thanh toán:</span>
-            <span className="text-sm font-bold text-emerald-600 dark:text-emerald-400">
+            <span className="text-slate-600 dark:text-slate-400 block">Đã thanh toán:</span>
+            <span className="text-sm font-bold text-emerald-700 dark:text-emerald-400">
               {formatCurrency(invoice.paidAmount || 0)}
             </span>
           </div>
           <div>
-            <span className="text-slate-500 dark:text-slate-400 block">Số tiền còn nợ:</span>
-            <span className="text-sm font-extrabold text-rose-600 dark:text-rose-400">
+            <span className="text-slate-600 dark:text-slate-400 block">Số tiền còn nợ:</span>
+            <span className="text-sm font-extrabold text-rose-700 dark:text-rose-400">
               {formatCurrency(
                 typeof invoice.remainingAmount === "number"
                   ? invoice.remainingAmount
@@ -198,8 +198,8 @@ export function PaymentModal({
                     className="w-44 h-44 sm:w-48 sm:h-48 object-contain rounded-lg"
                   />
                 </div>
-                <span className="text-[11px] text-slate-500 dark:text-slate-400 mt-2 font-medium flex items-center gap-1">
-                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                <span className="text-[11px] text-slate-600 dark:text-slate-400 mt-2 font-medium flex items-center gap-1">
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-700 dark:text-emerald-400" />
                   Quét bằng ứng dụng Ngân hàng
                 </span>
               </div>
@@ -208,7 +208,7 @@ export function PaymentModal({
               <div className="flex-1 w-full space-y-2.5 text-xs">
                 <div className="p-2.5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between">
                   <div>
-                    <span className="text-slate-400 text-[10px] block uppercase font-bold">
+                    <span className="text-slate-600 dark:text-slate-400 text-[10px] block uppercase font-bold">
                       Ngân hàng thụ hưởng
                     </span>
                     <span className="font-bold text-slate-800 dark:text-slate-200">
@@ -219,7 +219,7 @@ export function PaymentModal({
 
                 <div className="p-2.5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between">
                   <div>
-                    <span className="text-slate-400 text-[10px] block uppercase font-bold">
+                    <span className="text-slate-600 dark:text-slate-400 text-[10px] block uppercase font-bold">
                       Số tài khoản
                     </span>
                     <span className="font-extrabold text-indigo-600 dark:text-indigo-400 text-sm tracking-wider">
@@ -233,7 +233,7 @@ export function PaymentModal({
                     title="Sao chép số tài khoản"
                   >
                     {copiedField === "Số tài khoản" ? (
-                      <Check className="w-4 h-4 text-emerald-600" />
+                      <Check className="w-4 h-4 text-emerald-700 dark:text-emerald-400" />
                     ) : (
                       <Copy className="w-4 h-4" />
                     )}
@@ -242,7 +242,7 @@ export function PaymentModal({
 
                 <div className="p-2.5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between">
                   <div>
-                    <span className="text-slate-400 text-[10px] block uppercase font-bold">
+                    <span className="text-slate-600 dark:text-slate-400 text-[10px] block uppercase font-bold">
                       Tên chủ tài khoản
                     </span>
                     <span className="font-bold text-slate-800 dark:text-slate-200">
@@ -253,10 +253,10 @@ export function PaymentModal({
 
                 <div className="p-2.5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between">
                   <div>
-                    <span className="text-slate-400 text-[10px] block uppercase font-bold">
+                    <span className="text-slate-600 dark:text-slate-400 text-[10px] block uppercase font-bold">
                       Số tiền thanh toán
                     </span>
-                    <span className="font-extrabold text-emerald-600 dark:text-emerald-400 text-sm">
+                    <span className="font-extrabold text-emerald-700 dark:text-emerald-400 text-sm">
                       {formatCurrency(payAmount)}
                     </span>
                   </div>
@@ -267,7 +267,7 @@ export function PaymentModal({
                     title="Sao chép số tiền"
                   >
                     {copiedField === "Số tiền" ? (
-                      <Check className="w-4 h-4 text-emerald-600" />
+                      <Check className="w-4 h-4 text-emerald-700 dark:text-emerald-400" />
                     ) : (
                       <Copy className="w-4 h-4" />
                     )}
@@ -276,7 +276,7 @@ export function PaymentModal({
 
                 <div className="p-2.5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between">
                   <div className="overflow-hidden mr-2">
-                    <span className="text-slate-400 text-[10px] block uppercase font-bold">
+                    <span className="text-slate-600 dark:text-slate-400 text-[10px] block uppercase font-bold">
                       Nội dung chuyển khoản (bắt buộc)
                     </span>
                     <span className="font-mono font-bold text-indigo-700 dark:text-indigo-300 text-xs block truncate">
@@ -290,7 +290,7 @@ export function PaymentModal({
                     title="Sao chép nội dung"
                   >
                     {copiedField === "Nội dung chuyển khoản" ? (
-                      <Check className="w-4 h-4 text-emerald-600" />
+                      <Check className="w-4 h-4 text-emerald-700 dark:text-emerald-400" />
                     ) : (
                       <Copy className="w-4 h-4" />
                     )}
@@ -299,8 +299,8 @@ export function PaymentModal({
               </div>
             </div>
 
-            <div className="bg-amber-50 dark:bg-amber-950/30 border border-amber-200/80 dark:border-amber-800/80 rounded-xl p-3 flex items-start gap-2.5 text-xs text-amber-800 dark:text-amber-200">
-              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-amber-600" />
+            <div className="bg-amber-50 dark:bg-amber-950/30 border border-amber-200/80 dark:border-amber-800/80 rounded-xl p-3 flex items-start gap-2.5 text-xs text-amber-900 dark:text-amber-200">
+              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-amber-700 dark:text-amber-400" />
               <p>
                 Sau khi chuyển khoản thành công trên app ngân hàng, bạn vui lòng nhấn nút{" "}
                 <strong>&quot;Tôi đã chuyển khoản xong&quot;</strong> bên dưới để hệ thống cập nhật hóa đơn.
@@ -311,44 +311,44 @@ export function PaymentModal({
           <div className="bg-slate-50/70 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-700/80 rounded-2xl p-4 space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
               <div className="p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200/60 dark:border-slate-700/60 flex items-start gap-3">
-                <div className="p-2 rounded-lg bg-emerald-50 text-emerald-600 dark:bg-emerald-950 dark:text-emerald-300">
+                <div className="p-2 rounded-lg bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">
                   <Building className="w-4 h-4" />
                 </div>
                 <div>
-                  <span className="text-slate-400 text-[10px] uppercase font-bold block">
+                  <span className="text-slate-600 dark:text-slate-400 text-[10px] uppercase font-bold block">
                     Địa điểm nộp tiền
                   </span>
                   <p className="font-bold text-slate-800 dark:text-slate-200">
                     Văn phòng Quản lý Tòa nhà
                   </p>
-                  <p className="text-slate-500 text-[11px]">
+                  <p className="text-slate-600 dark:text-slate-400 text-[11px]">
                     {invoice.room?.property?.address || "Tầng 1 khu trọ"}
                   </p>
                 </div>
               </div>
 
               <div className="p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200/60 dark:border-slate-700/60 flex items-start gap-3">
-                <div className="p-2 rounded-lg bg-blue-50 text-blue-600 dark:bg-blue-950 dark:text-blue-300">
+                <div className="p-2 rounded-lg bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300">
                   <Phone className="w-4 h-4" />
                 </div>
                 <div>
-                  <span className="text-slate-400 text-[10px] uppercase font-bold block">
+                  <span className="text-slate-600 dark:text-slate-400 text-[10px] uppercase font-bold block">
                     Hotline Ban Quản Lý
                   </span>
                   <p className="font-bold text-slate-800 dark:text-slate-200">
                     0912.345.678 (Chị Lan QL)
                   </p>
-                  <p className="text-slate-500 text-[11px]">Hỗ trợ Zalo / Gọi trực tiếp</p>
+                  <p className="text-slate-600 dark:text-slate-400 text-[11px]">Hỗ trợ Zalo / Gọi trực tiếp</p>
                 </div>
               </div>
             </div>
 
             <div className="p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200/60 dark:border-slate-700/60 flex items-center gap-3 text-xs">
-              <div className="p-2 rounded-lg bg-purple-50 text-purple-600 dark:bg-purple-950 dark:text-purple-300">
+              <div className="p-2 rounded-lg bg-purple-50 text-purple-700 dark:bg-purple-950 dark:text-purple-300">
                 <Clock className="w-4 h-4" />
               </div>
               <div>
-                <span className="text-slate-400 text-[10px] uppercase font-bold block">
+                <span className="text-slate-600 dark:text-slate-400 text-[10px] uppercase font-bold block">
                   Thời gian tiếp nhận tiền mặt
                 </span>
                 <p className="font-semibold text-slate-800 dark:text-slate-200">
@@ -378,7 +378,7 @@ export function PaymentModal({
             <label className="font-bold text-slate-700 dark:text-slate-300">
               Số tiền muốn thanh toán kỳ này:
             </label>
-            <span className="text-[11px] text-slate-400">Đơn vị: VNĐ</span>
+            <span className="text-[11px] text-slate-600 dark:text-slate-400">Đơn vị: VNĐ</span>
           </div>
           <input
             type="number"

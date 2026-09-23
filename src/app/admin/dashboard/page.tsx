@@ -56,15 +56,15 @@ export default function AdminDashboardPage() {
   if (loading || !data) {
     return (
       <div className="space-y-6 animate-pulse">
-        <div className="h-8 w-64 bg-slate-200 rounded-lg" />
+        <div className="h-8 w-64 bg-slate-200 dark:bg-slate-800 rounded-lg" />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="h-32 bg-slate-200 rounded-2xl" />
+            <div key={i} className="h-32 bg-slate-200 dark:bg-slate-800 rounded-2xl" />
           ))}
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="h-80 bg-slate-200 rounded-2xl lg:col-span-2" />
-          <div className="h-80 bg-slate-200 rounded-2xl" />
+          <div className="h-80 bg-slate-200 dark:bg-slate-800 rounded-2xl lg:col-span-2" />
+          <div className="h-80 bg-slate-200 dark:bg-slate-800 rounded-2xl" />
         </div>
       </div>
     );
@@ -153,18 +153,18 @@ export default function AdminDashboardPage() {
       {/* Row 3: Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Revenue 6 months */}
-        <div className="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-xs lg:col-span-2">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-5 shadow-xs lg:col-span-2">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="font-bold text-base text-slate-900">Biểu đồ Doanh thu (6 tháng)</h3>
-              <p className="text-xs text-slate-500">So sánh thực thu và dự kiến hóa đơn</p>
+              <h3 className="font-bold text-base text-slate-900 dark:text-white">Biểu đồ Doanh thu (6 tháng)</h3>
+              <p className="text-xs text-slate-600 dark:text-slate-400">So sánh thực thu và dự kiến hóa đơn</p>
             </div>
             <div className="flex items-center gap-2 text-xs">
-              <span className="flex items-center gap-1 font-medium text-slate-600">
+              <span className="flex items-center gap-1 font-medium text-slate-700 dark:text-slate-300">
                 <span className="w-3 h-3 rounded-sm bg-indigo-600 inline-block" /> Thực thu
               </span>
-              <span className="flex items-center gap-1 font-medium text-slate-600">
-                <span className="w-3 h-3 rounded-sm bg-slate-300 inline-block" /> Dự kiến
+              <span className="flex items-center gap-1 font-medium text-slate-700 dark:text-slate-300">
+                <span className="w-3 h-3 rounded-sm bg-slate-300 dark:bg-slate-600 inline-block" /> Dự kiến
               </span>
             </div>
           </div>
@@ -190,10 +190,10 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Room Occupancy Donut */}
-        <div className="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-xs flex flex-col">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-5 shadow-xs flex flex-col">
           <div className="mb-2">
-            <h3 className="font-bold text-base text-slate-900">Tỷ lệ Lấp đầy Phòng</h3>
-            <p className="text-xs text-slate-500">Phân bố trạng thái phòng hiện tại</p>
+            <h3 className="font-bold text-base text-slate-900 dark:text-white">Tỷ lệ Lấp đầy Phòng</h3>
+            <p className="text-xs text-slate-600 dark:text-slate-400">Phân bố trạng thái phòng hiện tại</p>
           </div>
 
           <div className="flex-1 min-h-[220px] flex items-center justify-center">
@@ -215,14 +215,14 @@ export default function AdminDashboardPage() {
             </ResponsiveContainer>
           </div>
 
-          <div className="grid grid-cols-3 gap-2 pt-3 border-t border-slate-100 text-center">
+          <div className="grid grid-cols-3 gap-2 pt-3 border-t border-slate-100 dark:border-slate-800 text-center">
             {charts.occupancyData.map((item: any) => (
               <div key={item.name}>
-                <div className="flex items-center justify-center gap-1.5 text-xs text-slate-500 mb-0.5">
+                <div className="flex items-center justify-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 mb-0.5">
                   <span className="w-2 h-2 rounded-full" style={{ backgroundColor: item.color }} />
                   <span className="truncate">{item.name}</span>
                 </div>
-                <p className="text-sm font-bold text-slate-800">{item.value}</p>
+                <p className="text-sm font-bold text-slate-800 dark:text-slate-100">{item.value}</p>
               </div>
             ))}
           </div>
@@ -235,12 +235,12 @@ export default function AdminDashboardPage() {
         <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-5 shadow-xs">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="font-bold text-base text-slate-900">Hóa đơn gần đây</h3>
-              <p className="text-xs text-slate-500">Các hóa đơn phát hành mới nhất</p>
+              <h3 className="font-bold text-base text-slate-900 dark:text-white">Hóa đơn gần đây</h3>
+              <p className="text-xs text-slate-600 dark:text-slate-400">Các hóa đơn phát hành mới nhất</p>
             </div>
             <Link
               href="/admin/invoices"
-              className="text-xs font-semibold text-indigo-600 hover:text-indigo-700 flex items-center gap-0.5"
+              className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 flex items-center gap-0.5"
             >
               Xem tất cả <ArrowUpRight className="w-3.5 h-3.5" />
             </Link>
@@ -248,7 +248,7 @@ export default function AdminDashboardPage() {
 
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="border-b border-slate-100 text-slate-400 uppercase tracking-wider font-semibold">
+              <thead className="border-b border-slate-100 dark:border-slate-800 text-slate-600 dark:text-slate-400 uppercase tracking-wider font-semibold">
                 <tr>
                   <th className="pb-2.5">Phòng / Khách</th>
                   <th className="pb-2.5">Kỳ hạn</th>
@@ -260,13 +260,13 @@ export default function AdminDashboardPage() {
                 {recentInvoices.map((inv: any) => (
                   <tr key={inv.id} className="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition">
                     <td className="py-3">
-                      <p className="font-bold text-slate-800">{inv.room.roomNumber}</p>
-                      <p className="text-slate-500 text-[11px] truncate max-w-[120px]">
+                      <p className="font-bold text-slate-800 dark:text-slate-100">{inv.room.roomNumber}</p>
+                      <p className="text-slate-500 dark:text-slate-400 text-[11px] truncate max-w-[120px]">
                         {inv.tenant.user.fullName}
                       </p>
                     </td>
-                    <td className="py-3 text-slate-600 font-medium">T{inv.month.split("-")[1]}</td>
-                    <td className="py-3 font-semibold text-slate-900">
+                    <td className="py-3 text-slate-700 dark:text-slate-300 font-medium">T{inv.month.split("-")[1]}</td>
+                    <td className="py-3 font-semibold text-slate-900 dark:text-white">
                       {formatCurrency(inv.total)}
                     </td>
                     <td className="py-3 text-right">
@@ -283,12 +283,12 @@ export default function AdminDashboardPage() {
         <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-5 shadow-xs">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="font-bold text-base text-slate-900">Giao dịch thanh toán gần đây</h3>
-              <p className="text-xs text-slate-500">Lịch sử thu tiền mặt & chuyển khoản</p>
+              <h3 className="font-bold text-base text-slate-900 dark:text-white">Giao dịch thanh toán gần đây</h3>
+              <p className="text-xs text-slate-600 dark:text-slate-400">Lịch sử thu tiền mặt & chuyển khoản</p>
             </div>
             <Link
               href="/admin/payments"
-              className="text-xs font-semibold text-indigo-600 hover:text-indigo-700 flex items-center gap-0.5"
+              className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 flex items-center gap-0.5"
             >
               Xem tất cả <ArrowUpRight className="w-3.5 h-3.5" />
             </Link>
@@ -296,7 +296,7 @@ export default function AdminDashboardPage() {
 
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="border-b border-slate-100 text-slate-400 uppercase tracking-wider font-semibold">
+              <thead className="border-b border-slate-100 dark:border-slate-800 text-slate-600 dark:text-slate-400 uppercase tracking-wider font-semibold">
                 <tr>
                   <th className="pb-2.5">Phòng / Ngày</th>
                   <th className="pb-2.5">Phương thức</th>
@@ -307,17 +307,17 @@ export default function AdminDashboardPage() {
                 {recentPayments.map((p: any) => (
                   <tr key={p.id} className="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition">
                     <td className="py-3">
-                      <p className="font-bold text-slate-800">
+                      <p className="font-bold text-slate-800 dark:text-slate-100">
                         {p.invoice?.room?.roomNumber || "Hóa đơn"}
                       </p>
-                      <p className="text-slate-500 text-[11px]">{formatDate(p.paymentDate)}</p>
+                      <p className="text-slate-500 dark:text-slate-400 text-[11px]">{formatDate(p.paymentDate)}</p>
                     </td>
                     <td className="py-3">
-                      <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md">
+                      <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-md">
                         {p.paymentMethod === "BANK_TRANSFER" ? "Chuyển khoản" : "Tiền mặt"}
                       </span>
                     </td>
-                    <td className="py-3 text-right font-bold text-emerald-600">
+                    <td className="py-3 text-right font-bold text-emerald-700 dark:text-emerald-400">
                       +{formatCurrency(p.amount)}
                     </td>
                   </tr>

@@ -114,7 +114,7 @@ export function TenantNotificationBell() {
                 Thông báo cư dân
               </span>
               {unreadCount > 0 && (
-                <span className="px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 dark:bg-rose-950 text-rose-600 dark:text-rose-400">
+                <span className="px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-400">
                   {unreadCount} mới
                 </span>
               )}
@@ -135,13 +135,13 @@ export function TenantNotificationBell() {
           {/* List content */}
           <div className="max-h-[380px] overflow-y-auto divide-y divide-slate-100 dark:divide-slate-800">
             {loading && notifications.length === 0 ? (
-              <div className="p-8 text-center text-xs text-slate-400 flex flex-col items-center gap-2">
-                <Loader2 className="w-5 h-5 animate-spin text-slate-400" />
+              <div className="p-8 text-center text-xs text-slate-500 dark:text-slate-400 flex flex-col items-center gap-2">
+                <Loader2 className="w-5 h-5 animate-spin text-slate-500 dark:text-slate-400" />
                 <span>Đang tải thông báo...</span>
               </div>
             ) : notifications.length === 0 ? (
-              <div className="p-8 text-center text-xs text-slate-400 flex flex-col items-center gap-2">
-                <Inbox className="w-8 h-8 text-slate-300 dark:text-slate-600" />
+              <div className="p-8 text-center text-xs text-slate-500 dark:text-slate-400 flex flex-col items-center gap-2">
+                <Inbox className="w-8 h-8 text-slate-500 dark:text-slate-400" />
                 <span>Bạn không có thông báo nào.</span>
               </div>
             ) : (
@@ -175,7 +175,7 @@ export function TenantNotificationBell() {
                       {n.content}
                     </p>
 
-                    <span className="text-[10px] text-slate-400 flex items-center gap-1 pt-1">
+                    <span className="text-[10px] text-slate-500 dark:text-slate-400 flex items-center gap-1 pt-1">
                       <Clock className="w-3 h-3" />
                       {formatDate(n.createdAt)}
                     </span>

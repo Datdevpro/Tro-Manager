@@ -87,7 +87,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
         {/* Navigation Items */}
         <div className="flex-1 overflow-y-auto px-3 py-4 space-y-1">
           <div className="px-3 pb-2">
-            <p className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
+            <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
               Quản lý vận hành
             </p>
           </div>

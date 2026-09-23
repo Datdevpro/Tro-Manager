@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useEffect, useState, useCallback } from "react";
 import {
@@ -191,12 +191,12 @@ export default function UtilitiesPage() {
         <div className="flex items-center gap-3 w-full sm:w-auto">
           {/* Month picker */}
           <div className="flex items-center gap-2">
-            <span className="text-xs font-bold text-slate-700 uppercase">Kỳ tháng:</span>
+            <span className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase">Kỳ tháng:</span>
             <input
               type="month"
               value={selectedMonth}
               onChange={(e) => setSelectedMonth(e.target.value)}
-              className="px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+              className="px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-xs font-semibold text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
             />
           </div>
 
@@ -204,7 +204,7 @@ export default function UtilitiesPage() {
           <select
             value={selectedProperty}
             onChange={(e) => setSelectedProperty(e.target.value)}
-            className="px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+            className="px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-xs font-medium text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
           >
             <option value="">Tất cả khu trọ</option>
             {properties.map((p) => (
@@ -215,8 +215,8 @@ export default function UtilitiesPage() {
           </select>
         </div>
 
-        <span className="text-xs text-slate-500 font-medium">
-          Đã ghi nhận: <span className="font-bold text-slate-900">{readings.length}</span> phòng
+        <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+          Đã ghi nhận: <span className="font-bold text-slate-900 dark:text-white">{readings.length}</span> phòng
         </span>
       </div>
 
@@ -239,7 +239,7 @@ export default function UtilitiesPage() {
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
               {loading ? (
                 <tr>
-                  <td colSpan={8} className="px-5 py-8 text-center text-slate-400">
+                  <td colSpan={8} className="px-5 py-8 text-center text-slate-500 dark:text-slate-400">
                     <LoadingSkeleton className="h-8 w-full mb-2" count={5} />
                   </td>
                 </tr>
@@ -265,61 +265,61 @@ export default function UtilitiesPage() {
                 readings.map((r) => (
                   <tr key={r.id} className="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition">
                     <td className="px-5 py-4">
-                      <span className="font-bold text-slate-900 dark:text-slate-100 block text-sm">
+                      <span className="font-bold text-slate-900 dark:text-white block text-sm">
                         {r.room.roomNumber}
                       </span>
-                      <span className="text-[11px] text-slate-500">
+                      <span className="text-[11px] text-slate-500 dark:text-slate-400">
                         {r.room.property?.name}
                       </span>
                     </td>
 
                     <td className="px-5 py-4">
                       {r.room.tenants && r.room.tenants[0] ? (
-                        <span className="font-semibold text-indigo-700">
+                        <span className="font-semibold text-indigo-700 dark:text-indigo-400">
                           {r.room.tenants[0].user.fullName}
                         </span>
                       ) : (
-                        <span className="text-slate-400 italic">Trống</span>
+                        <span className="text-slate-500 dark:text-slate-400 italic">Trống</span>
                       )}
                     </td>
 
                     {/* Electric */}
                     <td className="px-5 py-4">
-                      <div className="font-mono text-slate-700">
+                      <div className="font-mono text-slate-700 dark:text-slate-300">
                         <span>{r.electricOld}</span>
-                        <span className="text-slate-400 mx-1">→</span>
-                        <span className="font-bold text-slate-900">{r.electricNew}</span>
+                        <span className="text-slate-500 dark:text-slate-400 mx-1">→</span>
+                        <span className="font-bold text-slate-900 dark:text-white">{r.electricNew}</span>
                       </div>
                     </td>
                     <td className="px-5 py-4">
-                      <span className="font-bold text-amber-600 block">
+                      <span className="font-bold text-amber-700 dark:text-amber-400 block">
                         {r.electricUsage} kWh
                       </span>
-                      <span className="text-[11px] text-slate-500">
+                      <span className="text-[11px] text-slate-500 dark:text-slate-400">
                         {formatCurrency(r.electricCost)}
                       </span>
                     </td>
 
                     {/* Water */}
                     <td className="px-5 py-4">
-                      <div className="font-mono text-slate-700">
+                      <div className="font-mono text-slate-700 dark:text-slate-300">
                         <span>{r.waterOld}</span>
-                        <span className="text-slate-400 mx-1">→</span>
-                        <span className="font-bold text-slate-900">{r.waterNew}</span>
+                        <span className="text-slate-500 dark:text-slate-400 mx-1">→</span>
+                        <span className="font-bold text-slate-900 dark:text-white">{r.waterNew}</span>
                       </div>
                     </td>
                     <td className="px-5 py-4">
-                      <span className="font-bold text-blue-600 block">
+                      <span className="font-bold text-blue-600 dark:text-blue-400 block">
                         {r.waterUsage} m³
                       </span>
-                      <span className="text-[11px] text-slate-500">
+                      <span className="text-[11px] text-slate-500 dark:text-slate-400">
                         {formatCurrency(r.waterCost)}
                       </span>
                     </td>
 
                     {/* Total */}
                     <td className="px-5 py-4">
-                      <span className="font-extrabold text-slate-900 text-sm">
+                      <span className="font-extrabold text-slate-900 dark:text-white text-sm">
                         {formatCurrency(r.totalUtilityCost)}
                       </span>
                     </td>
@@ -328,14 +328,14 @@ export default function UtilitiesPage() {
                       <div className="flex items-center justify-end gap-1">
                         <button
                           onClick={() => openHistoryModal(r.room)}
-                          className="p-1.5 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition"
+                          className="p-1.5 text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition"
                           title="Lịch sử dùng điện nước"
                         >
                           <History className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => openRecordModal(r)}
-                          className="p-1.5 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition"
+                          className="p-1.5 text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition"
                           title="Cập nhật chỉ số"
                         >
                           <Edit className="w-4 h-4" />
@@ -504,24 +504,24 @@ export default function UtilitiesPage() {
       >
         <div className="space-y-3 text-xs">
           {roomHistory.length === 0 ? (
-            <p className="text-slate-400 italic text-center py-6">Chưa có lịch sử nào.</p>
+            <p className="text-slate-500 dark:text-slate-400 italic text-center py-6">Chưa có lịch sử nào.</p>
           ) : (
             <div className="divide-y divide-slate-100 dark:divide-slate-800">
               {roomHistory.map((h: any) => (
                 <div key={h.id} className="py-3 flex items-center justify-between">
                   <div>
-                    <span className="font-bold text-slate-800 block text-sm">
+                    <span className="font-bold text-slate-800 dark:text-slate-200 block text-sm">
                       {formatMonthYear(h.month)}
                     </span>
-                    <span className="text-[11px] text-slate-500">
+                    <span className="text-[11px] text-slate-500 dark:text-slate-400">
                       Điện: {h.electricUsage} kWh ({h.electricOld} → {h.electricNew})
                     </span>
                   </div>
                   <div className="text-right">
-                    <span className="font-extrabold text-indigo-600 block text-sm">
+                    <span className="font-extrabold text-indigo-600 dark:text-indigo-400 block text-sm">
                       {formatCurrency(h.totalUtilityCost)}
                     </span>
-                    <span className="text-[11px] text-slate-500">
+                    <span className="text-[11px] text-slate-500 dark:text-slate-400">
                       Nước: {h.waterUsage} m³ ({h.waterOld} → {h.waterNew})
                     </span>
                   </div>
@@ -529,11 +529,11 @@ export default function UtilitiesPage() {
               ))}
             </div>
           )}
-          <div className="flex justify-end pt-3 border-t border-slate-100">
+          <div className="flex justify-end pt-3 border-t border-slate-100 dark:border-slate-800">
             <button
               type="button"
               onClick={() => setIsHistoryOpen(false)}
-              className="px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-xl font-semibold text-slate-700 transition"
+              className="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-xl font-semibold text-slate-700 dark:text-slate-300 transition"
             >
               Đóng
             </button>

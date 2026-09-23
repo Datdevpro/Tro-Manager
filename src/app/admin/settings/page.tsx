@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState } from "react";
 import {
@@ -72,7 +72,7 @@ export default function AdminSettingsPage() {
       name: "Giao diện Sáng",
       description: "Nền trắng thanh lịch, tương phản rõ ràng",
       icon: Sun,
-      iconColor: "text-amber-500",
+      iconColor: "text-amber-600 dark:text-amber-400",
       previewBg: "bg-slate-50 border-slate-200",
       previewBar: "bg-indigo-600",
     },
@@ -81,7 +81,7 @@ export default function AdminSettingsPage() {
       name: "Giao diện Tối",
       description: "Tông màu đêm dịu mắt, giảm mỏi mắt khi làm việc ban đêm",
       icon: Moon,
-      iconColor: "text-indigo-400",
+      iconColor: "text-indigo-600 dark:text-indigo-400",
       previewBg: "bg-slate-900 border-slate-700",
       previewBar: "bg-indigo-500",
     },
@@ -90,7 +90,7 @@ export default function AdminSettingsPage() {
       name: "Theo Hệ Thống",
       description: "Tự động đồng bộ với giao diện của thiết bị hoặc trình duyệt",
       icon: Laptop,
-      iconColor: "text-emerald-500",
+      iconColor: "text-emerald-700 dark:text-emerald-400",
       previewBg: "bg-linear-to-r from-slate-100 to-slate-850 border-slate-300 dark:border-slate-700",
       previewBar: "bg-indigo-600",
     },
@@ -187,11 +187,11 @@ export default function AdminSettingsPage() {
 
             <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 text-left text-xs space-y-2">
               <div>
-                <span className="text-slate-400 dark:text-slate-500 block text-[11px]">Email đăng nhập:</span>
+                <span className="text-slate-600 dark:text-slate-400 block text-[11px]">Email đăng nhập:</span>
                 <span className="font-medium text-slate-800 dark:text-slate-200">admin@nhatro.local</span>
               </div>
               <div>
-                <span className="text-slate-400 dark:text-slate-500 block text-[11px]">Quyền hạn:</span>
+                <span className="text-slate-600 dark:text-slate-400 block text-[11px]">Quyền hạn:</span>
                 <span className="font-bold text-indigo-600 dark:text-indigo-400">Toàn quyền hệ thống</span>
               </div>
             </div>
@@ -205,7 +205,7 @@ export default function AdminSettingsPage() {
               <KeyRound className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
               Đổi mật khẩu Quản trị
             </h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mb-5">
+            <p className="text-xs text-slate-600 dark:text-slate-400 mb-5">
               Cập nhật mật khẩu để bảo vệ an toàn cho cổng quản lý nhà trọ.
             </p>
 
@@ -220,7 +220,7 @@ export default function AdminSettingsPage() {
                   value={currentPassword}
                   onChange={(e) => setCurrentPassword(e.target.value)}
                   placeholder="Admin123!"
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-sm bg-white dark:bg-slate-950 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-sm bg-white dark:bg-slate-950 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
                 />
               </div>
 
@@ -235,7 +235,7 @@ export default function AdminSettingsPage() {
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
                     placeholder="Tối thiểu 6 ký tự"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-sm bg-white dark:bg-slate-950 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-sm bg-white dark:bg-slate-950 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
                   />
                 </div>
 
@@ -249,7 +249,7 @@ export default function AdminSettingsPage() {
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     placeholder="Khớp với mật khẩu mới"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-sm bg-white dark:bg-slate-950 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-sm bg-white dark:bg-slate-950 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
                   />
                 </div>
               </div>

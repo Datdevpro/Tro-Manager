@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useEffect, useState, useCallback } from "react";
 import {
@@ -267,7 +267,7 @@ export default function TenantsPage() {
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
               {loading ? (
                 <tr>
-                  <td colSpan={7} className="px-5 py-8 text-center text-slate-400">
+                  <td colSpan={7} className="px-5 py-8 text-center text-slate-500 dark:text-slate-400">
                     <LoadingSkeleton className="h-8 w-full mb-2" count={5} />
                   </td>
                 </tr>
@@ -299,18 +299,18 @@ export default function TenantsPage() {
                     <td className="px-5 py-4">
                       <div className="space-y-0.5">
                         <div className="flex items-center gap-1 text-slate-700 dark:text-slate-300 font-medium">
-                          <Phone className="w-3 h-3 text-slate-400 dark:text-slate-500" />
+                          <Phone className="w-3 h-3 text-slate-500 dark:text-slate-400" />
                           <span>{t.user.phone || "--"}</span>
                         </div>
                         <div className="flex items-center gap-1 text-[11px] text-slate-500 dark:text-slate-400">
-                          <Mail className="w-3 h-3 text-slate-400 dark:text-slate-500" />
+                          <Mail className="w-3 h-3 text-slate-500 dark:text-slate-400" />
                           <span className="truncate max-w-[150px]">{t.user.email}</span>
                         </div>
                       </div>
                     </td>
 
                     <td className="px-5 py-4 font-mono font-medium text-slate-700 dark:text-slate-300">
-                      {t.idNumber || <span className="text-slate-400 dark:text-slate-500 italic font-sans">Chưa có</span>}
+                      {t.idNumber || <span className="text-slate-500 dark:text-slate-400 italic font-sans">Chưa có</span>}
                     </td>
 
                     <td className="px-5 py-4">
@@ -324,11 +324,11 @@ export default function TenantsPage() {
                           </span>
                         </div>
                       ) : (
-                        <span className="text-slate-400 dark:text-slate-500 italic text-[11px]">Chưa gán phòng</span>
+                        <span className="text-slate-500 dark:text-slate-400 italic text-[11px]">Chưa gán phòng</span>
                       )}
                     </td>
 
-                    <td className="px-5 py-4 text-slate-600 dark:text-slate-400 font-medium">
+                    <td className="px-5 py-4 text-slate-600 dark:text-slate-300 font-medium">
                       {formatDate(t.startDate)}
                     </td>
 
@@ -342,21 +342,21 @@ export default function TenantsPage() {
                       <div className="flex items-center justify-end gap-1">
                         <button
                           onClick={() => openViewModal(t)}
-                          className="p-1.5 text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition"
+                          className="p-1.5 text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition"
                           title="Hồ sơ chi tiết"
                         >
                           <Eye className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => openEditModal(t)}
-                          className="p-1.5 text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition"
+                          className="p-1.5 text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition"
                           title="Sửa thông tin"
                         >
                           <Edit className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => setDeleteId(t.id)}
-                          className="p-1.5 text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded-lg transition"
+                          className="p-1.5 text-slate-500 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded-lg transition"
                           title="Xóa hồ sơ"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -587,7 +587,7 @@ export default function TenantsPage() {
                 <p className="text-slate-500 dark:text-slate-400">{viewingTenant.user?.email} • {viewingTenant.user?.phone || "Chưa có SĐT"}</p>
               </div>
               <div className="text-right">
-                <span className="text-slate-400 dark:text-slate-500 block text-[11px]">Phòng hiện tại:</span>
+                <span className="text-slate-500 dark:text-slate-400 block text-[11px]">Phòng hiện tại:</span>
                 <span className="text-base font-extrabold text-indigo-600 dark:text-indigo-400">
                   {viewingTenant.room ? viewingTenant.room.roomNumber : "Chưa ở phòng nào"}
                 </span>
@@ -597,19 +597,19 @@ export default function TenantsPage() {
             {/* General details */}
             <div className="grid grid-cols-2 gap-3 p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl">
               <div>
-                <span className="text-slate-400 dark:text-slate-500 block">Số định danh CCCD:</span>
+                <span className="text-slate-500 dark:text-slate-400 block">Số định danh CCCD:</span>
                 <span className="font-bold text-slate-800 dark:text-slate-200 text-sm">
                   {viewingTenant.idNumber || "Chưa cập nhật"}
                 </span>
               </div>
               <div>
-                <span className="text-slate-400 dark:text-slate-500 block">Ngày sinh & Giới tính:</span>
+                <span className="text-slate-500 dark:text-slate-400 block">Ngày sinh & Giới tính:</span>
                 <span className="font-bold text-slate-800 dark:text-slate-200 text-sm">
                   {formatDate(viewingTenant.birthday)} ({viewingTenant.gender || "Khác"})
                 </span>
               </div>
               <div className="col-span-2 pt-2 border-t border-slate-100 dark:border-slate-800">
-                <span className="text-slate-400 dark:text-slate-500 block">Địa chỉ thường trú:</span>
+                <span className="text-slate-500 dark:text-slate-400 block">Địa chỉ thường trú:</span>
                 <span className="font-semibold text-slate-800 dark:text-slate-200">
                   {viewingTenant.permanentAddress || "Chưa cập nhật"}
                 </span>
@@ -644,7 +644,7 @@ export default function TenantsPage() {
                   ))}
                 </div>
               ) : (
-                <p className="text-slate-400 dark:text-slate-500 italic">Chưa có hợp đồng nào.</p>
+                <p className="text-slate-500 dark:text-slate-400 italic">Chưa có hợp đồng nào.</p>
               )}
             </div>
 
@@ -682,7 +682,7 @@ export default function TenantsPage() {
                   ))}
                 </div>
               ) : (
-                <p className="text-slate-400 dark:text-slate-500 italic">Chưa có hóa đơn nào.</p>
+                <p className="text-slate-500 dark:text-slate-400 italic">Chưa có hóa đơn nào.</p>
               )}
             </div>
 

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useEffect, useState } from "react";
 import {
@@ -70,9 +70,9 @@ export default function ReportsPage() {
         actions={
           <button
             onClick={() => window.print()}
-            className="px-4 py-2 text-xs font-semibold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 rounded-xl shadow-xs transition flex items-center gap-1.5"
+            className="px-4 py-2 text-xs font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl shadow-xs transition flex items-center gap-1.5"
           >
-            <Download className="w-4 h-4 text-slate-500" />
+            <Download className="w-4 h-4 text-slate-500 dark:text-slate-400" />
             Xuất báo cáo PDF / In
           </button>
         }
@@ -81,46 +81,46 @@ export default function ReportsPage() {
       {/* Financial Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-5 shadow-xs">
-          <span className="text-xs text-slate-500 font-semibold uppercase tracking-wider block">
+          <span className="text-xs text-slate-600 dark:text-slate-400 font-semibold uppercase tracking-wider block">
             Doanh thu thực thu tháng này
           </span>
-          <h3 className="text-2xl font-extrabold text-emerald-600 mt-2">
+          <h3 className="text-2xl font-extrabold text-emerald-700 dark:text-emerald-400 mt-2">
             {formatCurrency(kpi.currentMonthRevenue)}
           </h3>
-          <p className="text-xs text-slate-400 mt-1">Đã đối soát từ phiếu thu tiền</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Đã đối soát từ phiếu thu tiền</p>
         </div>
 
         <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-5 shadow-xs">
-          <span className="text-xs text-slate-500 font-semibold uppercase tracking-wider block">
+          <span className="text-xs text-slate-600 dark:text-slate-400 font-semibold uppercase tracking-wider block">
             Tổng công nợ chưa thu
           </span>
-          <h3 className="text-2xl font-extrabold text-amber-600 mt-2">
+          <h3 className="text-2xl font-extrabold text-amber-700 dark:text-amber-400 mt-2">
             {formatCurrency(kpi.totalUnpaidAmount)}
           </h3>
-          <p className="text-xs text-slate-400 mt-1">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
             Gồm {kpi.overdueInvoicesCount} hóa đơn đã quá hạn
           </p>
         </div>
 
         <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-5 shadow-xs">
-          <span className="text-xs text-slate-500 font-semibold uppercase tracking-wider block">
+          <span className="text-xs text-slate-600 dark:text-slate-400 font-semibold uppercase tracking-wider block">
             Tỷ lệ lấp đầy toàn hệ thống
           </span>
-          <h3 className="text-2xl font-extrabold text-indigo-600 mt-2">
+          <h3 className="text-2xl font-extrabold text-indigo-600 dark:text-indigo-400 mt-2">
             {kpi.totalRooms > 0 ? Math.round((kpi.occupiedRooms / kpi.totalRooms) * 100) : 0}%
           </h3>
-          <p className="text-xs text-slate-400 mt-1">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
             {kpi.occupiedRooms} / {kpi.totalRooms} phòng đang sinh sống
           </p>
         </div>
       </div>
 
       {/* Revenue Analysis Chart */}
-      <div className="bg-white rounded-3xl border border-slate-200/80 p-6 shadow-xs">
-        <h3 className="font-bold text-base text-slate-900 mb-1">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 p-6 shadow-xs">
+        <h3 className="font-bold text-base text-slate-900 dark:text-white mb-1">
           Xu hướng Doanh thu 6 tháng gần nhất
         </h3>
-        <p className="text-xs text-slate-500 mb-6">
+        <p className="text-xs text-slate-600 dark:text-slate-400 mb-6">
           Biểu đồ so sánh dòng tiền thực nhận (tiền mặt + chuyển khoản) và tổng dự kiến phát hành
         </p>
 
@@ -144,8 +144,8 @@ export default function ReportsPage() {
 
       {/* Operational Breakdown */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-white rounded-3xl border border-slate-200/80 p-6 shadow-xs">
-          <h3 className="font-bold text-base text-slate-900 mb-4">Cơ cấu Trạng thái Phòng</h3>
+        <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 p-6 shadow-xs">
+          <h3 className="font-bold text-base text-slate-900 dark:text-white mb-4">Cơ cấu Trạng thái Phòng</h3>
           <div className="h-64 flex items-center justify-center">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -169,30 +169,30 @@ export default function ReportsPage() {
           </div>
         </div>
 
-        <div className="bg-white rounded-3xl border border-slate-200/80 p-6 shadow-xs flex flex-col justify-between">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 p-6 shadow-xs flex flex-col justify-between">
           <div>
-            <h3 className="font-bold text-base text-slate-900 mb-4">Chỉ số Hiệu quả Vận hành</h3>
+            <h3 className="font-bold text-base text-slate-900 dark:text-white mb-4">Chỉ số Hiệu quả Vận hành</h3>
             <div className="space-y-3.5 text-xs">
-              <div className="flex justify-between py-2 border-b border-slate-100">
-                <span className="text-slate-500 dark:text-slate-400">Tổng số phòng quản lý:</span>
-                <span className="font-bold text-slate-900">{kpi.totalRooms} phòng</span>
+              <div className="flex justify-between py-2 border-b border-slate-100 dark:border-slate-800">
+                <span className="text-slate-600 dark:text-slate-400">Tổng số phòng quản lý:</span>
+                <span className="font-bold text-slate-900 dark:text-white">{kpi.totalRooms} phòng</span>
               </div>
-              <div className="flex justify-between py-2 border-b border-slate-100">
-                <span className="text-slate-500 dark:text-slate-400">Phòng sẵn sàng cho thuê ngay:</span>
-                <span className="font-bold text-emerald-600">{kpi.availableRooms} phòng</span>
+              <div className="flex justify-between py-2 border-b border-slate-100 dark:border-slate-800">
+                <span className="text-slate-600 dark:text-slate-400">Phòng sẵn sàng cho thuê ngay:</span>
+                <span className="font-bold text-emerald-700 dark:text-emerald-400">{kpi.availableRooms} phòng</span>
               </div>
-              <div className="flex justify-between py-2 border-b border-slate-100">
-                <span className="text-slate-500 dark:text-slate-400">Phòng cần bảo trì, sửa chữa:</span>
-                <span className="font-bold text-amber-600">{kpi.maintenanceRooms} phòng</span>
+              <div className="flex justify-between py-2 border-b border-slate-100 dark:border-slate-800">
+                <span className="text-slate-600 dark:text-slate-400">Phòng cần bảo trì, sửa chữa:</span>
+                <span className="font-bold text-amber-700 dark:text-amber-400">{kpi.maintenanceRooms} phòng</span>
               </div>
-              <div className="flex justify-between py-2 border-b border-slate-100">
-                <span className="text-slate-500 dark:text-slate-400">Tổng số khách thuê thường trú:</span>
-                <span className="font-bold text-slate-900">{kpi.totalTenants} người</span>
+              <div className="flex justify-between py-2 border-b border-slate-100 dark:border-slate-800">
+                <span className="text-slate-600 dark:text-slate-400">Tổng số khách thuê thường trú:</span>
+                <span className="font-bold text-slate-900 dark:text-white">{kpi.totalTenants} người</span>
               </div>
             </div>
           </div>
 
-          <div className="p-4 bg-indigo-50/50 rounded-2xl border border-indigo-100 text-xs text-indigo-900 mt-4">
+          <div className="p-4 bg-indigo-50/70 dark:bg-indigo-950/40 rounded-2xl border border-indigo-100 dark:border-indigo-900/60 text-xs text-indigo-900 dark:text-indigo-200 mt-4">
             Đánh giá: Tỷ lệ lấp đầy đạt mức tốt. Cần đẩy mạnh thu hồi {kpi.overdueInvoicesCount} hóa đơn quá hạn để đảm bảo dòng tiền lành mạnh.
           </div>
         </div>

@@ -69,10 +69,10 @@ export default function TenantInvoicesPage() {
           icon={Receipt}
         />
       ) : (
-        <div className="bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase tracking-wider font-semibold">
+              <thead className="bg-slate-50 dark:bg-slate-800/60 border-b border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 uppercase tracking-wider font-semibold">
                 <tr>
                   <th className="px-5 py-3.5">Kỳ tháng</th>
                   <th className="px-5 py-3.5">Phòng</th>
@@ -84,25 +84,25 @@ export default function TenantInvoicesPage() {
                   <th className="px-5 py-3.5 text-right">Thao tác</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                 {invoices.map((inv) => (
-                  <tr key={inv.id} className="hover:bg-slate-50/80 transition">
-                    <td className="px-5 py-4 font-bold text-slate-900 text-sm">
+                  <tr key={inv.id} className="hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition">
+                    <td className="px-5 py-4 font-bold text-slate-900 dark:text-white text-sm">
                       {formatMonthYear(inv.month)}
                     </td>
-                    <td className="px-5 py-4 font-semibold text-indigo-600">
+                    <td className="px-5 py-4 font-semibold text-indigo-600 dark:text-indigo-400">
                       {inv.room?.roomNumber}
                     </td>
-                    <td className="px-5 py-4 font-extrabold text-slate-900">
+                    <td className="px-5 py-4 font-extrabold text-slate-900 dark:text-white">
                       {formatCurrency(inv.total)}
                     </td>
-                    <td className="px-5 py-4 font-semibold text-emerald-600">
+                    <td className="px-5 py-4 font-semibold text-emerald-700 dark:text-emerald-400">
                       +{formatCurrency(inv.paidAmount)}
                     </td>
-                    <td className="px-5 py-4 font-bold text-rose-600">
+                    <td className="px-5 py-4 font-bold text-rose-700 dark:text-rose-400">
                       {formatCurrency(inv.remainingAmount)}
                     </td>
-                    <td className="px-5 py-4 text-slate-600 font-medium">
+                    <td className="px-5 py-4 text-slate-700 dark:text-slate-300 font-medium">
                       {formatDate(inv.dueDate)}
                     </td>
                     <td className="px-5 py-4">
@@ -123,7 +123,7 @@ export default function TenantInvoicesPage() {
                         <button
                           type="button"
                           onClick={() => openInvoiceDetail(inv.id)}
-                          className="px-3 py-1.5 text-xs font-semibold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 rounded-xl transition inline-flex items-center gap-1"
+                          className="px-3 py-1.5 text-xs font-semibold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/50 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 rounded-xl transition inline-flex items-center gap-1"
                         >
                           <Eye className="w-3.5 h-3.5" />
                           Xem
@@ -148,64 +148,64 @@ export default function TenantInvoicesPage() {
       >
         {viewingInvoice && (
           <div className="space-y-4 text-xs">
-            <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-200/80">
+            <div className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-200/80 dark:border-slate-800">
               <div>
-                <span className="text-slate-500 font-medium">Kỳ hóa đơn:</span>
-                <h4 className="text-lg font-extrabold text-slate-900">
+                <span className="text-slate-600 dark:text-slate-400 font-medium">Kỳ hóa đơn:</span>
+                <h4 className="text-lg font-extrabold text-slate-900 dark:text-white">
                   {formatMonthYear(viewingInvoice.month)}
                 </h4>
-                <p className="text-xs text-indigo-600 font-bold">
+                <p className="text-xs text-indigo-600 dark:text-indigo-400 font-bold">
                   Phòng {viewingInvoice.room?.roomNumber} ({viewingInvoice.room?.property?.name})
                 </p>
               </div>
               <div className="text-right">
                 <StatusBadge status={viewingInvoice.status} />
-                <p className="text-[11px] text-slate-500 mt-1">
+                <p className="text-[11px] text-slate-600 dark:text-slate-400 mt-1">
                   Hạn đóng: {formatDate(viewingInvoice.dueDate)}
                 </p>
               </div>
             </div>
 
-            <div className="border border-slate-200 rounded-2xl overflow-hidden">
+            <div className="border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden">
               <table className="w-full text-left">
-                <thead className="bg-slate-50 border-b border-slate-200 text-slate-600 font-bold text-[11px] uppercase">
+                <thead className="bg-slate-50 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-bold text-[11px] uppercase">
                   <tr>
                     <th className="p-3">Hạng mục thanh toán</th>
                     <th className="p-3 text-right">Thành tiền</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                   <tr>
-                    <td className="p-3 font-medium text-slate-800">1. Tiền thuê phòng trọ</td>
-                    <td className="p-3 text-right font-bold text-slate-900">
+                    <td className="p-3 font-medium text-slate-800 dark:text-slate-200">1. Tiền thuê phòng trọ</td>
+                    <td className="p-3 text-right font-bold text-slate-900 dark:text-white">
                       {formatCurrency(viewingInvoice.roomFee)}
                     </td>
                   </tr>
                   <tr>
-                    <td className="p-3 font-medium text-slate-800">2. Tiền điện sử dụng</td>
-                    <td className="p-3 text-right font-bold text-slate-900">
+                    <td className="p-3 font-medium text-slate-800 dark:text-slate-200">2. Tiền điện sử dụng</td>
+                    <td className="p-3 text-right font-bold text-slate-900 dark:text-white">
                       {formatCurrency(viewingInvoice.electricFee)}
                     </td>
                   </tr>
                   <tr>
-                    <td className="p-3 font-medium text-slate-800">3. Tiền nước sinh hoạt</td>
-                    <td className="p-3 text-right font-bold text-slate-900">
+                    <td className="p-3 font-medium text-slate-800 dark:text-slate-200">3. Tiền nước sinh hoạt</td>
+                    <td className="p-3 text-right font-bold text-slate-900 dark:text-white">
                       {formatCurrency(viewingInvoice.waterFee)}
                     </td>
                   </tr>
                   <tr>
-                    <td className="p-3 font-medium text-slate-800">4. Phí dịch vụ (Wifi, Rác, Xe máy...)</td>
-                    <td className="p-3 text-right font-bold text-slate-900">
+                    <td className="p-3 font-medium text-slate-800 dark:text-slate-200">4. Phí dịch vụ (Wifi, Rác, Xe máy...)</td>
+                    <td className="p-3 text-right font-bold text-slate-900 dark:text-white">
                       {formatCurrency(viewingInvoice.serviceFee)}
                     </td>
                   </tr>
                   {viewingInvoice.otherFee > 0 && (
                     <tr>
-                      <td className="p-3 font-medium text-slate-800">
-                        <div className="font-semibold text-slate-900">5. Phí khác phát sinh</div>
+                      <td className="p-3 font-medium text-slate-800 dark:text-slate-200">
+                        <div className="font-semibold text-slate-900 dark:text-white">5. Phí khác phát sinh</div>
                         {viewingInvoice.additionalFees && viewingInvoice.additionalFees.length > 0 && (
                           <div className="mt-1.5 space-y-1 bg-amber-50/70 dark:bg-amber-950/30 p-2 rounded-lg border border-amber-100 dark:border-amber-900/50 text-[11px] text-amber-900 dark:text-amber-300 font-normal">
-                            <span className="font-semibold text-[10px] text-amber-700 dark:text-amber-400 uppercase tracking-wider block">Các khoản chi phí phát sinh:</span>
+                            <span className="font-semibold text-[10px] text-amber-800 dark:text-amber-400 uppercase tracking-wider block">Các khoản chi phí phát sinh:</span>
                             {viewingInvoice.additionalFees.map((af: any) => (
                               <div key={af.id} className="flex justify-between items-center text-slate-700 dark:text-slate-300">
                                 <span>• {af.title}{af.description ? ` (${af.description})` : ""}</span>
@@ -215,44 +215,44 @@ export default function TenantInvoicesPage() {
                           </div>
                         )}
                       </td>
-                      <td className="p-3 text-right font-bold text-slate-900 align-top">
+                      <td className="p-3 text-right font-bold text-slate-900 dark:text-white align-top">
                         {formatCurrency(viewingInvoice.otherFee)}
                       </td>
                     </tr>
                   )}
                   {viewingInvoice.previousDebt > 0 && (
                     <tr>
-                      <td className="p-3 font-medium text-rose-600">6. Nợ tháng trước chuyển sang</td>
-                      <td className="p-3 text-right font-bold text-rose-600">
+                      <td className="p-3 font-medium text-rose-700 dark:text-rose-400">6. Nợ tháng trước chuyển sang</td>
+                      <td className="p-3 text-right font-bold text-rose-700 dark:text-rose-400">
                         +{formatCurrency(viewingInvoice.previousDebt)}
                       </td>
                     </tr>
                   )}
                   {viewingInvoice.discount > 0 && (
                     <tr>
-                      <td className="p-3 font-medium text-emerald-600">7. Chiết khấu / Giảm trừ</td>
-                      <td className="p-3 text-right font-bold text-emerald-600">
+                      <td className="p-3 font-medium text-emerald-700 dark:text-emerald-400">7. Chiết khấu / Giảm trừ</td>
+                      <td className="p-3 text-right font-bold text-emerald-700 dark:text-emerald-400">
                         -{formatCurrency(viewingInvoice.discount)}
                       </td>
                     </tr>
                   )}
                 </tbody>
-                <tfoot className="bg-slate-50 border-t-2 border-slate-200 font-bold">
+                <tfoot className="bg-slate-50 dark:bg-slate-800/80 border-t-2 border-slate-200 dark:border-slate-800 font-bold">
                   <tr>
-                    <td className="p-3.5 text-sm uppercase">Tổng cộng:</td>
-                    <td className="p-3.5 text-right text-base text-indigo-700">
+                    <td className="p-3.5 text-sm uppercase text-slate-900 dark:text-white">Tổng cộng:</td>
+                    <td className="p-3.5 text-right text-base text-indigo-700 dark:text-indigo-400">
                       {formatCurrency(viewingInvoice.total)}
                     </td>
                   </tr>
                   <tr>
-                    <td className="p-3 text-emerald-700">Đã thanh toán:</td>
-                    <td className="p-3 text-right text-emerald-700 font-bold">
+                    <td className="p-3 text-emerald-700 dark:text-emerald-400">Đã thanh toán:</td>
+                    <td className="p-3 text-right text-emerald-700 dark:text-emerald-400 font-bold">
                       +{formatCurrency(viewingInvoice.paidAmount)}
                     </td>
                   </tr>
                   <tr>
-                    <td className="p-3 text-rose-700">Còn lại phải nộp:</td>
-                    <td className="p-3 text-right text-rose-700 font-extrabold text-sm">
+                    <td className="p-3 text-rose-700 dark:text-rose-400">Còn lại phải nộp:</td>
+                    <td className="p-3 text-right text-rose-700 dark:text-rose-400 font-extrabold text-sm">
                       {formatCurrency(viewingInvoice.remainingAmount)}
                     </td>
                   </tr>
@@ -271,7 +271,7 @@ export default function TenantInvoicesPage() {
                   Thanh toán hóa đơn này
                 </button>
               ) : (
-                <span className="text-xs text-emerald-600 dark:text-emerald-400 font-bold">
+                <span className="text-xs text-emerald-700 dark:text-emerald-400 font-bold">
                   ✓ Hóa đơn đã được thanh toán đầy đủ
                 </span>
               )}

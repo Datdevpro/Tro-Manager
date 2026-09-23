@@ -71,7 +71,7 @@ function LoginForm() {
         {/* Login Form Card */}
         <div className="bg-white/95 backdrop-blur-xl border border-white/20 rounded-2xl p-7 shadow-2xl">
           <h2 className="text-xl font-bold text-slate-900 mb-2">Đăng nhập tài khoản</h2>
-          <p className="text-xs text-slate-500 mb-6">
+          <p className="text-xs text-slate-600 mb-6">
             Nhập email và mật khẩu của bạn. Hệ thống sẽ tự động nhận diện tài khoản Quản trị viên hay Cư dân.
           </p>
 
@@ -81,7 +81,7 @@ function LoginForm() {
                 Email đăng nhập
               </label>
               <div className="relative">
-                <Mail className="w-5 h-5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <Mail className="w-5 h-5 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="email"
                   required
@@ -106,7 +106,7 @@ function LoginForm() {
                 </Link>
               </div>
               <div className="relative">
-                <Lock className="w-5 h-5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <Lock className="w-5 h-5 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="password"
                   required
@@ -136,7 +136,7 @@ function LoginForm() {
         </div>
 
         {/* Footer info */}
-        <p className="text-center text-xs text-slate-500 mt-6">
+        <p className="text-center text-xs text-slate-400 mt-6">
           TroManage SaaS Engine &copy; 2026. Production-Ready Rental Management.
         </p>
       </div>

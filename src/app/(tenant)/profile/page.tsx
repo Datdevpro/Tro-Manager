@@ -147,11 +147,11 @@ export default function TenantProfilePage() {
 
             <div className="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800 text-left text-xs space-y-2.5">
               <div>
-                <span className="text-slate-400 dark:text-slate-500 block text-[11px]">Email đăng nhập (Cố định):</span>
+                <span className="text-slate-600 dark:text-slate-400 block text-[11px]">Email đăng nhập (Cố định):</span>
                 <span className="font-medium text-slate-700 dark:text-slate-300">{profile.email}</span>
               </div>
               <div>
-                <span className="text-slate-400 dark:text-slate-500 block text-[11px]">Quyền hạn hệ thống:</span>
+                <span className="text-slate-600 dark:text-slate-400 block text-[11px]">Quyền hạn hệ thống:</span>
                 <span className="font-bold text-slate-700 dark:text-slate-300">USER (Khách thuê)</span>
               </div>
             </div>
@@ -164,15 +164,15 @@ export default function TenantProfilePage() {
                 Thông tin phòng thuê (Khóa sửa):
               </span>
               <div className="flex justify-between">
-                <span className="text-slate-500 dark:text-slate-400">Phòng:</span>
+                <span className="text-slate-600 dark:text-slate-400">Phòng:</span>
                 <span className="font-bold text-indigo-600 dark:text-indigo-400">{room.roomNumber}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-500 dark:text-slate-400">Tòa nhà:</span>
+                <span className="text-slate-600 dark:text-slate-400">Tòa nhà:</span>
                 <span className="font-semibold text-slate-800 dark:text-slate-200">{room.property?.name}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-500 dark:text-slate-400">Giá thuê:</span>
+                <span className="text-slate-600 dark:text-slate-400">Giá thuê:</span>
                 <span className="font-bold text-slate-900 dark:text-white">{formatCurrency(room.rentPrice)}</span>
               </div>
             </div>
@@ -184,7 +184,7 @@ export default function TenantProfilePage() {
           {/* Edit personal info */}
           <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 p-6 shadow-xs transition-colors">
             <h3 className="text-base font-bold text-slate-900 dark:text-white mb-1">Thông tin cá nhân</h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mb-5">
+            <p className="text-xs text-slate-600 dark:text-slate-400 mb-5">
               Bạn có thể cập nhật họ tên và số điện thoại liên lạc khi cần.
             </p>
 
@@ -198,7 +198,7 @@ export default function TenantProfilePage() {
                   required
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-sm bg-white dark:bg-slate-950 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 font-medium"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-sm bg-white dark:bg-slate-950 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 font-medium"
                 />
               </div>
 
@@ -211,7 +211,7 @@ export default function TenantProfilePage() {
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="0912345678"
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-sm bg-white dark:bg-slate-950 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/30"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-sm bg-white dark:bg-slate-950 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/30"
                 />
               </div>
 
@@ -233,7 +233,7 @@ export default function TenantProfilePage() {
               <KeyRound className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
               Đổi mật khẩu tài khoản
             </h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mb-5">
+            <p className="text-xs text-slate-600 dark:text-slate-400 mb-5">
               Định kỳ thay đổi mật khẩu để tăng cường an toàn thông tin.
             </p>
 
@@ -248,7 +248,7 @@ export default function TenantProfilePage() {
                   value={currentPassword}
                   onChange={(e) => setCurrentPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-sm bg-white dark:bg-slate-950 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-sm bg-white dark:bg-slate-950 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
                 />
               </div>
 
@@ -263,7 +263,7 @@ export default function TenantProfilePage() {
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
                     placeholder="Tối thiểu 6 ký tự"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-sm bg-white dark:bg-slate-950 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-sm bg-white dark:bg-slate-950 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
                   />
                 </div>
 
@@ -277,7 +277,7 @@ export default function TenantProfilePage() {
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     placeholder="Khớp với mật khẩu mới"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-sm bg-white dark:bg-slate-950 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-sm bg-white dark:bg-slate-950 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
                   />
                 </div>
               </div>

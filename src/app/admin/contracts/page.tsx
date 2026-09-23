@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useEffect, useState, useCallback } from "react";
 import {
@@ -268,7 +268,7 @@ export default function ContractsPage() {
               setStatusFilter(e.target.value);
               setPage(1);
             }}
-            className="px-3.5 py-2 text-xs rounded-xl border border-slate-200 bg-white font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+            className="px-3.5 py-2 text-xs rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 font-medium text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
           >
             <option value="">Tất cả trạng thái</option>
             <option value="ACTIVE">Đang hiệu lực (ACTIVE)</option>
@@ -297,7 +297,7 @@ export default function ContractsPage() {
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
               {loading ? (
                 <tr>
-                  <td colSpan={7} className="px-5 py-8 text-center text-slate-400">
+                  <td colSpan={7} className="px-5 py-8 text-center text-slate-500 dark:text-slate-400">
                     <LoadingSkeleton className="h-8 w-full mb-2" count={5} />
                   </td>
                 </tr>
@@ -316,14 +316,14 @@ export default function ContractsPage() {
                   <tr key={c.id} className="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition">
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-2.5">
-                        <div className="w-8 h-8 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 flex items-center justify-center font-bold text-xs">
+                        <div className="w-8 h-8 rounded-full bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 flex items-center justify-center font-bold text-xs">
                           {c.tenant.user.fullName.charAt(0)}
                         </div>
                         <div>
-                          <span className="font-bold text-slate-900 block">
+                          <span className="font-bold text-slate-900 dark:text-white block">
                             {c.tenant.user.fullName}
                           </span>
-                          <span className="text-[11px] text-slate-500">
+                          <span className="text-[11px] text-slate-500 dark:text-slate-400">
                             {c.tenant.user.phone || c.tenant.user.email}
                           </span>
                         </div>
@@ -331,32 +331,32 @@ export default function ContractsPage() {
                     </td>
 
                     <td className="px-5 py-4">
-                      <span className="font-bold text-indigo-600 block">
+                      <span className="font-bold text-indigo-600 dark:text-indigo-400 block">
                         {c.room.roomNumber}
                       </span>
-                      <span className="text-[11px] text-slate-500">
+                      <span className="text-[11px] text-slate-500 dark:text-slate-400">
                         {c.room.property?.name}
                       </span>
                     </td>
 
-                    <td className="px-5 py-4 font-medium text-slate-700">
+                    <td className="px-5 py-4 font-medium text-slate-700 dark:text-slate-300">
                       <div>
                         <span>{formatDate(c.startDate)}</span>
-                        <span className="text-slate-400 mx-1">→</span>
+                        <span className="text-slate-500 dark:text-slate-400 mx-1">→</span>
                         <span>{formatDate(c.endDate)}</span>
                       </div>
                     </td>
 
                     <td className="px-5 py-4">
-                      <span className="font-bold text-slate-900 block">
+                      <span className="font-bold text-slate-900 dark:text-white block">
                         {formatCurrency(c.rentPrice)}
                       </span>
-                      <span className="text-[11px] text-slate-500">
+                      <span className="text-[11px] text-slate-500 dark:text-slate-400">
                         Cọc: {formatCurrency(c.deposit)}
                       </span>
                     </td>
 
-                    <td className="px-5 py-4 text-slate-600">
+                    <td className="px-5 py-4 text-slate-600 dark:text-slate-300">
                       {c.paymentCycle} tháng / lần
                     </td>
 
@@ -368,14 +368,14 @@ export default function ContractsPage() {
                       <div className="flex items-center justify-end gap-1">
                         <button
                           onClick={() => setViewingContract(c)}
-                          className="p-1.5 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition"
+                          className="p-1.5 text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition"
                           title="Xem điều khoản"
                         >
                           <Eye className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => openEditModal(c)}
-                          className="p-1.5 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition"
+                          className="p-1.5 text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition"
                           title="Chỉnh sửa"
                         >
                           <Edit className="w-4 h-4" />
@@ -383,7 +383,7 @@ export default function ContractsPage() {
                         {c.status === "ACTIVE" && (
                           <button
                             onClick={() => setTerminateId(c.id)}
-                            className="p-1.5 text-slate-400 hover:text-amber-600 hover:bg-amber-50 rounded-lg transition"
+                            className="p-1.5 text-slate-500 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-950/30 rounded-lg transition"
                             title="Thanh lý hợp đồng"
                           >
                             <XCircle className="w-4 h-4" />
@@ -391,7 +391,7 @@ export default function ContractsPage() {
                         )}
                         <button
                           onClick={() => setDeleteId(c.id)}
-                          className="p-1.5 text-slate-400 dark:text-slate-500 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 rounded-lg transition"
+                          className="p-1.5 text-slate-500 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 rounded-lg transition"
                           title="Xóa hợp đồng"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -599,47 +599,47 @@ export default function ContractsPage() {
       >
         {viewingContract && (
           <div className="space-y-4 text-xs">
-            <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200/80 space-y-2">
+            <div className="p-4 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-200/80 dark:border-slate-700 space-y-2">
               <div className="flex justify-between items-center">
                 <span className="text-slate-500 dark:text-slate-400">Phòng thuê:</span>
-                <span className="text-base font-bold text-indigo-600">
+                <span className="text-base font-bold text-indigo-600 dark:text-indigo-400">
                   {viewingContract.room.roomNumber} ({viewingContract.room.property?.name})
                 </span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-slate-500 dark:text-slate-400">Người thuê:</span>
-                <span className="font-bold text-slate-900">
+                <span className="font-bold text-slate-900 dark:text-white">
                   {viewingContract.tenant.user.fullName}
                 </span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-slate-500 dark:text-slate-400">Thời hạn:</span>
-                <span className="font-semibold text-slate-800">
+                <span className="font-semibold text-slate-800 dark:text-slate-200">
                   {formatDate(viewingContract.startDate)} đến {formatDate(viewingContract.endDate)}
                 </span>
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-3">
-              <div className="p-3 bg-white border border-slate-200 rounded-xl">
-                <span className="text-slate-400 block mb-0.5">Tiền thuê hàng tháng:</span>
-                <span className="text-sm font-extrabold text-slate-900">
+              <div className="p-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl">
+                <span className="text-slate-500 dark:text-slate-400 block mb-0.5">Tiền thuê hàng tháng:</span>
+                <span className="text-sm font-extrabold text-slate-900 dark:text-white">
                   {formatCurrency(viewingContract.rentPrice)}
                 </span>
               </div>
-              <div className="p-3 bg-white border border-slate-200 rounded-xl">
-                <span className="text-slate-400 block mb-0.5">Tiền đặt cọc:</span>
-                <span className="text-sm font-extrabold text-slate-900">
+              <div className="p-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl">
+                <span className="text-slate-500 dark:text-slate-400 block mb-0.5">Tiền đặt cọc:</span>
+                <span className="text-sm font-extrabold text-slate-900 dark:text-white">
                   {formatCurrency(viewingContract.deposit)}
                 </span>
               </div>
             </div>
 
-            <div className="p-4 bg-white border border-slate-200 rounded-xl">
-              <span className="text-slate-500 font-bold block mb-1.5 uppercase text-[11px] tracking-wider">
+            <div className="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl">
+              <span className="text-slate-500 dark:text-slate-400 font-bold block mb-1.5 uppercase text-[11px] tracking-wider">
                 Điều khoản hợp đồng:
               </span>
-              <p className="text-slate-700 whitespace-pre-wrap leading-relaxed">
+              <p className="text-slate-700 dark:text-slate-300 whitespace-pre-wrap leading-relaxed">
                 {viewingContract.terms || "Không có điều khoản bổ sung đặc biệt."}
               </p>
             </div>
@@ -648,7 +648,7 @@ export default function ContractsPage() {
               <button
                 type="button"
                 onClick={() => setViewingContract(null)}
-                className="px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-xl font-semibold text-slate-700 transition"
+                className="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-xl font-semibold text-slate-700 dark:text-slate-300 transition"
               >
                 Đóng
               </button>

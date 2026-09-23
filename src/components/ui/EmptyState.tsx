@@ -24,7 +24,7 @@ export function EmptyState({
         className
       )}
     >
-      <div className="w-14 h-14 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700/60 flex items-center justify-center text-slate-400 dark:text-slate-500 mb-3.5 shadow-xs">
+      <div className="w-14 h-14 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700/60 flex items-center justify-center text-slate-500 dark:text-slate-400 mb-3.5 shadow-xs">
         <Icon className="w-7 h-7" />
       </div>
       <h4 className="text-base font-bold text-slate-800 dark:text-slate-200">{title}</h4>

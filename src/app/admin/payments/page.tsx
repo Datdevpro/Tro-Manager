@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useEffect, useState, useCallback } from "react";
 import {
@@ -176,7 +176,7 @@ export default function PaymentsPage() {
               setMethodFilter(e.target.value);
               setPage(1);
             }}
-            className="px-3.5 py-2 text-xs rounded-xl border border-slate-200 bg-white font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+            className="px-3.5 py-2 text-xs rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 font-medium text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
           >
             <option value="">Tất cả hình thức</option>
             <option value="BANK_TRANSFER">Chuyển khoản</option>
@@ -190,7 +190,7 @@ export default function PaymentsPage() {
       <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-slate-50 dark:bg-slate-800/60 border-b border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 uppercase tracking-wider font-semibold">
+            <thead className="bg-slate-50 dark:bg-slate-800/60 border-b border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 uppercase tracking-wider font-semibold">
               <tr>
                 <th className="px-5 py-3.5">Ngày thu</th>
                 <th className="px-5 py-3.5">Phòng / Khu trọ</th>
@@ -203,7 +203,7 @@ export default function PaymentsPage() {
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
               {loading ? (
                 <tr>
-                  <td colSpan={6} className="px-5 py-8 text-center text-slate-400">
+                  <td colSpan={6} className="px-5 py-8 text-center text-slate-500 dark:text-slate-400">
                     <LoadingSkeleton className="h-8 w-full mb-2" count={5} />
                   </td>
                 </tr>
@@ -220,30 +220,30 @@ export default function PaymentsPage() {
               ) : (
                 payments.map((p) => (
                   <tr key={p.id} className="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition">
-                    <td className="px-5 py-4 font-semibold text-slate-800">
+                    <td className="px-5 py-4 font-semibold text-slate-800 dark:text-slate-200">
                       {formatDate(p.paymentDate)}
                     </td>
 
                     <td className="px-5 py-4">
-                      <span className="font-bold text-indigo-600 block text-sm">
+                      <span className="font-bold text-indigo-600 dark:text-indigo-400 block text-sm">
                         {p.invoice?.room?.roomNumber || "Hóa đơn"}
                       </span>
-                      <span className="text-[11px] text-slate-500">
+                      <span className="text-[11px] text-slate-600 dark:text-slate-400">
                         {p.invoice?.room?.property?.name}
                       </span>
                     </td>
 
                     <td className="px-5 py-4">
-                      <span className="font-semibold text-slate-900 block">
+                      <span className="font-semibold text-slate-900 dark:text-white block">
                         {p.invoice?.tenant?.user?.fullName}
                       </span>
-                      <span className="text-[11px] text-slate-500">
+                      <span className="text-[11px] text-slate-600 dark:text-slate-400">
                         {p.invoice?.tenant?.user?.phone}
                       </span>
                     </td>
 
                     <td className="px-5 py-4">
-                      <span className="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-semibold bg-slate-100 text-slate-700">
+                      <span className="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
                         {p.paymentMethod === "BANK_TRANSFER"
                           ? "Chuyển khoản"
                           : p.paymentMethod === "CASH"
@@ -253,13 +253,13 @@ export default function PaymentsPage() {
                     </td>
 
                     <td className="px-5 py-4">
-                      <span className="font-extrabold text-emerald-600 text-sm">
+                      <span className="font-extrabold text-emerald-700 dark:text-emerald-400 text-sm">
                         +{formatCurrency(p.amount)}
                       </span>
                     </td>
 
-                    <td className="px-5 py-4 text-slate-600">
-                      {p.note || <span className="text-slate-400 italic">Không có ghi chú</span>}
+                    <td className="px-5 py-4 text-slate-600 dark:text-slate-300">
+                      {p.note || <span className="text-slate-500 dark:text-slate-400 italic">Không có ghi chú</span>}
                     </td>
                   </tr>
                 ))
@@ -293,7 +293,7 @@ export default function PaymentsPage() {
               Chọn hóa đơn cần thanh toán *
             </label>
             {unpaidInvoices.length === 0 ? (
-              <p className="text-xs text-emerald-600 font-semibold p-3 bg-emerald-50 rounded-xl">
+              <p className="text-xs text-emerald-700 dark:text-emerald-400 font-semibold p-3 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-100 dark:border-emerald-900/60 rounded-xl">
                 Tuyệt vời! Hiện tại không có hóa đơn nào chưa thanh toán.
               </p>
             ) : (
@@ -301,7 +301,7 @@ export default function PaymentsPage() {
                 required
                 value={selectedInvoiceId}
                 onChange={(e) => handleInvoiceChange(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 font-medium"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 font-medium"
               >
                 {unpaidInvoices.map((inv) => (
                   <option key={inv.id} value={inv.id}>
@@ -322,7 +322,7 @@ export default function PaymentsPage() {
               required
               value={amount}
               onChange={(e) => setAmount(Number(e.target.value))}
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-base font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white text-base font-bold focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
             />
           </div>
 
@@ -334,7 +334,7 @@ export default function PaymentsPage() {
               <select
                 value={paymentMethod}
                 onChange={(e) => setPaymentMethod(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
               >
                 <option value="BANK_TRANSFER">Chuyển khoản</option>
                 <option value="CASH">Tiền mặt</option>
@@ -351,7 +351,7 @@ export default function PaymentsPage() {
                 required
                 value={paymentDate}
                 onChange={(e) => setPaymentDate(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
               />
             </div>
           </div>
@@ -365,11 +365,11 @@ export default function PaymentsPage() {
               value={note}
               onChange={(e) => setNote(e.target.value)}
               placeholder="VD: Cư dân nộp tiền mặt tại văn phòng BQL"
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
             />
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
+          <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100 dark:border-slate-800">
             <button
               type="button"
               onClick={() => setIsModalOpen(false)}

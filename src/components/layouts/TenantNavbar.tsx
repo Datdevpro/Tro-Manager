@@ -108,7 +108,7 @@ export function TenantNavbar() {
 
             <button
               onClick={handleLogout}
-              className="p-2 text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 rounded-xl hover:bg-rose-50 dark:hover:bg-rose-950/30 transition"
+              className="p-2 text-slate-500 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 rounded-xl hover:bg-rose-50 dark:hover:bg-rose-950/30 transition"
               title="Đăng xuất"
             >
               <LogOut className="w-4 h-4" />
@@ -131,7 +131,7 @@ export function TenantNavbar() {
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-slate-200 bg-white px-4 pt-2 pb-4 space-y-1">
+        <div className="md:hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 pt-2 pb-4 space-y-1">
           {TENANT_NAV_ITEMS.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.href;
@@ -144,8 +144,8 @@ export function TenantNavbar() {
                 className={cn(
                   "flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium",
                   isActive
-                    ? "bg-emerald-50 text-emerald-700 font-bold"
-                    : "text-slate-600 hover:bg-slate-50"
+                    ? "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 font-bold"
+                    : "text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
                 )}
               >
                 <Icon className="w-4 h-4" />
@@ -153,10 +153,10 @@ export function TenantNavbar() {
               </Link>
             );
           })}
-          <div className="pt-3 border-t border-slate-100">
+          <div className="pt-3 border-t border-slate-100 dark:border-slate-800">
             <button
               onClick={handleLogout}
-              className="w-full flex items-center gap-3 px-3.5 py-2.5 text-sm font-medium text-rose-600 hover:bg-rose-50 rounded-xl"
+              className="w-full flex items-center gap-3 px-3.5 py-2.5 text-sm font-medium text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 rounded-xl"
             >
               <LogOut className="w-4 h-4" />
               <span>Đăng xuất</span>

@@ -49,10 +49,10 @@ export default function TenantPaymentsPage() {
           icon={CreditCard}
         />
       ) : (
-        <div className="bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase tracking-wider font-semibold">
+              <thead className="bg-slate-50 dark:bg-slate-800/60 border-b border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 uppercase tracking-wider font-semibold">
                 <tr>
                   <th className="px-5 py-3.5">Ngày nộp</th>
                   <th className="px-5 py-3.5">Hóa đơn kỳ</th>
@@ -61,19 +61,19 @@ export default function TenantPaymentsPage() {
                   <th className="px-5 py-3.5">Ghi chú</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                 {payments.map((p) => (
-                  <tr key={p.id} className="hover:bg-slate-50/80 transition">
-                    <td className="px-5 py-4 font-semibold text-slate-800">
+                  <tr key={p.id} className="hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition">
+                    <td className="px-5 py-4 font-semibold text-slate-800 dark:text-slate-200">
                       {formatDate(p.paymentDate)}
                     </td>
 
-                    <td className="px-5 py-4 font-bold text-slate-900">
+                    <td className="px-5 py-4 font-bold text-slate-900 dark:text-white">
                       {p.invoice ? formatMonthYear(p.invoice.month) : "Hóa đơn"}
                     </td>
 
                     <td className="px-5 py-4">
-                      <span className="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-semibold bg-slate-100 text-slate-700">
+                      <span className="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
                         {p.paymentMethod === "BANK_TRANSFER"
                           ? "Chuyển khoản"
                           : p.paymentMethod === "CASH"
@@ -82,12 +82,12 @@ export default function TenantPaymentsPage() {
                       </span>
                     </td>
 
-                    <td className="px-5 py-4 font-extrabold text-emerald-600 text-sm">
+                    <td className="px-5 py-4 font-extrabold text-emerald-700 dark:text-emerald-400 text-sm">
                       +{formatCurrency(p.amount)}
                     </td>
 
-                    <td className="px-5 py-4 text-slate-600">
-                      {p.note || <span className="text-slate-400 italic">--</span>}
+                    <td className="px-5 py-4 text-slate-700 dark:text-slate-300">
+                      {p.note || <span className="text-slate-500 dark:text-slate-400 italic">--</span>}
                     </td>
                   </tr>
                 ))}
