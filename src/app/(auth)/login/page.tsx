@@ -71,12 +71,12 @@ function LoginForm() {
        * - sunlightColor:    Màu ánh nắng mặt trời (ví dụ: 0xff9933)
        * - speed:            Tốc độ trôi của mây (ví dụ: 1.0)
        * ======================================================== */
-      backgroundColor={0x2b1055}
-      skyColor={0xf77f00}
-      cloudColor={0x7b2cbf}
-      cloudShadowColor={0x3c096c}
-      sunColor={0xffd166}
-      sunlightColor={0x3b0a79}
+      backgroundColor={0xffffff}
+      skyColor={0x5cde7a}
+      cloudColor={0xd783d7}
+      cloudShadowColor={0x183550}
+      sunColor={0xff9919}
+      sunlightColor={0xff9933}
       speed={1.0}
       className="p-4"
     >
