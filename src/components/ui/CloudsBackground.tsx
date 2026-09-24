@@ -2,23 +2,47 @@
 
 import React, { useEffect, useRef, useState } from "react";
 
-interface CloudsBackgroundProps {
+export interface CloudsBackgroundProps {
   children?: React.ReactNode;
-  skyColor?: number;
-  cloudColor?: number;
-  lightColor?: number;
+  /** Màu nền cơ sở (Hex number, ví dụ: 0x0 hoặc 0xffffff) */
   backgroundColor?: number;
+  /** Màu bầu trời (Hex number, ví dụ: 0x68b8d7 hoặc 0x5ca6ca) */
+  skyColor?: number;
+  /** Màu của các đám mây (Hex number, ví dụ: 0xadc1de hoặc 0x334d80) */
+  cloudColor?: number;
+  /** Màu vùng bóng tối của mây (Hex number, ví dụ: 0x183550) */
+  cloudShadowColor?: number;
+  /** Màu mặt trời (Hex number, ví dụ: 0xff9919) */
+  sunColor?: number;
+  /** Màu vầng hào quang mặt trời (Hex number, ví dụ: 0xff6633) */
+  sunGlareColor?: number;
+  /** Màu ánh nắng mặt trời (Hex number, ví dụ: 0xff9933) */
+  sunlightColor?: number;
+  /** Tốc độ di chuyển của mây (mặc định: 1.0) */
   speed?: number;
+  /** Cho phép tương tác khi di chuột (mặc định: true) */
+  mouseControls?: boolean;
+  /** Cho phép tương tác trên màn cảm ứng (mặc định: true) */
+  touchControls?: boolean;
+  /** Tương tác con quay hồi chuyển trên mobile (mặc định: false) */
+  gyroControls?: boolean;
+  /** CSS class bổ sung cho container ngoài */
   className?: string;
 }
 
 export function CloudsBackground({
   children,
-  skyColor = 0x5ca6ca,
-  cloudColor = 0x334d80,
-  lightColor = 0xffffff,
-  backgroundColor = 0x000000,
+  backgroundColor = 0xffffff,
+  skyColor = 0x68b8d7,
+  cloudColor = 0xadc1de,
+  cloudShadowColor = 0x183550,
+  sunColor = 0xff9919,
+  sunGlareColor = 0xff6633,
+  sunlightColor = 0xff9933,
   speed = 1.0,
+  mouseControls = true,
+  touchControls = true,
+  gyroControls = false,
   className = "",
 }: CloudsBackgroundProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -35,38 +59,40 @@ export function CloudsBackground({
 
       try {
         const THREE = await import("three");
-        // Ensure THREE is globally available for Vanta plugins
+        // Gắn THREE lên window để plugin Vanta truy cập
         (window as any).THREE = THREE;
 
-        // Dynamic import of Vanta Clouds2 effect
-        // @ts-expect-error - vanta does not have TypeScript types
-        const vantaClouds2Module = await import("vanta/dist/vanta.clouds2.min");
-        const CLOUDS2 =
-          vantaClouds2Module.default || (window as any).VANTA?.CLOUDS2;
+        // Dynamic import hiệu ứng vanta.clouds.min.js
+        // @ts-expect-error - vanta không có TypeScript types chính thức
+        const vantaCloudsModule = await import("vanta/dist/vanta.clouds.min");
+        const CLOUDS =
+          vantaCloudsModule.default || (window as any).VANTA?.CLOUDS;
 
-        if (isMounted && containerRef.current && CLOUDS2) {
-          effectInstance = CLOUDS2({
+        if (isMounted && containerRef.current && CLOUDS) {
+          effectInstance = CLOUDS({
             el: containerRef.current,
             THREE,
-            mouseControls: true,
-            touchControls: true,
-            gyroControls: false,
+            mouseControls,
+            touchControls,
+            gyroControls,
             minHeight: 200.0,
             minWidth: 200.0,
-            scale: 1.0,
-            scaleMobile: 2.0,
+            scale: 3.0,
+            scaleMobile: 12.0,
+            backgroundColor,
             skyColor,
             cloudColor,
-            lightColor,
-            backgroundColor,
+            cloudShadowColor,
+            sunColor,
+            sunGlareColor,
+            sunlightColor,
             speed,
-            texturePath: "/gallery/noise.png",
           });
 
           setVantaEffect(effectInstance);
         }
       } catch (err) {
-        console.error("[Vanta Clouds2] Initialization error:", err);
+        console.error("[Vanta Clouds] Initialization error:", err);
       }
     }
 
@@ -78,7 +104,19 @@ export function CloudsBackground({
         effectInstance.destroy();
       }
     };
-  }, [skyColor, cloudColor, lightColor, backgroundColor, speed]);
+  }, [
+    backgroundColor,
+    skyColor,
+    cloudColor,
+    cloudShadowColor,
+    sunColor,
+    sunGlareColor,
+    sunlightColor,
+    speed,
+    mouseControls,
+    touchControls,
+    gyroControls,
+  ]);
 
   return (
     <div

@@ -61,10 +61,22 @@ function LoginForm() {
 
   return (
     <CloudsBackground
-      skyColor={0x5ca6ca}
-      cloudColor={0x334d80}
-      lightColor={0xffffff}
-      backgroundColor={0x000000}
+      /* ========================================================
+       * TÙY CHỈNH MÀU SẮC VANTA CLOUDS (Dùng mã số Hex 0x...):
+       * - backgroundColor:  Màu nền cơ sở (ví dụ: 0x0 hoặc 0xffffff)
+       * - skyColor:         Màu bầu trời (ví dụ: 0x5ca6ca hoặc 0x68b8d7)
+       * - cloudColor:       Màu mây (ví dụ: 0x334d80 hoặc 0xadc1de)
+       * - cloudShadowColor: Màu vùng tối của mây (ví dụ: 0x183550)
+       * - sunColor:         Màu mặt trời (ví dụ: 0xff9919)
+       * - sunlightColor:    Màu ánh nắng mặt trời (ví dụ: 0xff9933)
+       * - speed:            Tốc độ trôi của mây (ví dụ: 1.0)
+       * ======================================================== */
+      backgroundColor={0x2b1055}
+      skyColor={0xf77f00}
+      cloudColor={0x7b2cbf}
+      cloudShadowColor={0x3c096c}
+      sunColor={0xffd166}
+      sunlightColor={0x3b0a79}
       speed={1.0}
       className="p-4"
     >
