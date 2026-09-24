@@ -5,6 +5,17 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Building2, Lock, Mail, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 import Link from "next/link";
+import dynamic from "next/dynamic";
+
+const CloudsBackground = dynamic(
+  () => import("@/components/ui/CloudsBackground"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="min-h-screen w-full flex flex-col justify-center items-center bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950 p-4" />
+    ),
+  }
+);
 
 function LoginForm() {
   const router = useRouter();
@@ -49,21 +60,24 @@ function LoginForm() {
   };
 
   return (
-    <div className="min-h-screen w-full flex flex-col justify-center items-center bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950 p-4">
-      {/* Glow background effect */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl" />
-      </div>
-
+    <CloudsBackground
+      skyColor={0x5ca6ca}
+      cloudColor={0x334d80}
+      lightColor={0xffffff}
+      backgroundColor={0x000000}
+      speed={1.0}
+      className="p-4"
+    >
       <div className="relative w-full max-w-md">
         {/* Brand Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-indigo-600 shadow-xl shadow-indigo-500/30 text-white mb-4">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-indigo-600 shadow-xl shadow-indigo-500/40 text-white mb-4 ring-4 ring-white/30 backdrop-blur-sm">
             <Building2 className="w-9 h-9" />
           </div>
-          <h1 className="text-3xl font-extrabold text-white tracking-tight">TroManage</h1>
-          <p className="text-slate-400 text-sm mt-1">
+          <h1 className="text-3xl font-extrabold text-white tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)]">
+            TroManage
+          </h1>
+          <p className="text-white/95 font-medium text-sm mt-1 drop-shadow-[0_1px_6px_rgba(0,0,0,0.8)]">
             Hệ thống Quản lý Nhà trọ & Căn hộ Dịch vụ Toàn diện
           </p>
         </div>
@@ -136,11 +150,11 @@ function LoginForm() {
         </div>
 
         {/* Footer info */}
-        <p className="text-center text-xs text-slate-400 mt-6">
+        <p className="text-center text-xs text-white/95 font-medium mt-6 drop-shadow-[0_1px_6px_rgba(0,0,0,0.8)]">
           TroManage SaaS Engine &copy; 2026. Production-Ready Rental Management.
         </p>
       </div>
-    </div>
+    </CloudsBackground>
   );
 }
 

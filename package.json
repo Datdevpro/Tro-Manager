@@ -19,6 +19,7 @@
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
     "@prisma/client": "^5.22.0",
+    "@types/three": "^0.134.0",
     "bcryptjs": "^2.4.3",
     "clsx": "^2.1.1",
     "jose": "^5.9.6",
@@ -30,6 +31,8 @@
     "recharts": "^2.13.3",
     "sonner": "^1.7.1",
     "tailwind-merge": "^2.5.4",
+    "three": "^0.134.0",
+    "vanta": "^0.5.24",
     "zod": "^3.23.8"
   },
   "devDependencies": {
